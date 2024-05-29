@@ -7,6 +7,8 @@ defmodule Weather.CLI do
   Hello world.
   """
   def main(args) do
-    IO.puts("hello, world! args are #{inspect(args)}")
+    IO.puts(
+      "hello, world! args are #{inspect(args)}, config is: #{inspect(Application.get_all_env(:weather))}"
+    )
   end
 end
