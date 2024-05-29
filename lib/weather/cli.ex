@@ -1,4 +1,6 @@
 defmodule Weather.CLI do
+  alias Weather.ENV
+
   @moduledoc """
   Documentation for `Weather.CLI`.
   """
@@ -6,9 +8,9 @@ defmodule Weather.CLI do
   @doc """
   Hello world.
   """
-  def main(args) do
-    IO.puts(
-      "hello, world! args are #{inspect(args)}, config is: #{inspect(Application.get_all_env(:weather))}"
-    )
+  def main(_args) do
+    Req.default_options(ENV.get(:finch_config))
+    data = Weather.API.fetch_weather()
+    IO.puts(inspect(data))
   end
 end
