@@ -3,7 +3,17 @@ defmodule Weather.API do
 
   @url "https://api.openweathermap.org/data/3.0/onecall"
 
-  def fetch_weather do
-    Req.get!(@url, params: [appid: ENV.get(:api_key), lat: ENV.get(:lat), lon: ENV.get(:lon)])
+  def fetch_weather(%Weather.Opts{} = opts) do
+    Req.default_options(ENV.get(:finch_config))
+    Req.get(@url, params: params(opts))
+  end
+
+  defp params(opts) do
+    [
+      appid: opts.appid,
+      lat: opts.latitude,
+      lon: opts.longitude,
+      units: opts.units
+    ]
   end
 end
