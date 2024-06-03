@@ -5,7 +5,7 @@ defmodule Weather.MixProject do
     [
       app: :weather,
       version: "0.1.0",
-      elixir: "~> 1.16",
+      elixir: "~> 1.17.0-rc.1",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       escript: escript()
