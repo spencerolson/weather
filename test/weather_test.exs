@@ -1,24 +1,28 @@
 defmodule WeatherTest do
   use ExUnit.Case, async: true
+
+  alias Fixtures.TestResponse.Success
+  alias Fixtures.TestResponse.Unauthorized
   doctest Weather
 
   describe "get/1" do
     setup do: %{opts: Weather.Opts.new([])}
 
     test "gets weather data", context do
-      Req.Test.expect(
-        Weather.API,
-        fn conn ->
-          Plug.Conn.put_resp_header(conn, "content-type", "application/json")
-          |> Plug.Conn.send_resp(200, :json.encode(%{foo: "bar"}))
-        end
-      )
+      Req.Test.expect(Weather.API, fn conn ->
+        Plug.Conn.put_resp_header(conn, "content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Success.response()))
+      end)
 
-      assert Weather.get(context.opts) == {:ok, :success, body: %{"foo" => "bar"}}
+      assert {:ok, :success, body: body} = Weather.get(context.opts)
+      assert %{"current" => %{"feels_like" => 76.33}} = body
     end
 
     test "handles unexpected responses", context do
-      Req.Test.expect(Weather.API, &Plug.Conn.send_resp(&1, 401, "unauthorized"))
+      Req.Test.expect(Weather.API, fn conn ->
+        Plug.Conn.put_resp_header(conn, "content-type", "application/json")
+        |> Plug.Conn.send_resp(401, :json.encode(Unauthorized.response()))
+      end)
 
       assert Weather.get(context.opts) == {:error, :unexpected_response}
     end
@@ -38,11 +42,12 @@ defmodule WeatherTest do
         Weather.API,
         fn conn ->
           Plug.Conn.put_resp_header(conn, "content-type", "application/json")
-          |> Plug.Conn.send_resp(200, :json.encode(%{foo: "bar"}))
+          |> Plug.Conn.send_resp(200, :json.encode(Success.response()))
         end
       )
 
-      assert Weather.get(context.opts) == {:ok, :success, body: %{"foo" => "bar"}}
+      assert {:ok, :success, body: body} = Weather.get(context.opts)
+      assert %{"current" => %{"feels_like" => 76.33}} = body
     end
   end
 end
