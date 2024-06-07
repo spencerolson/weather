@@ -2,8 +2,10 @@ defmodule WeatherTest do
   use ExUnit.Case, async: true
   doctest Weather
 
-  describe "fetch/0" do
-    test "fetches weather data" do
+  describe "get/1" do
+    setup do: %{opts: Weather.Opts.new([])}
+
+    test "gets weather data", context do
       Req.Test.expect(
         Weather.API,
         fn conn ->
@@ -12,20 +14,24 @@ defmodule WeatherTest do
         end
       )
 
-      assert Weather.fetch() == {:ok, :success, body: %{"foo" => "bar"}}
+      assert Weather.get(context.opts) == {:ok, :success, body: %{"foo" => "bar"}}
     end
 
-    test "handles unexpected responses" do
+    test "handles unexpected responses", context do
       Req.Test.expect(Weather.API, &Plug.Conn.send_resp(&1, 401, "unauthorized"))
-      assert Weather.fetch() == {:error, :unexpected_response}
+
+      assert Weather.get(context.opts) == {:error, :unexpected_response}
     end
 
-    test "handles errors" do
+    @tag capture_log: true
+    test "handles errors", context do
       Req.Test.expect(Weather.API, 4, &Req.Test.transport_error(&1, :econnrefused))
-      assert Weather.fetch() == {:error, :error}
+
+      assert Weather.get(context.opts) == {:error, :error}
     end
 
-    test "retries after errors" do
+    @tag capture_log: true
+    test "retries after errors", context do
       Req.Test.expect(Weather.API, 1, &Req.Test.transport_error(&1, :econnrefused))
 
       Req.Test.expect(
@@ -36,7 +42,7 @@ defmodule WeatherTest do
         end
       )
 
-      assert Weather.fetch() == {:ok, :success, body: %{"foo" => "bar"}}
+      assert Weather.get(context.opts) == {:ok, :success, body: %{"foo" => "bar"}}
     end
   end
 end
