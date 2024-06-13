@@ -8,6 +8,14 @@ defmodule Weather.MixProject do
       elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      name: "Weather",
+      source_url: "https://github.com/spencerolson/weather",
+      homepage_url: "https://github.com/spencerolson/weather",
+      docs: [
+        main: "Weather",
+        logo: "priv/static/images/logo.png",
+        extras: ["README.md"]
+      ],
       escript: escript(),
       elixirc_paths: elixirc_paths(Mix.env())
     ]
@@ -24,7 +32,8 @@ defmodule Weather.MixProject do
   defp deps do
     [
       {:req, "~> 0.5.0"},
-      {:plug, "~> 1.0"}
+      {:plug, "~> 1.0"},
+      {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]
   end
 
