@@ -25,6 +25,4 @@ weather-*.tar
 # Temporary files, for example, from tests.
 /tmp/
 
-/weather
-
-.tool-versions
+weather
