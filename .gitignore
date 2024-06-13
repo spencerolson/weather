@@ -26,3 +26,5 @@ weather-*.tar
 /tmp/
 
 /weather
+
+.tool-versions
