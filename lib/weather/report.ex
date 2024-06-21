@@ -2,6 +2,8 @@ defmodule Weather.Report do
   @moduledoc """
   """
 
+  @separator "\n\n"
+
   @doc """
   Create a new `Weather.Report` struct, applying defaults where necessary.
   """
@@ -36,7 +38,7 @@ defmodule Weather.Report do
   end
 
   defp add_alerts({report, %{"alerts" => alerts} = body, opts}) do
-    alerts_summary = alerts |> Enum.map(& &1["description"]) |> Enum.join(separator())
+    alerts_summary = alerts |> Enum.map(& &1["description"]) |> Enum.join(@separator)
 
     {
       [alerts_summary | report],
@@ -50,12 +52,10 @@ defmodule Weather.Report do
   defp aggregate_report({report, _body, _opts}) do
     report
     |> Enum.reverse()
-    |> Enum.join(separator())
+    |> Enum.join(@separator)
   end
 
   defp units(%Weather.Opts{units: "imperial"}), do: "F"
   defp units(%Weather.Opts{units: "metric"}), do: "C"
   defp units(%Weather.Opts{units: "standard"}), do: "K"
-
-  defp separator(), do: "\n\n"
 end
