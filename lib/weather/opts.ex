@@ -27,6 +27,14 @@ defmodule Weather.Opts do
           units: String.t()
         }
 
+  @type parsed_args() :: [
+          api_key: String.t(),
+          latitude: float(),
+          longitude: float(),
+          period: String.t(),
+          units: String.t()
+        ]
+
   @keys [:latitude, :longitude, :appid, :units, :period]
   @enforce_keys @keys
   defstruct @keys
@@ -34,14 +42,14 @@ defmodule Weather.Opts do
   @doc """
   Create a new `Weather.Opts` struct, applying defaults where necessary.
   """
-  @spec new(map()) :: Weather.Opts.t()
-  def new(opts) do
+  @spec new(parsed_args()) :: Weather.Opts.t()
+  def new(parsed_args) do
     %Weather.Opts{
-      latitude: opts[:latitude] || Application.get_env(:weather, :lat),
-      longitude: opts[:longitude] || Application.get_env(:weather, :lon),
-      appid: opts[:api_key] || Application.get_env(:weather, :api_key),
-      units: opts[:units] || "imperial",
-      period: opts[:period] || "1H"
+      latitude: parsed_args[:latitude] || Application.get_env(:weather, :lat),
+      longitude: parsed_args[:longitude] || Application.get_env(:weather, :lon),
+      appid: parsed_args[:api_key] || Application.get_env(:weather, :api_key),
+      units: parsed_args[:units] || "imperial",
+      period: parsed_args[:period] || "1H"
     }
   end
 end

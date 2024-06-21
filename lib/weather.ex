@@ -16,19 +16,22 @@ defmodule Weather do
   def get(opts) do
     opts
     |> Weather.API.fetch_weather()
-    |> handle_response()
+    |> handle_response(opts)
   end
 
-  defp handle_response({:ok, %Req.Response{status: 200} = resp}) do
+  defp handle_response({:ok, %Req.Response{status: 200} = resp}, opts) do
+    Weather.Report.generate(resp, opts)
+    |> IO.puts()
+
     {:ok, :success, body: resp.body}
   end
 
-  defp handle_response({:ok, %Req.Response{} = resp}) do
+  defp handle_response({:ok, %Req.Response{} = resp}, _opts) do
     IO.puts("Unexpected Response :(\n\nStatus: #{resp.status}\nMessage: #{inspect(resp.body)}")
     {:error, :unexpected_response}
   end
 
-  defp handle_response({:error, error}) do
+  defp handle_response({:error, error}, _opts) do
     IO.puts("Error :(\n\n#{inspect(error)}")
     {:error, :error}
   end
