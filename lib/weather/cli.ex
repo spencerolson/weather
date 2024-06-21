@@ -1,8 +1,10 @@
 defmodule Weather.CLI do
   @moduledoc """
   A command-line interface for fetching weather data via the
-  OpenWeatherMap API.
+  OpenWeatherMap API. This module is intended to be invoked as an escript.
   """
+
+  @type args() :: [String.t()]
 
   @switches [
     latitude: :float,
@@ -16,13 +18,19 @@ defmodule Weather.CLI do
   @doc """
   The main module function invoked by the escript.
   """
+
+  @spec main(args()) :: term()
   def main(args) do
-    weather_options(args)
+    args
+    |> weather_options()
     |> Weather.get()
+
+    :ok
   end
 
   defp weather_options(args) do
-    OptionParser.parse(args, strict: @switches, aliases: @aliases)
+    args
+    |> OptionParser.parse(strict: @switches, aliases: @aliases)
     |> elem(0)
     |> Weather.Opts.new()
   end
