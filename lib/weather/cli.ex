@@ -24,6 +24,8 @@ defmodule Weather.CLI do
     args
     |> weather_options()
     |> Weather.get()
+    |> elem(1)
+    |> IO.puts()
 
     :ok
   end

@@ -14,8 +14,7 @@ defmodule WeatherTest do
         |> Plug.Conn.send_resp(200, :json.encode(Success.response()))
       end)
 
-      assert {:ok, :success, body: body} = Weather.get(context.opts)
-      assert %{"current" => %{"feels_like" => 76.33}} = body
+      assert {:ok, "76.33°F\nscattered clouds"} = Weather.get(context.opts)
     end
 
     test "handles unexpected responses", context do
@@ -24,14 +23,18 @@ defmodule WeatherTest do
         |> Plug.Conn.send_resp(401, :json.encode(Unauthorized.response()))
       end)
 
-      assert Weather.get(context.opts) == {:error, :unexpected_response}
+      message =
+        "Unexpected Response :(\n\nStatus: 401\nMessage: %{\"cod\" => 401, \"message\" => \"Please note that using One Call 3.0 requires a separate subscription to the One Call by Call plan. Learn more here https://openweathermap.org/price. If you have a valid subscription to the One Call by Call plan, but still receive this error, then please see https://openweathermap.org/faq#error401 for more info.\"}"
+
+      assert Weather.get(context.opts) == {:error, message}
     end
 
     @tag capture_log: true
     test "handles errors", context do
       Req.Test.expect(Weather.API, 4, &Req.Test.transport_error(&1, :econnrefused))
 
-      assert Weather.get(context.opts) == {:error, :error}
+      assert Weather.get(context.opts) ==
+               {:error, "Error :(\n\n%Req.TransportError{reason: :econnrefused}"}
     end
 
     @tag capture_log: true
@@ -46,8 +49,7 @@ defmodule WeatherTest do
         end
       )
 
-      assert {:ok, :success, body: body} = Weather.get(context.opts)
-      assert %{"current" => %{"feels_like" => 76.33}} = body
+      assert {:ok, "76.33°F\nscattered clouds"} = Weather.get(context.opts)
     end
   end
 end

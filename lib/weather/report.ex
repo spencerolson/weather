@@ -2,43 +2,30 @@ defmodule Weather.Report do
   @moduledoc """
   """
 
-  @separator "\n\n"
+  @separator "\n"
 
   @doc """
   Create a new `Weather.Report` struct, applying defaults where necessary.
   """
-  # @spec new(Weather.Opts.t()) :: Weather.Opts.t()
   def generate(resp, opts) do
     {[], resp.body, opts}
-    |> add_current_temp()
-    |> add_description()
+    |> Weather.Report.Current.generate()
     |> add_alerts()
     |> aggregate_report()
   end
 
-  defp add_current_temp({report, body, opts}) do
-    %{"current" => %{"feels_like" => feels_like}} = body
-    current_temp = "#{feels_like}°#{units(opts)}"
-
-    {
-      [current_temp | report],
-      body,
-      opts
-    }
-  end
-
-  defp add_description({report, body, opts}) do
-    %{"current" => %{"weather" => [%{"description" => description}]}} = body
-
-    {
-      [description | report],
-      body,
-      opts
-    }
-  end
-
   defp add_alerts({report, %{"alerts" => alerts} = body, opts}) do
-    alerts_summary = alerts |> Enum.map(& &1["description"]) |> Enum.join(@separator)
+    report = ["" | report]
+
+    alerts_summary =
+      alerts
+      |> Enum.map(fn alert ->
+        String.upcase(alert["event"]) <>
+          " (#{alert["start"]} - #{alert["end"]})" <>
+          @separator <>
+          alert["description"]
+      end)
+      |> Enum.join(@separator)
 
     {
       [alerts_summary | report],
@@ -54,8 +41,4 @@ defmodule Weather.Report do
     |> Enum.reverse()
     |> Enum.join(@separator)
   end
-
-  defp units(%Weather.Opts{units: "imperial"}), do: "F"
-  defp units(%Weather.Opts{units: "metric"}), do: "C"
-  defp units(%Weather.Opts{units: "standard"}), do: "K"
 end
