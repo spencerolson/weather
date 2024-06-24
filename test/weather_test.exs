@@ -6,7 +6,11 @@ defmodule WeatherTest do
   doctest Weather
 
   describe "get/1" do
-    setup do: %{opts: Weather.Opts.new([])}
+    setup do
+      %{
+        opts: Weather.Opts.new(api_key: "123abc", latitude: 30.308689, longitude: -84.248528)
+      }
+    end
 
     test "gets weather data", context do
       Req.Test.expect(Weather.API, fn conn ->

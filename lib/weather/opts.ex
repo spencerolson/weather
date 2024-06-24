@@ -44,12 +44,77 @@ defmodule Weather.Opts do
   """
   @spec new(parsed_args()) :: Weather.Opts.t()
   def new(parsed_args) do
-    %Weather.Opts{
-      latitude: parsed_args[:latitude] || Application.get_env(:weather, :lat),
-      longitude: parsed_args[:longitude] || Application.get_env(:weather, :lon),
-      appid: parsed_args[:api_key] || Application.get_env(:weather, :api_key),
-      units: parsed_args[:units] || "imperial",
-      period: parsed_args[:period] || "1H"
-    }
+    with {:ok, api_key} <- api_key(parsed_args),
+         {:ok, latitude} <- latitude(parsed_args),
+         {:ok, longitude} <- longitude(parsed_args) do
+      %Weather.Opts{
+        appid: api_key,
+        latitude: latitude,
+        longitude: longitude,
+        units: parsed_args[:units] || "imperial",
+        period: parsed_args[:period] || "1H"
+      }
+    else
+      {:error, reason} ->
+        raise(ArgumentError, reason)
+    end
+  end
+
+  defp api_key(parsed_args) do
+    api_key = parsed_args[:api_key] || Application.get_env(:weather, :api_key)
+
+    if api_key do
+      {:ok, api_key}
+    else
+      {:error,
+       "Missing API key. Please set the OPENWEATHER_API_KEY environment variable or provide a value via the --api-key flag."}
+    end
+  end
+
+  defp latitude(parsed_args) do
+    parse_latitude(parsed_args[:latitude] || Application.get_env(:weather, :lat))
+  end
+
+  defp parse_latitude(nil) do
+    {:error,
+     "Missing latitude. Please set the MY_HOME_LAT environment variable or provide a value via the --latitude flag."}
+  end
+
+  defp parse_latitude(latitude) when is_binary(latitude) do
+    case Float.parse(latitude) do
+      {parsed_latitude, ""} ->
+        {:ok, parsed_latitude}
+
+      _ ->
+        {:error, "Invalid latitude. Value provided must represent a float. Received: #{latitude}"}
+    end
+  end
+
+  defp parse_latitude(latitude) when is_float(latitude) do
+    {:ok, latitude}
+  end
+
+  defp longitude(parsed_args) do
+    parse_longitude(parsed_args[:longitude] || Application.get_env(:weather, :lon))
+  end
+
+  defp parse_longitude(nil) do
+    {:error,
+     "Missing longitude. Please set the MY_HOME_LONG environment variable or provide a value via the --longitude flag."}
+  end
+
+  defp parse_longitude(longitude) when is_binary(longitude) do
+    case Float.parse(longitude) do
+      {parsed_longitude, ""} ->
+        {:ok, parsed_longitude}
+
+      _ ->
+        {:error,
+         "Invalid longitude. Value provided must represent a float. Received: #{longitude}"}
+    end
+  end
+
+  defp parse_longitude(longitude) when is_float(longitude) do
+    {:ok, longitude}
   end
 end
