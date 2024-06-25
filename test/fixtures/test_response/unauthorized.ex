@@ -1,4 +1,4 @@
-defmodule Fixtures.TestResponse.Unauthorized do
+defmodule Weather.Fixtures.TestResponse.Unauthorized do
   def response do
     %{
       "cod" => 401,

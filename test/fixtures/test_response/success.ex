@@ -1,4 +1,4 @@
-defmodule Fixtures.TestResponse.Success do
+defmodule Weather.Fixtures.TestResponse.Success do
   def response(opts \\ [])
 
   def response(opts) do

@@ -1,8 +1,8 @@
 defmodule WeatherTest do
   use ExUnit.Case, async: true
 
-  alias Fixtures.TestResponse.Success
-  alias Fixtures.TestResponse.Unauthorized
+  alias Weather.Fixtures.TestResponse.Success
+  alias Weather.Fixtures.TestResponse.Unauthorized
   doctest Weather
 
   describe "get/1" do

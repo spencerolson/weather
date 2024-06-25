@@ -4,4 +4,4 @@ config :weather,
   req_options: [
     plug: {Req.Test, Weather.API}
   ],
-  date_impl: DateTimeMock
+  date_impl: Weather.Mocks.DateTimeMock
