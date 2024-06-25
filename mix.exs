@@ -41,6 +41,6 @@ defmodule Weather.MixProject do
     [main_module: Weather.CLI, name: :weather, strip_beams: true, embed_elixir: true]
   end
 
-  defp elixirc_paths(:test), do: ["lib", "test/fixtures"]
+  defp elixirc_paths(:test), do: ["lib", "test/fixtures", "test/mocks"]
   defp elixirc_paths(_), do: ["lib"]
 end

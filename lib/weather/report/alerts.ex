@@ -33,12 +33,16 @@ defmodule Weather.Report.Alerts do
   defp alert_title(alert) do
     minutes =
       DateTime.from_unix!(alert["end"])
-      |> DateTime.diff(DateTime.utc_now(), :minute)
+      |> DateTime.diff(date_impl().utc_now(), :minute)
 
     "#{String.upcase(alert["event"])} (#{minutes} minutes remaining)"
   end
 
   defp alert_summary(alert) do
     alert_title(alert) <> @separator <> alert["description"]
+  end
+
+  defp date_impl() do
+    Application.get_env(:weather, :date_impl, DateTime)
   end
 end
