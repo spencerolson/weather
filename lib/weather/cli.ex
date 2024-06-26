@@ -7,13 +7,23 @@ defmodule Weather.CLI do
   @type args() :: [String.t()]
 
   @switches [
+    help: :boolean,
     latitude: :float,
     longitude: :float,
     api_key: :string,
-    units: :string,
-    period: :string
+    units: :string
   ]
-  @aliases [t: :latitude, n: :longitude, a: :api_key, u: :units, p: :period]
+
+  @aliases [h: :help, t: :latitude, n: :longitude, a: :api_key, u: :units]
+
+  @descriptions [
+    help: "Prints this help message",
+    latitude: "The latitude of the location for which to fetch weather data",
+    longitude: "The longitude of the location for which to fetch weather data",
+    api_key: "The OpenWeatherMap API key",
+    units:
+      "The units in which to return the weather data. Options: 'metric' (celsius), 'imperial' (fahrenheit), 'standard' (kelvin)"
+  ]
 
   @doc """
   The main module function invoked by the escript.
@@ -21,19 +31,41 @@ defmodule Weather.CLI do
 
   @spec main(args()) :: term()
   def main(args) do
-    args
-    |> weather_options()
-    |> Weather.get()
-    |> elem(1)
-    |> IO.puts()
+    {options, _args, _invalid} = parsed_options(args)
+
+    if options[:help] do
+      display_help()
+    else
+      options
+      |> Weather.Opts.new()
+      |> Weather.get()
+      |> elem(1)
+      |> IO.puts()
+    end
 
     :ok
   end
 
-  defp weather_options(args) do
-    args
-    |> OptionParser.parse(strict: @switches, aliases: @aliases)
-    |> elem(0)
-    |> Weather.Opts.new()
+  defp parsed_options(args), do: OptionParser.parse(args, strict: @switches, aliases: @aliases)
+
+  defp display_help do
+    IO.puts("""
+    Usage: weather [options]
+
+    Options:
+    #{report(@switches, &format_switch/1)}
+
+    Aliases:
+    #{report(@aliases, &format_alias/1)}
+    """)
   end
+
+  defp report(options, formatter) do
+    options
+    |> Enum.map(formatter)
+    |> Enum.join("\n")
+  end
+
+  defp format_switch({k, v}), do: "--#{k}: #{@descriptions[k]}. (#{v})"
+  defp format_alias({k, v}), do: "-#{k}: --#{v}"
 end
