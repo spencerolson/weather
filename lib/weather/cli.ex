@@ -60,8 +60,7 @@ defmodule Weather.CLI do
   end
 
   defp handle_request(parsed_args) do
-    parsed_args
-    |> Weather.Opts.new()
+    Weather.Opts.new(parsed_args)
     |> Weather.get()
   end
 
