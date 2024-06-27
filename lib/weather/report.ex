@@ -1,8 +1,10 @@
 defmodule Weather.Report do
+  alias Weather.Report.Alerts
+  alias Weather.Report.Current
+
   @moduledoc """
   A module for generating weather reports.
   """
-
   @separator "\n"
 
   @doc """
@@ -10,8 +12,8 @@ defmodule Weather.Report do
   """
   def generate(resp, opts) do
     {[], resp.body, opts}
-    |> Weather.Report.Current.generate()
-    |> Weather.Report.Alerts.generate()
+    |> Current.generate()
+    |> Alerts.generate()
     |> aggregate_report()
   end
 
