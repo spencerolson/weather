@@ -1,4 +1,6 @@
 defmodule Weather.Fixtures.TestResponse.Success do
+  @moduledoc false
+
   def response(opts \\ [])
 
   def response(opts) do
@@ -48,7 +50,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
         "sunset" => 1_717_809_921,
         "temp" => 77.18,
         "uvi" => 4.44,
-        "visibility" => 10000,
+        "visibility" => 10_000,
         "weather" => [
           %{
             "description" => "scattered clouds",
@@ -398,7 +400,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1009,
           "temp" => 76.26,
           "uvi" => 6.4,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "scattered clouds",
@@ -421,7 +423,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1009,
           "temp" => 77.18,
           "uvi" => 4.44,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "scattered clouds",
@@ -444,7 +446,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1009,
           "temp" => 76.14,
           "uvi" => 2.57,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "scattered clouds",
@@ -467,7 +469,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1010,
           "temp" => 74.23,
           "uvi" => 0.95,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "scattered clouds",
@@ -490,7 +492,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1010,
           "temp" => 71.38,
           "uvi" => 0.28,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "scattered clouds",
@@ -513,7 +515,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 67.64,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -536,7 +538,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 63.54,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -559,7 +561,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 62.22,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -582,7 +584,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 60.91,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -605,7 +607,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 60.03,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -628,7 +630,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 59.4,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -651,7 +653,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 58.48,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -674,7 +676,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 57.56,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -697,7 +699,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 57.11,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -720,7 +722,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 56.66,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -743,7 +745,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 57.79,
           "uvi" => 0.09,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -766,7 +768,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 60.46,
           "uvi" => 0.25,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -789,7 +791,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 60.75,
           "uvi" => 0.41,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -812,7 +814,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 67.35,
           "uvi" => 3.1,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "broken clouds",
@@ -835,7 +837,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 67.89,
           "uvi" => 2.18,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -858,7 +860,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1010,
           "temp" => 68.16,
           "uvi" => 4.71,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -881,7 +883,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1010,
           "temp" => 68.85,
           "uvi" => 5,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -904,7 +906,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1010,
           "temp" => 71.96,
           "uvi" => 8.95,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -927,7 +929,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1009,
           "temp" => 73.15,
           "uvi" => 8.17,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "broken clouds",
@@ -951,7 +953,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "rain" => %{"1h" => 0.12},
           "temp" => 65.14,
           "uvi" => 0.91,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "light rain",
@@ -975,7 +977,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "rain" => %{"1h" => 0.24},
           "temp" => 63.68,
           "uvi" => 0.47,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "light rain",
@@ -998,7 +1000,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1009,
           "temp" => 63.99,
           "uvi" => 0.73,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -1021,7 +1023,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1009,
           "temp" => 63.55,
           "uvi" => 0.52,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -1044,7 +1046,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1010,
           "temp" => 63.45,
           "uvi" => 0.12,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -1068,7 +1070,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "rain" => %{"1h" => 0.14},
           "temp" => 62.74,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "light rain",
@@ -1092,7 +1094,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "rain" => %{"1h" => 0.15},
           "temp" => 60.78,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "light rain",
@@ -1115,7 +1117,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 60.06,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -1138,7 +1140,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 58.39,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "overcast clouds",
@@ -1161,7 +1163,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 57.11,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "broken clouds",
@@ -1184,7 +1186,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 56.39,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "broken clouds",
@@ -1207,7 +1209,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1011,
           "temp" => 55.36,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "clear sky",
@@ -1230,7 +1232,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 54.88,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "clear sky",
@@ -1253,7 +1255,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1012,
           "temp" => 54.5,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "scattered clouds",
@@ -1276,7 +1278,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1013,
           "temp" => 53.92,
           "uvi" => 0,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "scattered clouds",
@@ -1299,7 +1301,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1013,
           "temp" => 54.07,
           "uvi" => 0.12,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "broken clouds",
@@ -1322,7 +1324,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1013,
           "temp" => 57.06,
           "uvi" => 0.54,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "scattered clouds",
@@ -1345,7 +1347,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1014,
           "temp" => 60.6,
           "uvi" => 1.49,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "scattered clouds",
@@ -1368,7 +1370,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1014,
           "temp" => 63.59,
           "uvi" => 3,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "broken clouds",
@@ -1391,7 +1393,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1013,
           "temp" => 66.56,
           "uvi" => 4.86,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "broken clouds",
@@ -1414,7 +1416,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1013,
           "temp" => 69.17,
           "uvi" => 6.64,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "broken clouds",
@@ -1437,7 +1439,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1013,
           "temp" => 71.35,
           "uvi" => 8.01,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "broken clouds",
@@ -1460,7 +1462,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1013,
           "temp" => 72.25,
           "uvi" => 8.38,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "broken clouds",
@@ -1483,7 +1485,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
           "pressure" => 1013,
           "temp" => 72.25,
           "uvi" => 7.71,
-          "visibility" => 10000,
+          "visibility" => 10_000,
           "weather" => [
             %{
               "description" => "clear sky",
@@ -1562,7 +1564,7 @@ defmodule Weather.Fixtures.TestResponse.Success do
         %{"dt" => 1_717_796_760, "precipitation" => 0}
       ],
       "timezone" => "America/Chicago",
-      "timezone_offset" => -18000
+      "timezone_offset" => -18_000
     }
   end
 end

@@ -1,4 +1,8 @@
 defmodule Weather.API do
+  @moduledoc """
+  A module for fetching weather data from the OpenWeatherMap API.
+  """
+
   @url "https://api.openweathermap.org/data/3.0/onecall"
 
   def fetch_weather(%Weather.Opts{} = opts) do

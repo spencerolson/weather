@@ -1,4 +1,6 @@
 defmodule Weather.Fixtures.TestResponse.Unauthorized do
+  @moduledoc false
+
   def response do
     %{
       "cod" => 401,

@@ -1,5 +1,6 @@
 defmodule Weather.Report do
   @moduledoc """
+  A module for generating weather reports.
   """
 
   @separator "\n"
