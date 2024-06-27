@@ -51,10 +51,10 @@ defmodule Weather.CLI do
       Usage: weather [options]
 
       Options:
-      #{report(@switches, &format_switch/1)}
+      #{Enum.map_join(@switches, "\n", &format_switch/1)}
 
       Aliases:
-      #{report(@aliases, &format_alias/1)}
+      #{Enum.map_join(@aliases, "\n", &format_alias/1)}
       """
     }
   end
@@ -66,13 +66,6 @@ defmodule Weather.CLI do
   end
 
   defp print_response({_, response}), do: IO.puts(response)
-
-  defp report(options, formatter) do
-    options
-    |> Enum.map(formatter)
-    |> Enum.join("\n")
-  end
-
   defp format_switch({k, v}), do: "--#{k}: #{@descriptions[k]}. (#{v})"
   defp format_alias({k, v}), do: "-#{k}: --#{v}"
 end
