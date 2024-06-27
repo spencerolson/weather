@@ -38,7 +38,5 @@ defmodule Weather.Report.Alerts do
     alert_title(alert) <> @separator <> alert["description"]
   end
 
-  defp date_impl() do
-    Application.get_env(:weather, :date_impl, DateTime)
-  end
+  defp date_impl, do: Application.get_env(:weather, :date_impl, DateTime)
 end
