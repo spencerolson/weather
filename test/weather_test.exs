@@ -14,7 +14,8 @@ defmodule WeatherTest do
 
     test "gets weather data", context do
       Req.Test.expect(Weather.API, fn conn ->
-        Plug.Conn.put_resp_header(conn, "content-type", "application/json")
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Success.response()))
       end)
 
@@ -23,7 +24,8 @@ defmodule WeatherTest do
 
     test "displays alerts", context do
       Req.Test.expect(Weather.API, fn conn ->
-        Plug.Conn.put_resp_header(conn, "content-type", "application/json")
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Success.response(alerts: true)))
       end)
 
@@ -35,7 +37,8 @@ defmodule WeatherTest do
 
     test "handles unexpected responses", context do
       Req.Test.expect(Weather.API, fn conn ->
-        Plug.Conn.put_resp_header(conn, "content-type", "application/json")
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(401, :json.encode(Unauthorized.response()))
       end)
 
@@ -60,7 +63,8 @@ defmodule WeatherTest do
       Req.Test.expect(
         Weather.API,
         fn conn ->
-          Plug.Conn.put_resp_header(conn, "content-type", "application/json")
+          conn
+          |> Plug.Conn.put_resp_header("content-type", "application/json")
           |> Plug.Conn.send_resp(200, :json.encode(Success.response()))
         end
       )

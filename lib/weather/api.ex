@@ -5,14 +5,22 @@ defmodule Weather.API do
 
   @url "https://api.openweathermap.org/data/3.0/onecall"
 
+  @spec fetch_weather(Weather.Opts.t()) :: {:ok, Req.Response.t()} | {:error, Exception.t()}
   def fetch_weather(%Weather.Opts{} = opts) do
-    Req.default_options(Application.get_env(:weather, :finch_config))
-    req_opts(opts) |> Req.request()
+    :weather
+    |> Application.get_env(:finch_config)
+    |> Req.default_options()
+
+    opts
+    |> req_opts()
+    |> Req.request()
   end
 
   defp req_opts(opts) do
-    [base_url: @url, params: params(opts)]
-    |> Keyword.merge(Application.get_env(:weather, :req_options, []))
+    Keyword.merge(
+      [base_url: @url, params: params(opts)],
+      Application.get_env(:weather, :req_options, [])
+    )
   end
 
   defp params(opts) do

@@ -1,6 +1,7 @@
 defmodule Weather.Fixtures.TestResponse.Unauthorized do
   @moduledoc false
 
+  @spec response() :: map()
   def response do
     %{
       "cod" => 401,

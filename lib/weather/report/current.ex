@@ -6,6 +6,7 @@ defmodule Weather.Report.Current do
   @doc """
   Generate a report for the current weather.
   """
+  @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
   def generate({report, body, opts}) do
     {report, body, opts}
     |> add_current_temp()

@@ -8,10 +8,8 @@ defmodule Weather.Report.Alerts do
   @doc """
   Generate a report for any active alerts.
   """
-  def generate({report, body, opts}) do
-    {report, body, opts}
-    |> add_alerts()
-  end
+  @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
+  def generate(weather), do: add_alerts(weather)
 
   defp add_alerts({report, %{"alerts" => alerts} = body, opts}) do
     report = ["" | report]
@@ -27,11 +25,10 @@ defmodule Weather.Report.Alerts do
   defp add_alerts(weather), do: weather
 
   defp alert_title(alert) do
-    minutes =
-      DateTime.from_unix!(alert["end"])
-      |> DateTime.diff(date_impl().utc_now(), :minute)
-
-    "#{String.upcase(alert["event"])} (#{minutes} minutes remaining)"
+    alert["end"]
+    |> DateTime.from_unix!()
+    |> DateTime.diff(date_impl().utc_now(), :minute)
+    |> then(&"#{String.upcase(alert["event"])} (#{&1} minutes remaining)")
   end
 
   defp alert_summary(alert) do

@@ -1,18 +1,14 @@
 defmodule Weather.Fixtures.TestResponse.Success do
   @moduledoc false
 
-  def response(opts \\ [])
-
-  def response(opts) do
+  @spec response(keyword(boolean())) :: map()
+  def response(opts \\ []) do
     %{}
     |> add_base_data()
     |> add_optional_data(opts)
   end
 
-  defp add_base_data(response) do
-    response
-    |> Map.merge(base_data())
-  end
+  defp add_base_data(response), do: Map.merge(response, base_data())
 
   defp add_optional_data(response, []), do: response
 
@@ -33,7 +29,8 @@ defmodule Weather.Fixtures.TestResponse.Success do
       }
     ]
 
-    Map.put(response, "alerts", alerts)
+    response
+    |> Map.put("alerts", alerts)
     |> add_optional_data(tail)
   end
 
