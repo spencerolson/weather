@@ -14,8 +14,7 @@ defmodule Weather do
   @spec get(Weather.Opts.t()) ::
           {:ok, String.t()} | {:error, String.t()}
   def get(opts) do
-    opts
-    |> Weather.API.fetch_weather()
+    Weather.API.fetch_weather(opts)
     |> handle_response(opts)
   end
 
