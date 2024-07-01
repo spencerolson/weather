@@ -76,6 +76,8 @@ defmodule Weather.CLI do
   end
 
   defp print_response({_, response}), do: IO.puts(response)
+
   defp format_switch({k, v}), do: "--#{k}: #{@descriptions[k]}. (#{v})"
+
   defp format_alias({k, v}), do: "-#{k}: --#{v}"
 end
