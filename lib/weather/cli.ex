@@ -40,11 +40,21 @@ defmodule Weather.CLI do
   defp parse_args(args) do
     args
     |> OptionParser.parse(strict: @switches, aliases: @aliases)
-    |> elem(0)
-    |> Enum.into(%{})
+    |> handle_parsed()
   end
 
-  defp handle_request(%{help: true}) do
+  defp handle_parsed({parsed, _remaining, _invalid = []}), do: {:ok, Enum.into(parsed, %{})}
+
+  defp handle_parsed({_parsed, _remaining, invalid}),
+    do: {:error, Enum.map_join(invalid, "\n", &invalid_message/1)}
+
+  defp invalid_message({k, nil}), do: "unknown option #{k}"
+
+  defp invalid_message({k, v}), do: "#{v} is an invalid value for #{k}"
+
+  defp handle_request({:error, reason}), do: {:error, reason}
+
+  defp handle_request({:ok, %{help: true}}) do
     {
       :ok,
       """
@@ -59,7 +69,7 @@ defmodule Weather.CLI do
     }
   end
 
-  defp handle_request(parsed_args) do
+  defp handle_request({:ok, parsed_args}) do
     parsed_args
     |> Weather.Opts.new()
     |> Weather.get()

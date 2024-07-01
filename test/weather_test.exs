@@ -1,6 +1,8 @@
 defmodule WeatherTest do
+  @moduledoc nodoc: true
   use ExUnit.Case, async: true
 
+  alias Weather.Fixtures.TestResponse.BadRequest
   alias Weather.Fixtures.TestResponse.Success
   alias Weather.Fixtures.TestResponse.Unauthorized
   doctest Weather
@@ -35,7 +37,7 @@ defmodule WeatherTest do
       assert {:ok, ^expected} = Weather.get(context.opts)
     end
 
-    test "handles unexpected responses", context do
+    test "handles unauthorized responses", context do
       Req.Test.expect(Weather.API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
@@ -43,8 +45,19 @@ defmodule WeatherTest do
       end)
 
       message =
-        "Unexpected Response :(\n\nStatus: 401\nMessage: %{\"cod\" => 401, \"message\" => \"Please note that using One Call 3.0 requires a separate subscription to the One Call by Call plan. Learn more here https://openweathermap.org/price. If you have a valid subscription to the One Call by Call plan, but still receive this error, then please see https://openweathermap.org/faq#error401 for more info.\"}"
+        "Unauthorized (status 401)\n\nAre you sure you provided the correct API key?\n\nPlease note that using One Call 3.0 requires a separate subscription to the One Call by Call plan. Learn more here https://openweathermap.org/price. If you have a valid subscription to the One Call by Call plan, but still receive this error, then please see https://openweathermap.org/faq#error401 for more info."
 
+      assert Weather.get(context.opts) == {:error, message}
+    end
+
+    test "handles unexpected responses", context do
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(400, :json.encode(BadRequest.response()))
+      end)
+
+      message = "Unexpected response (status 400)\n\nwrong latitude"
       assert Weather.get(context.opts) == {:error, message}
     end
 
@@ -53,7 +66,7 @@ defmodule WeatherTest do
       Req.Test.expect(Weather.API, 4, &Req.Test.transport_error(&1, :econnrefused))
 
       assert Weather.get(context.opts) ==
-               {:error, "Error :(\n\n%Req.TransportError{reason: :econnrefused}"}
+               {:error, "Error\n\n%Req.TransportError{reason: :econnrefused}"}
     end
 
     @tag capture_log: true

@@ -23,11 +23,16 @@ defmodule Weather do
     {:ok, Weather.Report.generate(resp, opts)}
   end
 
+  defp handle_response({:ok, %Req.Response{status: 401} = resp}, _opts) do
+    {:error,
+     "Unauthorized (status 401)\n\nAre you sure you provided the correct API key?\n\n#{resp.body["message"]}"}
+  end
+
   defp handle_response({:ok, %Req.Response{} = resp}, _opts) do
-    {:error, "Unexpected Response :(\n\nStatus: #{resp.status}\nMessage: #{inspect(resp.body)}"}
+    {:error, "Unexpected response (status #{resp.status})\n\n#{resp.body["message"]}"}
   end
 
   defp handle_response({:error, error}, _opts) do
-    {:error, "Error :(\n\n#{inspect(error)}"}
+    {:error, "Error\n\n#{inspect(error)}"}
   end
 end
