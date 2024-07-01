@@ -28,7 +28,7 @@ defmodule Weather.Report.Alerts do
     alert["end"]
     |> DateTime.from_unix!()
     |> DateTime.diff(date_impl().utc_now(), :minute)
-    |> then(&"#{String.upcase(alert["event"])} (#{&1} minutes remaining)")
+    |> then(&"#{String.upcase(alert["event"])} (#{time_remaining(&1)} remaining)")
   end
 
   defp alert_summary(alert) do
@@ -36,4 +36,35 @@ defmodule Weather.Report.Alerts do
   end
 
   defp date_impl, do: Application.get_env(:weather, :date_impl, DateTime)
+
+  defp time_remaining(minutes) do
+    minutes
+    |> calc_time_remaining([])
+    |> Enum.reverse()
+    |> Enum.join(" ")
+  end
+
+  defp calc_time_remaining(0, []), do: ["0m"]
+
+  defp calc_time_remaining(0, result), do: result
+
+  defp calc_time_remaining(minutes, result) when minutes < 60, do: ["#{minutes}m" | result]
+
+  defp calc_time_remaining(minutes, result) when minutes >= 60 and minutes < 1440 do
+    hours = div(minutes, 60)
+
+    calc_time_remaining(
+      rem(minutes, 60),
+      ["#{hours}h" | result]
+    )
+  end
+
+  defp calc_time_remaining(minutes, result) when minutes >= 1440 do
+    days = div(minutes, 1440)
+
+    calc_time_remaining(
+      rem(minutes, 1440),
+      ["#{days}d" | result]
+    )
+  end
 end
