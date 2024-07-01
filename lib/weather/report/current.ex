@@ -9,12 +9,21 @@ defmodule Weather.Report.Current do
   @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
   def generate({report, body, opts}) do
     report
-    |> add_current_temp(body)
-    |> add_description(body)
+    |> add_current_weather(body)
     |> then(&{&1, body, opts})
   end
 
-  defp add_current_temp(report, body) do
+  defp add_current_weather(report, body) do
+    []
+    |> add_temp(body)
+    |> add_description(body)
+    |> add_humidity(body)
+    |> Enum.reverse()
+    |> Enum.join(" | ")
+    |> then(&[&1 | report])
+  end
+
+  defp add_temp(report, body) do
     %{"current" => %{"feels_like" => feels_like}} = body
     ["#{feels_like}°" | report]
   end
@@ -22,5 +31,10 @@ defmodule Weather.Report.Current do
   defp add_description(report, body) do
     %{"current" => %{"weather" => [%{"description" => description}]}} = body
     [description | report]
+  end
+
+  defp add_humidity(report, body) do
+    %{"current" => %{"humidity" => humidity}} = body
+    ["#{humidity}% humidity" | report]
   end
 end
