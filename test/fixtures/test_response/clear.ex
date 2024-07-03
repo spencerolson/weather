@@ -1,40 +1,8 @@
-defmodule Weather.Fixtures.TestResponse.Success do
+defmodule Weather.Fixtures.TestResponse.Clear do
   @moduledoc false
 
-  @spec response(keyword(boolean())) :: map()
-  def response(opts \\ []) do
-    %{}
-    |> add_base_data()
-    |> add_optional_data(opts)
-  end
-
-  defp add_base_data(response), do: Map.merge(response, base_data())
-
-  defp add_optional_data(response, []), do: response
-
-  defp add_optional_data(response, [{_, false} | tail]) do
-    add_optional_data(response, tail)
-  end
-
-  defp add_optional_data(response, [{:alerts, true} | tail]) do
-    alerts = [
-      %{
-        "description" =>
-          "THE NATIONAL WEATHER SERVICE HAS ISSUED SEVERE THUNDERSTORM WATCH\n408 IN EFFECT UNTIL 8 PM CDT /9 PM EDT/ THIS EVENING FOR THE\nFOLLOWING AREAS\n\nIN ILLINOIS THIS WATCH INCLUDES 13 COUNTIES\n\nIN CENTRAL ILLINOIS\n\nLIVINGSTON\n\nIN EAST CENTRAL ILLINOIS\n\nFORD                  IROQUOIS\n\nIN NORTH CENTRAL ILLINOIS\n\nDE KALB               LA SALLE              LEE\n\nIN NORTHEAST ILLINOIS\n\nCOOK                  DUPAGE                GRUNDY\nKANE                  KANKAKEE              KENDALL\nWILL\n\nIN INDIANA THIS WATCH INCLUDES 5 COUNTIES\n\nIN NORTHWEST INDIANA\n\nBENTON                JASPER                LAKE IN\nNEWTON                PORTER\n\nTHIS INCLUDES THE CITIES OF AURORA, BOLINGBROOK, BOURBONNAIS,\nCAROL STREAM, CHESTERTON, CHICAGO, COAL CITY, DEKALB, DEMOTTE,\nDIXON, DOWNERS GROVE, DWIGHT, ELGIN, EVANSTON, FAIRBURY, FOWLER,\nGARY, GIBSON CITY, GILMAN, HAMMOND, JOLIET, KANKAKEE, KENTLAND,\nLA SALLE, LEMONT, LOMBARD, MARSEILLES, MENDOTA, MERRILLVILLE,\nMINOOKA, MOROCCO, MORRIS, NAPERVILLE, OAK LAWN, ORLAND PARK,\nOSWEGO, OTTAWA, OXFORD, PARK FOREST, PAXTON, PLANO, PONTIAC,\nPORTAGE, RENSSELAER, ROSELAWN, SCHAUMBURG, STREATOR, SYCAMORE,\nVALPARAISO, WATSEKA, WHEATON, WILMINGTON, AND YORKVILLE.",
-        "end" => 1_717_919_921,
-        "event" => "Severe Thunderstorm Watch",
-        "sender_name" => "NWS Chicago IL",
-        "start" => 1_717_795_020,
-        "tags" => ["Thunderstorm"]
-      }
-    ]
-
-    response
-    |> Map.put("alerts", alerts)
-    |> add_optional_data(tail)
-  end
-
-  defp base_data do
+  @spec response() :: map()
+  def response do
     %{
       "current" => %{
         "clouds" => 40,
