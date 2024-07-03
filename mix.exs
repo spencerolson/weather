@@ -32,9 +32,10 @@ defmodule Weather.MixProject do
   defp deps do
     [
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:req, "~> 0.5.0"},
+      {:ex_doc, "~> 0.34", only: :dev, runtime: false},
+      {:mimic, "~> 1.7", only: :test},
       {:plug, "~> 1.0"},
-      {:ex_doc, "~> 0.34", only: :dev, runtime: false}
+      {:req, "~> 0.5.0"}
     ]
   end
 
