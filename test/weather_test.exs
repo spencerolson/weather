@@ -1,6 +1,7 @@
 defmodule WeatherTest do
   @moduledoc nodoc: true
   use ExUnit.Case, async: true
+  use Mimic
 
   alias Weather.Fixtures.TestResponse.BadRequest
   alias Weather.Fixtures.TestResponse.Clear
@@ -26,6 +27,12 @@ defmodule WeatherTest do
     end
 
     test "displays alerts", context do
+      stub(
+        DateTime,
+        :utc_now,
+        fn -> DateTime.new!(~D[2024-07-03], ~T[00:26:08.003]) end
+      )
+
       Req.Test.expect(Weather.API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
