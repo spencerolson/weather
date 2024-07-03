@@ -181,7 +181,6 @@
           {Credo.Check.Refactor.DoubleBooleanNegation, []},
           {Credo.Check.Refactor.FilterReject, []},
           {Credo.Check.Refactor.MapMap, []},
-          {Credo.Check.Refactor.ModuleDependencies, []},
           {Credo.Check.Refactor.NegatedIsNil, []},
           {Credo.Check.Refactor.PassAsyncInTestCases, []},
           {Credo.Check.Refactor.PipeChainStart, []},
@@ -201,6 +200,7 @@
           # Controversial and experimental checks (opt-in, just move the check to `:enabled`
           #   and be sure to use `mix credo --strict` to see low priority checks)
           #
+          {Credo.Check.Refactor.ModuleDependencies, []},
           {Credo.Check.Consistency.UnusedVariableNames, []},
           {Credo.Check.Refactor.IoPuts, []},
           # {Credo.Check.Refactor.MapInto, []},
