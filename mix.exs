@@ -8,6 +8,7 @@ defmodule Weather.MixProject do
       elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      aliases: aliases(),
       name: "Weather",
       source_url: "https://github.com/spencerolson/weather",
       homepage_url: "https://github.com/spencerolson/weather",
@@ -37,6 +38,29 @@ defmodule Weather.MixProject do
       {:plug, "~> 1.0"},
       {:req, "~> 0.5.0"}
     ]
+  end
+
+  defp aliases do
+    [push: &push/1]
+  end
+
+  defp push(_args) do
+    with :ok <- run("git diff --quiet", "1. Check for dirty working directory"),
+         :ok <- run("mix credo > /dev/null", "2. Run credo"),
+         :ok <- run("mix test > /dev/null", "3. Run tests") do
+      Mix.shell().cmd("git push")
+    else
+      :error -> IO.puts("#{IO.ANSI.red()}Failed!#{IO.ANSI.reset()}")
+    end
+  end
+
+  defp run(command, step) do
+    IO.puts("#{IO.ANSI.yellow()}#{step}#{IO.ANSI.reset()}\n$ #{command}\n")
+
+    case Mix.shell().cmd(command) do
+      0 -> :ok
+      _ -> :error
+    end
   end
 
   defp escript do
