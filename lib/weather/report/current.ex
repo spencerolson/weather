@@ -24,8 +24,8 @@ defmodule Weather.Report.Current do
   end
 
   defp add_temp(report, body) do
-    %{"current" => %{"feels_like" => feels_like}} = body
-    ["#{feels_like}°" | report]
+    %{"current" => %{"temp" => temp}} = body
+    ["#{temp}°" | report]
   end
 
   defp add_description(report, body) do
