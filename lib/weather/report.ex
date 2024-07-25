@@ -5,6 +5,7 @@ defmodule Weather.Report do
 
   alias Weather.Report.Alerts
   alias Weather.Report.Current
+  alias Weather.Report.TwelveHour
 
   @separator "\n"
 
@@ -14,6 +15,7 @@ defmodule Weather.Report do
   @spec generate(Req.Response.t(), Weather.Opts.t()) :: String.t()
   def generate(resp, opts) do
     {[], resp.body, opts}
+    |> TwelveHour.generate()
     |> Current.generate()
     |> Alerts.generate()
     |> aggregate_report()
