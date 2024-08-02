@@ -36,7 +36,8 @@ defmodule Weather.MixProject do
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
       {:mimic, "~> 1.7", only: :test},
       {:plug, "~> 1.0"},
-      {:req, "~> 0.5.0"}
+      {:req, "~> 0.5.0"},
+      {:tz, "~> 0.27"}
     ]
   end
 
