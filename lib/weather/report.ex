@@ -15,15 +15,11 @@ defmodule Weather.Report do
   @spec generate(Req.Response.t(), Weather.Opts.t()) :: String.t()
   def generate(resp, opts) do
     {[], resp.body, opts}
-    |> TwelveHour.generate()
-    |> Current.generate()
     |> Alerts.generate()
+    |> Current.generate()
+    |> TwelveHour.generate()
     |> aggregate_report()
   end
 
-  defp aggregate_report({report, _body, _opts}) do
-    report
-    |> Enum.reverse()
-    |> Enum.join(@separator)
-  end
+  defp aggregate_report({report, _body, _opts}), do: Enum.join(report, @separator)
 end

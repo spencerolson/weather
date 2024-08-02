@@ -22,7 +22,7 @@ defmodule Weather.Report.TwelveHour do
       |> parse_data()
       |> Enum.reduce({"", ""}, &add_to_time_and_temp_reports/2)
 
-    ["", times, temps | report]
+    [temps, times, "" | report]
   end
 
   defp add_to_time_and_temp_reports(data, {times, temps}) do
