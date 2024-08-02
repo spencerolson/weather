@@ -59,9 +59,9 @@ defmodule Weather.Report.TwelveHour do
 
   defp arrow(current_data, next_data) do
     case temp(next_data) - temp(current_data) do
-      diff when diff > 0 -> "↑"
-      diff when diff < 0 -> "↓"
-      _ -> "→"
+      diff when diff > 0 -> "⬆"
+      diff when diff < 0 -> "⬇"
+      _ -> "⮕"
     end
   end
 
