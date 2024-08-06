@@ -20,7 +20,7 @@ defmodule Weather.CLI do
   @descriptions %{
     help: "Prints this help message",
     every:
-      "Sets the hour interval at which data is reported for the 12-hour report. Defaults to 3.",
+      "Sets the hour interval at which data is reported for the 12-hour report. Defaults to 3",
     latitude: "The latitude of the location for which to fetch weather data",
     longitude: "The longitude of the location for which to fetch weather data",
     api_key: "The OpenWeatherMap API key",
