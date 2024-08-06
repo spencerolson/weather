@@ -46,7 +46,11 @@ defmodule Weather.MixProject do
   end
 
   defp push(_args) do
-    with :ok <- run("git diff --quiet", "1. Check for dirty working directory"),
+    with :ok <-
+           run(
+             "git diff --quiet && git diff --cached --quiet",
+             "1. Check for uncommitted changes"
+           ),
          :ok <- run("mix credo > /dev/null", "2. Run credo"),
          :ok <- run("mix test > /dev/null", "3. Run tests") do
       Mix.shell().cmd("git push")
