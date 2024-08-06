@@ -6,6 +6,9 @@ defmodule Weather.Opts do
 
     * `:appid` - a string representing the OpenWeatherMap API key.
 
+    * `:every` - an integer representing the hour interval at which data is
+      reported for the 12-hour report. Defaults to 3.
+
     * `:latitude` - a float representing the latitude of your location.
 
     * `:longitude` - a float representing the longitude of your location.
@@ -17,6 +20,7 @@ defmodule Weather.Opts do
 
   @type t() :: %Weather.Opts{
           appid: String.t(),
+          every_n_hours: integer(),
           latitude: float(),
           longitude: float(),
           units: String.t()
@@ -24,12 +28,13 @@ defmodule Weather.Opts do
 
   @type parsed_args() :: [
           api_key: String.t(),
+          every: integer(),
           latitude: float(),
           longitude: float(),
           units: String.t()
         ]
 
-  @keys [:latitude, :longitude, :appid, :units]
+  @keys [:latitude, :longitude, :appid, :every_n_hours, :units]
   @enforce_keys @keys
   defstruct @keys
 
@@ -40,9 +45,11 @@ defmodule Weather.Opts do
   def new(parsed_args) do
     with {:ok, api_key} <- api_key(parsed_args),
          {:ok, latitude} <- latitude(parsed_args),
-         {:ok, longitude} <- longitude(parsed_args) do
+         {:ok, longitude} <- longitude(parsed_args),
+         {:ok, every_n_hours} <- every_n_hours(parsed_args) do
       %Weather.Opts{
         appid: api_key,
+        every_n_hours: every_n_hours,
         latitude: latitude,
         longitude: longitude,
         units: parsed_args[:units] || "imperial"
@@ -61,6 +68,14 @@ defmodule Weather.Opts do
     else
       {:error,
        "Missing API key. Please set the OPENWEATHER_API_KEY environment variable or provide a value via the --api-key flag."}
+    end
+  end
+
+  defp every_n_hours(parsed_args) do
+    case parsed_args[:every] do
+      every when every >= 0 and every <= 12 -> {:ok, every}
+      nil -> {:ok, 3}
+      every -> {:error, "Invalid --every. Expected an integer >= 0 and <= 12. Received: #{every}"}
     end
   end
 

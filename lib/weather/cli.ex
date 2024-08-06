@@ -8,16 +8,19 @@ defmodule Weather.CLI do
 
   @switches [
     help: :boolean,
+    every: :integer,
     latitude: :float,
     longitude: :float,
     api_key: :string,
     units: :string
   ]
 
-  @aliases [h: :help, t: :latitude, n: :longitude, a: :api_key, u: :units]
+  @aliases [h: :help, e: :every, t: :latitude, n: :longitude, a: :api_key, u: :units]
 
   @descriptions %{
     help: "Prints this help message",
+    every:
+      "Sets the hour interval at which data is reported for the 12-hour report. Defaults to 3.",
     latitude: "The latitude of the location for which to fetch weather data",
     longitude: "The longitude of the location for which to fetch weather data",
     api_key: "The OpenWeatherMap API key",
