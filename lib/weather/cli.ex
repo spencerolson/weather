@@ -77,7 +77,13 @@ defmodule Weather.CLI do
 
   defp print_response({_, response}), do: IO.puts(response)
 
-  defp format_switch({k, v}), do: "--#{k}: #{@descriptions[k]}. (#{v})"
+  defp format_switch({k, v}), do: "--#{atom_to_switch(k)}: #{@descriptions[k]}. (#{v})"
 
-  defp format_alias({k, v}), do: "-#{k}: --#{v}"
+  defp format_alias({k, v}), do: "-#{k}: --#{atom_to_switch(v)}"
+
+  defp atom_to_switch(atom) when is_atom(atom) do
+    atom
+    |> Atom.to_string()
+    |> String.replace("_", "-")
+  end
 end
