@@ -1,10 +1,7 @@
 defmodule Weather.Report.TwelveHour do
   @moduledoc """
-  Generates a report for the next twelve hours, reporting every 3 hours (starting now).
+  Generates a report for the next twelve hours, reporting every N hours (starting now, N defaulting to 3).
   """
-
-  @every_n_hours 3
-  @num_datapoints 1 + div(12, @every_n_hours)
 
   @doc """
   Generate a twelve-hour report.
@@ -12,14 +9,14 @@ defmodule Weather.Report.TwelveHour do
   @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
   def generate({report, body, opts}) do
     report
-    |> add_twelve_hour_weather(body)
+    |> add_twelve_hour_weather(body, opts)
     |> then(&{&1, body, opts})
   end
 
-  defp add_twelve_hour_weather(report, body) do
+  defp add_twelve_hour_weather(report, body, opts) do
     {times, temps} =
       body
-      |> parse_data()
+      |> parse_data(opts)
       |> Enum.reduce({"", ""}, &add_to_time_and_temp_reports/2)
 
     [temps, times, "" | report]
@@ -37,10 +34,10 @@ defmodule Weather.Report.TwelveHour do
     }
   end
 
-  defp parse_data(body) do
+  defp parse_data(body, opts) do
     body["hourly"]
-    |> Enum.take_every(@every_n_hours)
-    |> Enum.take(@num_datapoints)
+    |> Enum.take_every(opts.every_n_hours)
+    |> Enum.take(1 + div(12, opts.every_n_hours))
     |> Enum.chunk_every(2, 1, [:empty])
     |> Enum.map(&parse_hourly(&1, body["timezone"]))
   end

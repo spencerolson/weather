@@ -28,6 +28,18 @@ defmodule WeatherTest do
                Weather.get(context.opts)
     end
 
+    test "accepts an optional interval for the 12 hour report", context do
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
+      end)
+
+      assert {:ok,
+              " 76°  ⬆   77°  ⬇   76°  ⬇   74°  ⬇   71°  ⬇   68°  ⬇   64°  ⬇   62°  ⬇   61°  ⬇   60°  ⬇   59°  ⬇   58°  ⮕   58°    \n 3PM      4PM      5PM      6PM      7PM      8PM      9PM      10PM     11PM     12AM     1AM      2AM      3AM    \n\n77° | scattered clouds | 37% humidity"} =
+               Weather.get(%Weather.Opts{context.opts | every_n_hours: 1})
+    end
+
     test "displays alerts", context do
       stub(
         DateTime,
