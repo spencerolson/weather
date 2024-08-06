@@ -26,7 +26,7 @@ defmodule Weather.Report.TwelveHour do
   end
 
   defp add_to_time_and_temp_reports(data, {times, temps}) do
-    temp = "  #{data[:temp]}  #{data[:arrow]}"
+    temp = " #{data[:temp]}  #{data[:arrow]}  "
     time = " #{data[:time]}"
     padding_length = max(0, String.length(temp) - String.length(time))
     padding = String.duplicate(" ", padding_length)
@@ -68,7 +68,7 @@ defmodule Weather.Report.TwelveHour do
   defp time(data, timezone) do
     data
     |> datetime(timezone)
-    |> Calendar.strftime("%0I%p")
+    |> Calendar.strftime("%-I%p")
   end
 
   defp datetime(data, timezone) do
