@@ -6,9 +6,11 @@ defmodule Weather.Colors do
   @doc """
   Formats and colorizes a given temperature.
   """
-  @spec colorize(number) :: String.t()
-  def colorize(temp) do
+  @spec colorize(number, Weather.Opts.t()) :: String.t()
+  def colorize(temp, opts) do
     temp
+    |> to_fahrenheit(opts)
+    |> round()
     |> color_code()
     |> IO.ANSI.color()
     |> then(&IO.ANSI.format([&1, "#{temp}°", IO.ANSI.reset()]))
@@ -29,11 +31,13 @@ defmodule Weather.Colors do
   """
   @spec list_current() :: :ok
   def list_current do
+    opts = Weather.Opts.new(api_key: "123", latitude: 123.0, longitude: 234.0)
+
     Enum.each(
       [-10, 0, 33, 40, 50, 60, 70, 80, 90, 100],
       fn temp ->
         temp
-        |> colorize()
+        |> colorize(opts)
         |> IO.puts()
       end
     )
@@ -64,4 +68,8 @@ defmodule Weather.Colors do
     |> IO.ANSI.format()
     |> IO.puts()
   end
+
+  defp to_fahrenheit(fahrenheit, %Weather.Opts{units: "imperial"}), do: fahrenheit
+  defp to_fahrenheit(celsius, %Weather.Opts{units: "metric"}), do: celsius * 9 / 5 + 32
+  defp to_fahrenheit(kelvin, %Weather.Opts{units: "standard"}), do: kelvin * 9 / 5 - 459.67
 end

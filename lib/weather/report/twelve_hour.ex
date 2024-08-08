@@ -19,13 +19,13 @@ defmodule Weather.Report.TwelveHour do
     {times, temps} =
       body
       |> parse_data(opts)
-      |> Enum.reduce({"", ""}, &add_to_time_and_temp_reports/2)
+      |> Enum.reduce({"", ""}, fn data, acc -> add_to_time_and_temp_reports(data, acc, opts) end)
 
     [temps, times, "" | report]
   end
 
-  defp add_to_time_and_temp_reports(data, {times, temps}) do
-    temp = " #{Colors.colorize(data[:temp])}  #{data[:arrow]}  "
+  defp add_to_time_and_temp_reports(data, {times, temps}, opts) do
+    temp = " #{Colors.colorize(data[:temp], opts)}  #{data[:arrow]}  "
     time = " #{data[:time]}"
 
     {
