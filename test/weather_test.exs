@@ -132,5 +132,17 @@ defmodule WeatherTest do
               " \e[38;5;245m76°\e[0m  ⬇   \e[38;5;245m74°\e[0m  ⬇   \e[38;5;245m64°\e[0m  ⬇   \e[38;5;245m60°\e[0m  ⬇   \e[38;5;245m58°\e[0m    \n 3PM      6PM      9PM      12AM     3AM    \n\n77° | scattered clouds | 37% humidity"} =
                Weather.get(%Weather.Opts{context.opts | units: "standard"})
     end
+
+    test "allows disabling colors", context do
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
+      end)
+
+      assert {:ok,
+              " 76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°    \n 3PM      6PM      9PM      12AM     3AM    \n\n77° | scattered clouds | 37% humidity"} =
+               Weather.get(%Weather.Opts{context.opts | colors: false})
+    end
   end
 end

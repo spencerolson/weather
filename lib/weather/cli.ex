@@ -8,6 +8,7 @@ defmodule Weather.CLI do
 
   @switches [
     help: :boolean,
+    colors: :boolean,
     every: :integer,
     latitude: :float,
     longitude: :float,
@@ -15,10 +16,11 @@ defmodule Weather.CLI do
     units: :string
   ]
 
-  @aliases [h: :help, e: :every, t: :latitude, n: :longitude, a: :api_key, u: :units]
+  @aliases [h: :help, c: :colors, e: :every, t: :latitude, n: :longitude, a: :api_key, u: :units]
 
   @descriptions %{
     help: "Prints this help message",
+    colors: "Enables colorized output for the twelve hour report. Defaults to true",
     every:
       "Sets the hour interval at which data is reported for the 12-hour report. Defaults to 3",
     latitude: "The latitude of the location for which to fetch weather data",
@@ -65,6 +67,8 @@ defmodule Weather.CLI do
 
       Options:
       #{Enum.map_join(@switches, "\n", &format_switch/1)}
+
+      * Note that boolean switches take no values. --<switch> sets the value to true and --no-<switch> sets the value to false.
 
       Aliases:
       #{Enum.map_join(@aliases, "\n", &format_alias/1)}
