@@ -45,12 +45,12 @@ defmodule Weather.Report.Hourly do
     |> Enum.take_every(opts.every_n_hours)
     |> Enum.take(1 + div(opts.hours, opts.every_n_hours))
     |> Enum.chunk_every(2, 1, [:empty])
-    |> Enum.map(&parse_hourly(&1, body["timezone"]))
+    |> Enum.map(&parse_hourly(&1, body["timezone"], opts))
   end
 
-  defp parse_hourly([current_data, next_data], timezone) do
+  defp parse_hourly([current_data, next_data], timezone, opts) do
     %{
-      time: time(current_data, timezone),
+      time: time(current_data, timezone, opts),
       temp: temp(current_data),
       arrow: arrow(current_data, next_data)
     }
@@ -78,10 +78,12 @@ defmodule Weather.Report.Hourly do
     end
   end
 
-  defp time(data, timezone) do
+  defp time(data, timezone, opts) do
+    format = if opts.twelve, do: "%-I%p", else: "%0H"
+
     data
     |> datetime(timezone)
-    |> Calendar.strftime("%-I%p")
+    |> Calendar.strftime(format)
   end
 
   defp datetime(data, timezone) do

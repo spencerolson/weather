@@ -19,6 +19,9 @@ defmodule Weather.Opts do
 
     * `:longitude` - a float representing the longitude of your location.
 
+    * `:twelve` - a boolean representing whether to use 12-hour time format for
+      the hourly report. Defaults to true. When false, 24-hour time format is used.
+
     * `:units` - a string representing the units of measurement. Default is
       "imperial" (Fahrenheit). Other options are "metric" (Celsius) and
       "standard" (Kelvin).
@@ -31,6 +34,7 @@ defmodule Weather.Opts do
           hours: integer(),
           latitude: float(),
           longitude: float(),
+          twelve: boolean(),
           units: String.t()
         }
 
@@ -41,10 +45,11 @@ defmodule Weather.Opts do
           hours: integer(),
           latitude: float(),
           longitude: float(),
+          twelve: boolean(),
           units: String.t()
         ]
 
-  @keys [:latitude, :longitude, :appid, :colors, :every_n_hours, :hours, :units]
+  @keys [:latitude, :longitude, :appid, :colors, :every_n_hours, :hours, :twelve, :units]
   @enforce_keys @keys
   defstruct @keys
 
@@ -59,6 +64,7 @@ defmodule Weather.Opts do
          {:ok, hours} <- hours(parsed_args),
          {:ok, every_n_hours} <- every_n_hours(hours, parsed_args),
          {:ok, colors} <- colors(parsed_args),
+         {:ok, twelve} <- twelve(parsed_args),
          {:ok, units} <- units(parsed_args) do
       %Weather.Opts{
         appid: api_key,
@@ -67,6 +73,7 @@ defmodule Weather.Opts do
         hours: hours,
         latitude: latitude,
         longitude: longitude,
+        twelve: twelve,
         units: units
       }
     else
@@ -88,9 +95,17 @@ defmodule Weather.Opts do
 
   defp colors(parsed_args) do
     case parsed_args[:colors] do
-      colors when colors in [true, false] -> {:ok, colors}
+      colors when is_boolean(colors) -> {:ok, colors}
       nil -> {:ok, true}
       colors -> {:error, "Invalid --colors. Expected a boolean. Received: #{inspect(colors)}"}
+    end
+  end
+
+  defp twelve(parsed_args) do
+    case parsed_args[:twelve] do
+      twelve when is_boolean(twelve) -> {:ok, twelve}
+      nil -> {:ok, true}
+      twelve -> {:error, "Invalid --twelve. Expected a boolean. Received: #{inspect(twelve)}"}
     end
   end
 
