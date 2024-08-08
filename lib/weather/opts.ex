@@ -52,14 +52,15 @@ defmodule Weather.Opts do
          {:ok, latitude} <- latitude(parsed_args),
          {:ok, longitude} <- longitude(parsed_args),
          {:ok, every_n_hours} <- every_n_hours(parsed_args),
-         {:ok, colors} <- colors(parsed_args) do
+         {:ok, colors} <- colors(parsed_args),
+         {:ok, units} <- units(parsed_args) do
       %Weather.Opts{
         appid: api_key,
         colors: colors,
         every_n_hours: every_n_hours,
         latitude: latitude,
         longitude: longitude,
-        units: parsed_args[:units] || "imperial"
+        units: units
       }
     else
       {:error, reason} ->
@@ -83,6 +84,29 @@ defmodule Weather.Opts do
       colors when colors in [true, false] -> {:ok, colors}
       nil -> {:ok, true}
       colors -> {:error, "Invalid --colors. Expected a boolean. Received: #{inspect(colors)}"}
+    end
+  end
+
+  defp units(parsed_args) do
+    case parsed_args[:units] do
+      "celsius" ->
+        {:ok, "metric"}
+
+      "fahrenheit" ->
+        {:ok, "imperial"}
+
+      "kelvin" ->
+        {:ok, "standard"}
+
+      units when units in ["imperial", "metric", "standard"] ->
+        {:ok, units}
+
+      nil ->
+        {:ok, "imperial"}
+
+      units ->
+        {:error,
+         "Invalid --units. Expected 'imperial', 'fahrenheit', 'metric', 'celsius', 'standard', or 'kelvin'. Received: #{inspect(units)}"}
     end
   end
 

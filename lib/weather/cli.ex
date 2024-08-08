@@ -27,7 +27,7 @@ defmodule Weather.CLI do
     longitude: "The longitude of the location for which to fetch weather data",
     api_key: "The OpenWeatherMap API key",
     units:
-      "The units in which to return the weather data. Options: 'metric' (celsius), 'imperial' (fahrenheit), 'standard' (kelvin)"
+      "The units in which to return the weather data. Options: 'metric' (celsius), 'celsius', 'imperial' (fahrenheit), 'fahrenheit', 'standard' (kelvin), 'kelvin'"
   }
 
   @doc """
