@@ -34,7 +34,7 @@ defmodule WeatherTest do
                Weather.get(context.opts)
     end
 
-    test "accepts an optional interval for the hourly report", context do
+    test "accepts an optional length for the hourly report", context do
       Req.Test.expect(Weather.API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
@@ -45,6 +45,30 @@ defmodule WeatherTest do
                :ok,
                " 76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°  ⮕   58°  ⬆   67°  ⬆   69°  ⬇   65°    \n 3PM      6PM      9PM      12AM     3AM      6AM      9AM      12PM     3PM    \n\n77° | scattered clouds | 37% humidity"
              } = Weather.get(%Weather.Opts{context.opts | hours: 24})
+    end
+
+    test "accepts an optional interval for the hourly report", context do
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
+      end)
+
+      assert {:ok,
+              " 76°  ⬇   64°  ⬇   58°    \n 3PM      9PM      3AM    \n\n77° | scattered clouds | 37% humidity"} =
+               Weather.get(%Weather.Opts{context.opts | every_n_hours: 6})
+    end
+
+    test "supports 24-hour format", context do
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
+      end)
+
+      assert {:ok,
+              " 76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°    \n 15       18       21       00       03     \n\n77° | scattered clouds | 37% humidity"} =
+               Weather.get(%Weather.Opts{context.opts | twelve: false})
     end
 
     test "displays alerts", context do
