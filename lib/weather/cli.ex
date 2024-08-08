@@ -10,19 +10,31 @@ defmodule Weather.CLI do
     help: :boolean,
     colors: :boolean,
     every: :integer,
+    hours: :integer,
     latitude: :float,
     longitude: :float,
     api_key: :string,
     units: :string
   ]
 
-  @aliases [h: :help, c: :colors, e: :every, t: :latitude, n: :longitude, a: :api_key, u: :units]
+  @aliases [
+    h: :help,
+    c: :colors,
+    e: :every,
+    r: :hours,
+    t: :latitude,
+    n: :longitude,
+    a: :api_key,
+    u: :units
+  ]
 
   @descriptions %{
     help: "Prints this help message",
-    colors: "Enables colorized output for the twelve hour report. Defaults to true",
+    colors: "Enables colorized output for the hourly report. Defaults to true",
     every:
-      "Sets the hour interval at which data is reported for the 12-hour report. Defaults to 3",
+      "Sets the hour interval at which data is reported for the hourly report. Defaults to 3",
+    hours:
+      "Sets the number of hours to report on for the hourly report. Defaults to 12. Max is 48",
     latitude: "The latitude of the location for which to fetch weather data",
     longitude: "The longitude of the location for which to fetch weather data",
     api_key: "The OpenWeatherMap API key",

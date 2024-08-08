@@ -7,10 +7,13 @@ defmodule Weather.Opts do
     * `:appid` - a string representing the OpenWeatherMap API key.
 
     * `:colors` - a boolean representing whether or not to colorize the output
-      of the 12-hour report. Defaults to true.
+      of the hourly report. Defaults to true.
 
     * `:every_n_hours` - an integer representing the hour interval at which data is
-      reported for the 12-hour report. Defaults to 3.
+      reported for the hourly report. Defaults to 3.
+
+    * `:hours` - an integer representing the number of hours to report on for the
+      hourly report. Defaults to 12. Max is 48.
 
     * `:latitude` - a float representing the latitude of your location.
 
@@ -25,6 +28,7 @@ defmodule Weather.Opts do
           appid: String.t(),
           colors: boolean(),
           every_n_hours: integer(),
+          hours: integer(),
           latitude: float(),
           longitude: float(),
           units: String.t()
@@ -34,12 +38,13 @@ defmodule Weather.Opts do
           api_key: String.t(),
           colors: boolean(),
           every: integer(),
+          hours: integer(),
           latitude: float(),
           longitude: float(),
           units: String.t()
         ]
 
-  @keys [:latitude, :longitude, :appid, :colors, :every_n_hours, :units]
+  @keys [:latitude, :longitude, :appid, :colors, :every_n_hours, :hours, :units]
   @enforce_keys @keys
   defstruct @keys
 
@@ -51,13 +56,15 @@ defmodule Weather.Opts do
     with {:ok, api_key} <- api_key(parsed_args),
          {:ok, latitude} <- latitude(parsed_args),
          {:ok, longitude} <- longitude(parsed_args),
-         {:ok, every_n_hours} <- every_n_hours(parsed_args),
+         {:ok, hours} <- hours(parsed_args),
+         {:ok, every_n_hours} <- every_n_hours(hours, parsed_args),
          {:ok, colors} <- colors(parsed_args),
          {:ok, units} <- units(parsed_args) do
       %Weather.Opts{
         appid: api_key,
         colors: colors,
         every_n_hours: every_n_hours,
+        hours: hours,
         latitude: latitude,
         longitude: longitude,
         units: units
@@ -110,9 +117,9 @@ defmodule Weather.Opts do
     end
   end
 
-  defp every_n_hours(parsed_args) do
+  defp every_n_hours(hours, parsed_args) do
     case parsed_args[:every] do
-      every when every >= 0 and every <= 12 ->
+      every when every >= 0 and every <= hours ->
         {:ok, every}
 
       nil ->
@@ -120,7 +127,21 @@ defmodule Weather.Opts do
 
       every ->
         {:error,
-         "Invalid --every. Expected an integer >= 0 and <= 12. Received: #{inspect(every)}"}
+         "Invalid --every. Expected an integer >= 0 and <= #{hours}. Received: #{inspect(every)}"}
+    end
+  end
+
+  defp hours(parsed_args) do
+    case parsed_args[:hours] do
+      hours when hours >= 0 and hours <= 48 ->
+        {:ok, hours}
+
+      nil ->
+        {:ok, 12}
+
+      hours ->
+        {:error,
+         "Invalid --hours. Expected an integer >= 0 and <= 48. Received: #{inspect(hours)}"}
     end
   end
 
