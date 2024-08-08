@@ -31,6 +31,7 @@ defmodule Weather.Colors do
   """
   @spec list_current() :: :ok
   def list_current do
+    IO.puts("Current Color Configuration (temps in fahrenheit)\n")
     opts = Weather.Opts.new(api_key: "123", latitude: 123.0, longitude: 234.0)
 
     Enum.each(
