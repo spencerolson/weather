@@ -6,7 +6,10 @@ defmodule Weather.Opts do
 
     * `:appid` - a string representing the OpenWeatherMap API key.
 
-    * `:every` - an integer representing the hour interval at which data is
+    * `:colors` - a boolean representing whether or not to colorize the output
+      of the 12-hour report. Defaults to true.
+
+    * `:every_n_hours` - an integer representing the hour interval at which data is
       reported for the 12-hour report. Defaults to 3.
 
     * `:latitude` - a float representing the latitude of your location.
@@ -20,6 +23,7 @@ defmodule Weather.Opts do
 
   @type t() :: %Weather.Opts{
           appid: String.t(),
+          colors: boolean(),
           every_n_hours: integer(),
           latitude: float(),
           longitude: float(),
@@ -28,13 +32,14 @@ defmodule Weather.Opts do
 
   @type parsed_args() :: [
           api_key: String.t(),
+          colors: boolean(),
           every: integer(),
           latitude: float(),
           longitude: float(),
           units: String.t()
         ]
 
-  @keys [:latitude, :longitude, :appid, :every_n_hours, :units]
+  @keys [:latitude, :longitude, :appid, :colors, :every_n_hours, :units]
   @enforce_keys @keys
   defstruct @keys
 
@@ -46,9 +51,11 @@ defmodule Weather.Opts do
     with {:ok, api_key} <- api_key(parsed_args),
          {:ok, latitude} <- latitude(parsed_args),
          {:ok, longitude} <- longitude(parsed_args),
-         {:ok, every_n_hours} <- every_n_hours(parsed_args) do
+         {:ok, every_n_hours} <- every_n_hours(parsed_args),
+         {:ok, colors} <- colors(parsed_args) do
       %Weather.Opts{
         appid: api_key,
+        colors: colors,
         every_n_hours: every_n_hours,
         latitude: latitude,
         longitude: longitude,
@@ -71,11 +78,25 @@ defmodule Weather.Opts do
     end
   end
 
+  defp colors(parsed_args) do
+    case parsed_args[:colors] do
+      colors when colors in [true, false] -> {:ok, colors}
+      nil -> {:ok, true}
+      colors -> {:error, "Invalid --colors. Expected a boolean. Received: #{inspect(colors)}"}
+    end
+  end
+
   defp every_n_hours(parsed_args) do
     case parsed_args[:every] do
-      every when every >= 0 and every <= 12 -> {:ok, every}
-      nil -> {:ok, 3}
-      every -> {:error, "Invalid --every. Expected an integer >= 0 and <= 12. Received: #{every}"}
+      every when every >= 0 and every <= 12 ->
+        {:ok, every}
+
+      nil ->
+        {:ok, 3}
+
+      every ->
+        {:error,
+         "Invalid --every. Expected an integer >= 0 and <= 12. Received: #{inspect(every)}"}
     end
   end
 

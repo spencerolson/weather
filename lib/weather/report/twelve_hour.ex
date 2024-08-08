@@ -25,7 +25,7 @@ defmodule Weather.Report.TwelveHour do
   end
 
   defp add_to_time_and_temp_reports(data, {times, temps}, opts) do
-    temp = " #{Colors.colorize(data[:temp], opts)}  #{data[:arrow]}  "
+    temp = display_temp(data, opts)
     time = " #{data[:time]}"
 
     {
@@ -33,6 +33,12 @@ defmodule Weather.Report.TwelveHour do
       temps <> temp
     }
   end
+
+  defp display_temp(data, %Weather.Opts{colors: true} = opts) do
+    " #{Colors.colorize(data[:temp], opts)}  #{data[:arrow]}  "
+  end
+
+  defp display_temp(data, _), do: " #{data[:temp]}°  #{data[:arrow]}  "
 
   defp parse_data(body, opts) do
     body["hourly"]
