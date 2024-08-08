@@ -55,12 +55,14 @@ defmodule Weather.MixProject do
          :ok <- run("mix test > /dev/null", "3. Run tests") do
       Mix.shell().cmd("git push")
     else
-      :error -> IO.puts("#{IO.ANSI.red()}Failed!#{IO.ANSI.reset()}")
+      :error -> [:red, "Failed!"] |> IO.ANSI.format() |> IO.puts()
     end
   end
 
   defp run(command, step) do
-    IO.puts("#{IO.ANSI.yellow()}#{step}#{IO.ANSI.reset()}\n$ #{command}\n")
+    [:yellow, step, :reset, "\n$ #{command}\n"]
+    |> IO.ANSI.format()
+    |> IO.puts()
 
     case Mix.shell().cmd(command) do
       0 -> :ok
