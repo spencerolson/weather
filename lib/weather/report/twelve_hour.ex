@@ -3,6 +3,8 @@ defmodule Weather.Report.TwelveHour do
   Generates a report for the next twelve hours, reporting every N hours (starting now, N defaulting to 3).
   """
 
+  alias Weather.Colors
+
   @doc """
   Generate a twelve-hour report.
   """
@@ -23,13 +25,11 @@ defmodule Weather.Report.TwelveHour do
   end
 
   defp add_to_time_and_temp_reports(data, {times, temps}) do
-    temp = " #{data[:temp]}  #{data[:arrow]}  "
+    temp = " #{Colors.colorize(data[:temp])}  #{data[:arrow]}  "
     time = " #{data[:time]}"
-    padding_length = max(0, String.length(temp) - String.length(time))
-    padding = String.duplicate(" ", padding_length)
 
     {
-      times <> time <> padding,
+      times <> time <> padding(temp, time),
       temps <> temp
     }
   end
@@ -45,9 +45,19 @@ defmodule Weather.Report.TwelveHour do
   defp parse_hourly([current_data, next_data], timezone) do
     %{
       time: time(current_data, timezone),
-      temp: "#{temp(current_data)}°",
+      temp: temp(current_data),
       arrow: arrow(current_data, next_data)
     }
+  end
+
+  defp padding(temp_str, time_str) do
+    temp_length =
+      temp_str
+      |> Colors.remove_ansi()
+      |> String.length()
+
+    length = max(0, temp_length - String.length(time_str))
+    String.duplicate(" ", length)
   end
 
   defp temp(data), do: round(data["temp"])

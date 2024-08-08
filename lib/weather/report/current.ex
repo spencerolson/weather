@@ -25,6 +25,7 @@ defmodule Weather.Report.Current do
 
   defp add_temp(report, body) do
     %{"current" => %{"temp" => temp}} = body
+
     ["#{round(temp)}°" | report]
   end
 
