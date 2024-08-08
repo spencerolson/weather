@@ -3,6 +3,8 @@ defmodule Weather.Report.TwelveHour do
   Generates a report for the next twelve hours, reporting every N hours (starting now, N defaulting to 3).
   """
 
+  @hours 12
+
   @doc """
   Generate a twelve-hour report.
   """
@@ -35,14 +37,22 @@ defmodule Weather.Report.TwelveHour do
   end
 
   defp parse_data(body, opts) do
-    body["hourly"]
-    |> Enum.take_every(opts.every_n_hours)
-    |> Enum.take(1 + div(12, opts.every_n_hours))
-    |> Enum.chunk_every(2, 1, [:empty])
-    |> Enum.map(&parse_hourly(&1, body["timezone"]))
+    for index <- 0..@hours, rem(index, opts.every_n_hours) == 0 do
+      current = Enum.at(body["hourly"], index)
+      next = next_element(index, body, opts)
+      parse_hourly(current, next, body["timezone"])
+    end
   end
 
-  defp parse_hourly([current_data, next_data], timezone) do
+  defp next_element(index, _, %Weather.Opts{every_n_hours: n}) when index + n > @hours do
+    :empty
+  end
+
+  defp next_element(index, body, opts) do
+    Enum.at(body["hourly"], index + opts.every_n_hours)
+  end
+
+  defp parse_hourly(current_data, next_data, timezone) do
     %{
       time: time(current_data, timezone),
       temp: "#{temp(current_data)}°",
