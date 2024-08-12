@@ -50,12 +50,14 @@ defmodule Weather.CLI do
   The main module function invoked by the escript.
   """
 
-  @spec main(args()) :: term()
+  @spec main(args()) :: :ok
   def main(args) do
     args
     |> parse_args()
     |> handle_request()
     |> print_response()
+
+    :ok
   end
 
   defp parse_args(args) do

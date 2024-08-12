@@ -42,6 +42,8 @@ defmodule Weather.Colors do
         |> IO.puts()
       end
     )
+
+    :ok
   end
 
   @doc """
