@@ -4,6 +4,7 @@ defmodule Weather.Report.Hourly do
   """
 
   alias Weather.Colors
+  alias Weather.DateUtils
 
   @doc """
   Generate an hourly report.
@@ -50,7 +51,7 @@ defmodule Weather.Report.Hourly do
 
   defp parse_hourly([current_data, next_data], timezone, opts) do
     %{
-      time: time(current_data, timezone, opts),
+      time: DateUtils.time_by_hour(current_data, timezone, opts),
       temp: temp(current_data),
       arrow: arrow(current_data, next_data)
     }
@@ -75,23 +76,6 @@ defmodule Weather.Report.Hourly do
       diff when diff > 0 -> "⬆"
       diff when diff < 0 -> "⬇"
       _ -> "⮕"
-    end
-  end
-
-  defp time(data, timezone, opts) do
-    format = if opts.twelve, do: "%-I%p", else: "%0H"
-
-    data
-    |> datetime(timezone)
-    |> Calendar.strftime(format)
-  end
-
-  defp datetime(data, timezone) do
-    without_zone = DateTime.from_unix!(data["dt"])
-
-    case DateTime.shift_zone(without_zone, timezone) do
-      {:ok, with_zone} -> with_zone
-      {:error, _} -> without_zone
     end
   end
 end
