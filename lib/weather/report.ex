@@ -10,7 +10,7 @@ defmodule Weather.Report do
   @separator "\n"
 
   @doc """
-  Create a new `Weather.Report` struct, applying defaults where necessary.
+  Create a comprehensive weather report composed of subreports.
   """
   @spec generate(Req.Response.t(), Weather.Opts.t()) :: String.t()
   def generate(resp, opts) do
