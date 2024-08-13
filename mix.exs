@@ -48,8 +48,13 @@ defmodule Weather.MixProject do
   defp package do
     [
       name: "weather",
+      description:
+        "A simple command line interface for checking the weather. Built as an Elixir escript, and powered by OpenWeatherMap.",
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/spencerolson/weather"}
+      links: %{
+        "GitHub" => "https://github.com/spencerolson/weather",
+        "OpenWeatherMap 'One Call API 3.0'" => "https://openweathermap.org/api/one-call-3"
+      }
     ]
   end
 
