@@ -83,7 +83,7 @@ defmodule Weather.Opts do
   end
 
   defp api_key(parsed_args) do
-    api_key = parsed_args[:api_key] || Application.get_env(:weather, :api_key)
+    api_key = parsed_args[:api_key] || System.get_env("OPENWEATHER_API_KEY")
 
     if api_key do
       {:ok, api_key}
@@ -161,7 +161,7 @@ defmodule Weather.Opts do
   end
 
   defp latitude(parsed_args) do
-    parse_latitude(parsed_args[:latitude] || Application.get_env(:weather, :lat))
+    parse_latitude(parsed_args[:latitude] || System.get_env("MY_HOME_LAT"))
   end
 
   defp parse_latitude(nil) do
@@ -184,7 +184,7 @@ defmodule Weather.Opts do
   end
 
   defp longitude(parsed_args) do
-    parse_longitude(parsed_args[:longitude] || Application.get_env(:weather, :lon))
+    parse_longitude(parsed_args[:longitude] || System.get_env("MY_HOME_LONG"))
   end
 
   defp parse_longitude(nil) do
