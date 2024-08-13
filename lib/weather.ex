@@ -13,7 +13,7 @@ defmodule Weather do
   """
   @spec get(Weather.Opts.t()) ::
           {:ok, String.t()} | {:error, String.t()}
-  def get(opts) do
+  def get(%Weather.Opts{} = opts \\ Weather.Opts.new()) do
     opts
     |> Weather.API.fetch_weather()
     |> handle_response(opts)
