@@ -9,9 +9,9 @@ defmodule Weather.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
+      package: package(),
       name: "Weather",
       source_url: "https://github.com/spencerolson/weather",
-      homepage_url: "https://github.com/spencerolson/weather",
       docs: [
         main: "Weather",
         logo: "priv/static/images/logo.png",
@@ -43,6 +43,14 @@ defmodule Weather.MixProject do
 
   defp aliases do
     [push: &push/1]
+  end
+
+  defp package do
+    [
+      name: "weather",
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/spencerolson/weather"}
+    ]
   end
 
   defp push(_args) do

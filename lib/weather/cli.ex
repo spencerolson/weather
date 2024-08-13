@@ -1,6 +1,6 @@
 defmodule Weather.CLI do
   @moduledoc """
-  A command-line interface for fetching weather data via the
+  Provides a command-line interface for fetching weather data via the
   OpenWeatherMap API. This module is intended to be invoked as an escript.
   """
 
@@ -49,7 +49,6 @@ defmodule Weather.CLI do
   @doc """
   The main module function invoked by the escript.
   """
-
   @spec main(args()) :: :ok
   def main(args) do
     args

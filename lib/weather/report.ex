@@ -1,6 +1,6 @@
 defmodule Weather.Report do
   @moduledoc """
-  A module for generating weather reports.
+  Generates a comprehensive weather report composed of subreports.
   """
 
   alias Weather.Report.Alerts
