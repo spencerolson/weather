@@ -27,7 +27,7 @@ defmodule Weather.Report.Hourly do
 
   defp add_to_time_and_temp_reports(data, {times, temps}, opts) do
     temp = display_temp(data, opts)
-    time = " #{data[:time]}"
+    time = "#{data[:time]}"
 
     {
       times <> time <> padding(temp, time),
@@ -36,10 +36,10 @@ defmodule Weather.Report.Hourly do
   end
 
   defp display_temp(data, %Weather.Opts{colors: true} = opts) do
-    " #{Colors.colorize(data[:temp], opts)}  #{data[:arrow]}  "
+    "#{Colors.colorize(data[:temp], opts)}  #{data[:arrow]}   "
   end
 
-  defp display_temp(data, _), do: " #{data[:temp]}°  #{data[:arrow]}  "
+  defp display_temp(data, _), do: "#{data[:temp]}°  #{data[:arrow]}   "
 
   defp parse_data(body, opts) do
     body["hourly"]
