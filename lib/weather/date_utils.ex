@@ -1,12 +1,18 @@
 defmodule Weather.DateUtils do
   @moduledoc """
-  Date utilities
+  Provides date display utilities.
   """
 
+  @doc """
+  Returns the time specific to the hour, displayed in 12-hour or 24-hour format.
+  """
   @spec time_by_hour(map(), String.t(), Weather.Opts.t()) :: String.t()
   def time_by_hour(data, timezone, %Weather.Opts{twelve: true}), do: time(data, timezone, "%-I%p")
   def time_by_hour(data, timezone, _), do: time(data, timezone, "%0H")
 
+  @doc """
+  Returns the time specific to the minute, displayed in 12-hour or 24-hour format.
+  """
   @spec time_by_minute(map(), String.t(), Weather.Opts.t()) :: String.t()
   def time_by_minute(data, timezone, %Weather.Opts{twelve: true}),
     do: time(data, timezone, "%-I:%0M%p")

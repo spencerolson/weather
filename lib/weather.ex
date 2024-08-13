@@ -1,6 +1,6 @@
 defmodule Weather do
   @moduledoc """
-  Get and display weather information.
+  Gets and displays weather information.
   > ### API Key Needed {: .info}
   >
   > In order to use `Weather`, you'll need to create an account at [OpenWeatherMap](https://openweathermap.org/) and get an API key for the [One Call API 3.0](https://openweathermap.org/api/one-call-3) service.
@@ -9,7 +9,7 @@ defmodule Weather do
   """
 
   @doc """
-  Fetch weather from the OpenWeatherMap API.
+  Fetches weather from the OpenWeatherMap API.
   """
   @spec get(Weather.Opts.t()) ::
           {:ok, String.t()} | {:error, String.t()}

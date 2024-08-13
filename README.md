@@ -4,4 +4,4 @@ A command-line interface for fetching weather data via the OpenWeatherMap API.
 
 ## Installation
 
-TODO
+Coming soon!

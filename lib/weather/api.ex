@@ -1,10 +1,13 @@
 defmodule Weather.API do
   @moduledoc """
-  A module for fetching weather data from the OpenWeatherMap API.
+  Fetches weather data from the OpenWeatherMap API.
   """
 
   @url "https://api.openweathermap.org/data/3.0/onecall"
 
+  @doc """
+  Fetches weather data from the OpenWeatherMap API.
+  """
   @spec fetch_weather(Weather.Opts.t()) :: {:ok, Req.Response.t()} | {:error, Exception.t()}
   def fetch_weather(%Weather.Opts{} = opts) do
     :weather
