@@ -14,7 +14,7 @@ defmodule Weather.Report do
   Create a comprehensive weather report composed of subreports.
   """
   @spec generate(Req.Response.t(), Weather.Opts.t()) :: String.t()
-  def generate(resp, opts) do
+  def generate(resp, %Weather.Opts{} = opts \\ Weather.Opts.new()) do
     {[], resp.body, opts}
     |> add_line()
     |> Alerts.generate()

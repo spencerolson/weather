@@ -9,7 +9,7 @@ defmodule Weather.Report.Alerts do
   Generate a report for any active alerts.
   """
   @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
-  def generate(weather), do: add_alerts(weather)
+  def generate({report, body, %Weather.Opts{} = opts}), do: add_alerts({report, body, opts})
 
   defp add_alerts({report, %{"alerts" => alerts} = body, opts}) do
     report = ["" | report]

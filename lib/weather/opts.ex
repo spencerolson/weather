@@ -57,7 +57,7 @@ defmodule Weather.Opts do
   Create a new `Weather.Opts` struct, applying defaults where necessary.
   """
   @spec new(parsed_args()) :: Weather.Opts.t()
-  def new(parsed_args) do
+  def new(parsed_args \\ []) do
     with {:ok, api_key} <- api_key(parsed_args),
          {:ok, latitude} <- latitude(parsed_args),
          {:ok, longitude} <- longitude(parsed_args),

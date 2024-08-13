@@ -10,7 +10,7 @@ defmodule Weather.Report.Hourly do
   Generate an hourly report.
   """
   @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body, opts}) do
+  def generate({report, body, %Weather.Opts{} = opts}) do
     report
     |> add_hourly_weather(body, opts)
     |> then(&{&1, body, opts})
