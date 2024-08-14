@@ -12,6 +12,10 @@ defmodule Weather.Opts do
     * `:every_n_hours` - an integer representing the hour interval at which data is
       reported for the hourly report. Defaults to 3.
 
+    * `:hide_alerts` - a boolean representing whether to hide weather alerts, even
+      when alerts are available. Defaults to false, which shows alerts if there
+      are any available.
+
     * `:hours` - an integer representing the number of hours to report on for the
       hourly report. Defaults to 12. Max is 48.
 
@@ -34,6 +38,7 @@ defmodule Weather.Opts do
           appid: String.t(),
           colors: boolean(),
           every_n_hours: integer(),
+          hide_alerts: boolean(),
           hours: integer(),
           latitude: float(),
           longitude: float(),
@@ -46,6 +51,7 @@ defmodule Weather.Opts do
           api_key: String.t(),
           colors: boolean(),
           every: integer(),
+          hide_alerts: boolean(),
           hours: integer(),
           latitude: float(),
           longitude: float(),
@@ -54,7 +60,7 @@ defmodule Weather.Opts do
           units: String.t()
         ]
 
-  @keys [:latitude, :longitude, :appid, :colors, :every_n_hours, :hours, :test, :twelve, :units]
+  @keys [:latitude, :longitude, :appid, :colors, :every_n_hours, :hide_alerts, :hours, :test, :twelve, :units]
   @enforce_keys @keys
   defstruct @keys
 
@@ -71,6 +77,7 @@ defmodule Weather.Opts do
          {:ok, api_key} <- api_key(parsed_args, test),
          {:ok, latitude} <- latitude(parsed_args, test),
          {:ok, longitude} <- longitude(parsed_args, test),
+         {:ok, hide_alerts} <- hide_alerts(parsed_args),
          {:ok, hours} <- hours(parsed_args),
          {:ok, every_n_hours} <- every_n_hours(hours, parsed_args),
          {:ok, colors} <- colors(parsed_args),
@@ -80,6 +87,7 @@ defmodule Weather.Opts do
         appid: api_key,
         colors: colors,
         every_n_hours: every_n_hours,
+        hide_alerts: hide_alerts,
         hours: hours,
         latitude: latitude,
         longitude: longitude,
@@ -163,6 +171,14 @@ defmodule Weather.Opts do
       every ->
         {:error,
          "Invalid --every. Expected an integer >= 0 and <= #{hours}. Received: #{inspect(every)}"}
+    end
+  end
+
+  defp hide_alerts(parsed_args) do
+    case parsed_args[:hide_alerts] do
+      hide_alerts when is_boolean(hide_alerts) -> {:ok, hide_alerts}
+      nil -> {:ok, false}
+      hide_alerts -> {:error, "Invalid --hide-alerts. Expected a boolean. Received: #{inspect(hide_alerts)}"}
     end
   end
 
