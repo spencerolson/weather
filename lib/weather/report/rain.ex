@@ -24,7 +24,7 @@ defmodule Weather.Report.Rain do
       |> build_report()
       |> make_pretty(body, opts)
       |> Enum.join("\n")
-      |> then(&[&1, "" | report])
+      |> then(&[&1 | report])
     else
       report
     end

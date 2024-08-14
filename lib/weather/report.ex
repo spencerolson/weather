@@ -8,7 +8,8 @@ defmodule Weather.Report do
   alias Weather.Report.Hourly
   alias Weather.Report.Rain
 
-  @separator "\n"
+  @padding "\n"
+  @separator "\n\n"
 
   @doc """
   Create a comprehensive weather report composed of subreports.
@@ -16,16 +17,14 @@ defmodule Weather.Report do
   @spec generate(Req.Response.t(), Weather.Opts.t()) :: String.t()
   def generate(resp, %Weather.Opts{} = opts \\ Weather.Opts.new()) do
     {[], resp.body, opts}
-    |> add_line()
     |> Alerts.generate()
     |> Current.generate()
     |> Hourly.generate()
     |> Rain.generate()
-    |> add_line()
     |> aggregate_report()
+    |> add_padding()
   end
 
-  defp add_line({report, body, opts}), do: {["" | report], body, opts}
-
   defp aggregate_report({report, _body, _opts}), do: Enum.join(report, @separator)
+  defp add_padding(report), do: @padding <> report <> @padding
 end

@@ -12,7 +12,6 @@ defmodule Weather.Report.Alerts do
   def generate({report, body, %Weather.Opts{} = opts}), do: add_alerts({report, body, opts})
 
   defp add_alerts({report, %{"alerts" => alerts} = body, opts}) do
-    report = ["" | report]
     alerts_summary = Enum.map_join(alerts, @separator, &alert_summary/1)
 
     {
