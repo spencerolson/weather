@@ -1,5 +1,8 @@
 # Changelog for `Weather`
 
+## 0.1.5
+1. add --test option which lets you try things out without an API key, latitude, or longitude set ([2c27364](https://github.com/spencerolson/weather/commit/2c273645b16edf6f2478210e9af211726de0a8c4))
+
 ## 0.1.4
 1. spruce up readme with buttons and a demo gif
 
