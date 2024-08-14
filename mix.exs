@@ -53,7 +53,7 @@ defmodule Weather.MixProject do
     [
       name: "weather",
       description:
-        "A simple command line interface for checking the weather. Built as an Elixir escript, and powered by OpenWeatherMap.",
+        "An Elixir library and command-line interface for fetching weather data from the OpenWeatherMap API.",
       licenses: ["MIT"],
       links: %{
         "GitHub" => "https://github.com/spencerolson/weather",
