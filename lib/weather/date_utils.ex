@@ -6,27 +6,35 @@ defmodule Weather.DateUtils do
   @doc """
   Returns the time specific to the hour, displayed in 12-hour or 24-hour format.
   """
-  @spec time_by_hour(map(), String.t(), Weather.Opts.t()) :: String.t()
-  def time_by_hour(data, timezone, %Weather.Opts{twelve: true}), do: time(data, timezone, "%-I%p")
-  def time_by_hour(data, timezone, _), do: time(data, timezone, "%0H")
+  @spec time_by_hour(integer(), String.t(), Weather.Opts.t()) :: String.t()
+  def time_by_hour(unix_time, timezone, %Weather.Opts{twelve: true}) when is_integer(unix_time) do
+    time(unix_time, timezone, "%-I%p")
+  end
+
+  def time_by_hour(unix_time, timezone, _) when is_integer(unix_time) do
+    time(unix_time, timezone, "%0H")
+  end
 
   @doc """
   Returns the time specific to the minute, displayed in 12-hour or 24-hour format.
   """
-  @spec time_by_minute(map(), String.t(), Weather.Opts.t()) :: String.t()
-  def time_by_minute(data, timezone, %Weather.Opts{twelve: true}),
-    do: time(data, timezone, "%-I:%0M%p")
+  @spec time_by_minute(integer(), String.t(), Weather.Opts.t()) :: String.t()
+  def time_by_minute(unix_time, timezone, %Weather.Opts{twelve: true} = _opts) when is_integer(unix_time) do
+    time(unix_time, timezone, "%-I:%0M%p")
+  end
 
-  def time_by_minute(data, timezone, _), do: time(data, timezone, "%0H:%0M")
+  def time_by_minute(unix_time, timezone, _) when is_integer(unix_time) do
+    time(unix_time, timezone, "%0H:%0M")
+  end
 
-  defp time(data, timezone, format) do
-    data
+  defp time(unix_time, timezone, format) do
+    unix_time
     |> datetime(timezone)
     |> Calendar.strftime(format)
   end
 
-  defp datetime(data, timezone) do
-    without_zone = DateTime.from_unix!(data["dt"])
+  defp datetime(unix_time, timezone) do
+    without_zone = DateTime.from_unix!(unix_time)
 
     case DateTime.shift_zone(without_zone, timezone) do
       {:ok, with_zone} -> with_zone

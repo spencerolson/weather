@@ -75,15 +75,11 @@ defmodule Weather.Report.Rain do
   end
 
   defp add_title(report, body, opts) do
-    start_time =
-      body["minutely"]
-      |> hd()
-      |> then(&DateUtils.time_by_minute(&1, body["timezone"], opts))
+    %{"minutely" => [%{"dt" => start_dt} | _]} = body
+    [%{"dt" => end_dt} | _] = Enum.reverse(body["minutely"])
 
-    end_time =
-      body["minutely"]
-      |> Enum.at(-1)
-      |> then(&DateUtils.time_by_minute(&1, body["timezone"], opts))
+    start_time = DateUtils.time_by_minute(start_dt, body["timezone"], opts)
+    end_time = DateUtils.time_by_minute(end_dt, body["timezone"], opts)
 
     ["Rain (#{start_time} - #{end_time})", "" | report]
   end

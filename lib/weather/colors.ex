@@ -4,17 +4,26 @@ defmodule Weather.Colors do
   """
 
   @doc """
-  Formats and colorizes a given temperature.
+  Colorizes a string according to a color code.
   """
-  @spec colorize(number, Weather.Opts.t()) :: String.t()
-  def colorize(temp, %Weather.Opts{} = opts \\ Weather.Opts.new()) do
+  @spec colorize(String.t(), integer()) :: String.t()
+  def colorize(string, code) when is_integer(code) do
+    code
+    |> IO.ANSI.color()
+    |> then(&IO.ANSI.format([&1, string, IO.ANSI.reset()]))
+    |> List.to_string()
+  end
+
+  @doc """
+  Formats and colorizes a temperature.
+  """
+  @spec colorize_temp(integer(), Weather.Opts.t()) :: String.t()
+  def colorize_temp(temp, %Weather.Opts{} = opts \\ Weather.Opts.new()) when is_integer(temp) do
     temp
     |> to_fahrenheit(opts)
     |> round()
     |> color_code()
-    |> IO.ANSI.color()
-    |> then(&IO.ANSI.format([&1, "#{temp}°", IO.ANSI.reset()]))
-    |> List.to_string()
+    |> then(&colorize("#{temp}°", &1))
   end
 
   @doc """
@@ -37,7 +46,7 @@ defmodule Weather.Colors do
       [-10, 0, 33, 40, 50, 60, 70, 80, 90, 100],
       fn temp ->
         temp
-        |> colorize(opts)
+        |> colorize_temp(opts)
         |> IO.puts()
       end
     )
