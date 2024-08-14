@@ -15,6 +15,7 @@ defmodule Weather.CLI do
     longitude: :float,
     api_key: :string,
     units: :string,
+    test: :string,
     twelve: :boolean
   ]
 
@@ -27,6 +28,7 @@ defmodule Weather.CLI do
     n: :longitude,
     a: :api_key,
     u: :units,
+    s: :test,
     w: :twelve
   ]
 
@@ -40,10 +42,11 @@ defmodule Weather.CLI do
     latitude: "The latitude of the location for which to fetch weather data",
     longitude: "The longitude of the location for which to fetch weather data",
     api_key: "The OpenWeatherMap API key",
+    test: "Fake weather data for testing purposes. Options: \"clear\", \"storm\"",
     twelve:
       "Enables 12-hour time format for the hourly report. Defaults to true. When false, 24-hour time format is used",
     units:
-      "The units in which to return the weather data. Options: 'metric' (celsius), 'celsius', 'imperial' (fahrenheit), 'fahrenheit', 'standard' (kelvin), 'kelvin'"
+      "The units in which to return the weather data. Options: \"metric\" (celsius), \"celsius\", \"imperial\" (fahrenheit), \"fahrenheit\", \"standard\" (kelvin), \"kelvin\""
   }
 
   @doc """

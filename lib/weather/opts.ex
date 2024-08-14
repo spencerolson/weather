@@ -19,6 +19,9 @@ defmodule Weather.Opts do
 
     * `:longitude` - a float representing the longitude of your location.
 
+    * `:test` - a string representing the type of fake weather data to return for
+      testing purposes. Options are "clear" and "storm".
+
     * `:twelve` - a boolean representing whether to use 12-hour time format for
       the hourly report. Defaults to true. When false, 24-hour time format is used.
 
@@ -34,6 +37,7 @@ defmodule Weather.Opts do
           hours: integer(),
           latitude: float(),
           longitude: float(),
+          test: String.t(),
           twelve: boolean(),
           units: String.t()
         }
@@ -45,22 +49,28 @@ defmodule Weather.Opts do
           hours: integer(),
           latitude: float(),
           longitude: float(),
+          test: String.t(),
           twelve: boolean(),
           units: String.t()
         ]
 
-  @keys [:latitude, :longitude, :appid, :colors, :every_n_hours, :hours, :twelve, :units]
+  @keys [:latitude, :longitude, :appid, :colors, :every_n_hours, :hours, :test, :twelve, :units]
   @enforce_keys @keys
   defstruct @keys
+
+  @fake_api_key "z9c141l98zx9b2z29fn98bi16m1g9f21"
+  @fake_latitude 42.3871
+  @fake_longitude -87.9562
 
   @doc """
   Create a new `Weather.Opts` struct, applying defaults where necessary.
   """
   @spec new(parsed_args()) :: Weather.Opts.t()
   def new(parsed_args \\ []) do
-    with {:ok, api_key} <- api_key(parsed_args),
-         {:ok, latitude} <- latitude(parsed_args),
-         {:ok, longitude} <- longitude(parsed_args),
+    with {:ok, test} <- test(parsed_args),
+         {:ok, api_key} <- api_key(parsed_args, test),
+         {:ok, latitude} <- latitude(parsed_args, test),
+         {:ok, longitude} <- longitude(parsed_args, test),
          {:ok, hours} <- hours(parsed_args),
          {:ok, every_n_hours} <- every_n_hours(hours, parsed_args),
          {:ok, colors} <- colors(parsed_args),
@@ -73,6 +83,7 @@ defmodule Weather.Opts do
         hours: hours,
         latitude: latitude,
         longitude: longitude,
+        test: test,
         twelve: twelve,
         units: units
       }
@@ -82,7 +93,9 @@ defmodule Weather.Opts do
     end
   end
 
-  defp api_key(parsed_args) do
+  defp api_key(_, test) when test != nil, do: {:ok, @fake_api_key}
+
+  defp api_key(parsed_args, _) do
     api_key = parsed_args[:api_key] || System.get_env("OPENWEATHER_API_KEY")
 
     if api_key do
@@ -98,6 +111,13 @@ defmodule Weather.Opts do
       colors when is_boolean(colors) -> {:ok, colors}
       nil -> {:ok, true}
       colors -> {:error, "Invalid --colors. Expected a boolean. Received: #{inspect(colors)}"}
+    end
+  end
+
+  defp test(parsed_args) do
+    case parsed_args[:test] do
+      val when val in [nil, "clear", "storm"] -> {:ok, val}
+      val -> {:error, "Invalid --test. Expected \"clear\" or \"storm\". Received: #{inspect(val)}"}
     end
   end
 
@@ -128,7 +148,7 @@ defmodule Weather.Opts do
 
       units ->
         {:error,
-         "Invalid --units. Expected 'imperial', 'fahrenheit', 'metric', 'celsius', 'standard', or 'kelvin'. Received: #{inspect(units)}"}
+         "Invalid --units. Expected \"imperial\", \"fahrenheit\", \"metric\", \"celsius\", \"standard\", or \"kelvin\". Received: #{inspect(units)}"}
     end
   end
 
@@ -160,7 +180,9 @@ defmodule Weather.Opts do
     end
   end
 
-  defp latitude(parsed_args) do
+  defp latitude(_, test) when test != nil, do: {:ok, @fake_latitude}
+
+  defp latitude(parsed_args, _) do
     parse_latitude(parsed_args[:latitude] || System.get_env("MY_HOME_LAT"))
   end
 
@@ -183,7 +205,9 @@ defmodule Weather.Opts do
     {:ok, latitude}
   end
 
-  defp longitude(parsed_args) do
+  defp longitude(_, test) when test != nil, do: {:ok, @fake_longitude}
+
+  defp longitude(parsed_args, _) do
     parse_longitude(parsed_args[:longitude] || System.get_env("MY_HOME_LONG"))
   end
 

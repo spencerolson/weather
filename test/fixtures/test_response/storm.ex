@@ -1521,8 +1521,8 @@ defmodule Weather.Fixtures.TestResponse.Storm do
           "wind_speed" => 5.21
         }
       ],
-      "lat" => 40.0978,
-      "lon" => -92.4169,
+      "lat" => 42.3871,
+      "lon" => -87.9562,
       "minutely" => [
         %{"dt" => 1_719_970_080, "precipitation" => 34.5082},
         %{"dt" => 1_719_970_140, "precipitation" => 35.4856},

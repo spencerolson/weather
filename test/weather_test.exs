@@ -199,5 +199,10 @@ defmodule WeatherTest do
              } =
                Weather.get(%Weather.Opts{context.opts | units: "standard", colors: true})
     end
+
+    test "supports returning test data, which doesn't require an API key, latitude, or longitude to be present" do
+      opts = Weather.Opts.new(test: "clear", colors: false)
+      assert {:ok, "\n76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°     \n3PM      6PM      9PM      12AM     3AM     \n\n77° | scattered clouds | 37% humidity\n"} = Weather.get(opts)
+    end
   end
 end
