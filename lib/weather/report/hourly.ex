@@ -38,7 +38,7 @@ defmodule Weather.Report.Hourly do
   end
 
   defp display_temp(data, %Weather.Opts{colors: true} = opts) do
-    "#{Colors.colorize(data[:temp], opts)}  #{data[:arrow]}   "
+    "#{Colors.colorize_temp(data[:temp], opts)}  #{data[:arrow]}   "
   end
 
   defp display_temp(data, _), do: "#{data[:temp]}°  #{data[:arrow]}   "
@@ -53,7 +53,7 @@ defmodule Weather.Report.Hourly do
 
   defp parse_hourly([current_data, next_data], timezone, opts) do
     %{
-      time: DateUtils.time_by_hour(current_data, timezone, opts),
+      time: DateUtils.time_by_hour(current_data["dt"], timezone, opts),
       temp: temp(current_data),
       arrow: arrow(current_data, next_data)
     }

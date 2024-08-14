@@ -3,7 +3,12 @@ defmodule Weather.Report.Alerts do
   Generates a report for any active alerts.
   """
 
-  @separator "\n"
+  alias Weather.Colors
+  alias Weather.DateUtils
+
+  @alerts_separator "\n\n"
+  @title_separator "\n"
+  @red_ansi_code 9
 
   @doc """
   Generate a report for any active alerts.
@@ -12,56 +17,24 @@ defmodule Weather.Report.Alerts do
   def generate({report, body, %Weather.Opts{} = opts}), do: add_alerts({report, body, opts})
 
   defp add_alerts({report, %{"alerts" => alerts} = body, opts}) do
-    alerts_summary = Enum.map_join(alerts, @separator, &alert_summary/1)
-
-    {
-      [alerts_summary | report],
-      body,
-      opts
-    }
+    alerts
+    |> Enum.map_join(@alerts_separator, &alert_summary(&1, body, opts))
+    |> then(&{[&1 | report], body, opts})
   end
 
   defp add_alerts(weather), do: weather
 
-  defp alert_title(alert) do
-    alert["end"]
-    |> DateTime.from_unix!()
-    |> DateTime.diff(DateTime.utc_now(), :minute)
-    |> then(&"#{String.upcase(alert["event"])} (#{time_remaining(&1)} remaining)")
+  defp alert_title(alert, body, opts) do
+    title = String.upcase(alert["event"])
+    starting = DateUtils.time_by_minute(alert["start"], body["timezone"], opts)
+    ending = DateUtils.time_by_minute(alert["end"], body["timezone"], opts)
+    decorate_title("#{title} (#{starting} - #{ending})", opts)
   end
 
-  defp alert_summary(alert) do
-    alert_title(alert) <> @separator <> alert["description"]
-  end
+  defp decorate_title(title, %Weather.Opts{colors: true}), do: Colors.colorize(title, @red_ansi_code)
+  defp decorate_title(title, _), do: title
 
-  defp time_remaining(minutes) do
-    minutes
-    |> calc_time_remaining([])
-    |> Enum.reverse()
-    |> Enum.join(" ")
-  end
-
-  defp calc_time_remaining(0, []), do: ["0m"]
-
-  defp calc_time_remaining(0, result), do: result
-
-  defp calc_time_remaining(minutes, result) when minutes < 60, do: ["#{minutes}m" | result]
-
-  defp calc_time_remaining(minutes, result) when minutes >= 60 and minutes < 1440 do
-    hours = div(minutes, 60)
-
-    calc_time_remaining(
-      rem(minutes, 60),
-      ["#{hours}h" | result]
-    )
-  end
-
-  defp calc_time_remaining(minutes, result) when minutes >= 1440 do
-    days = div(minutes, 1440)
-
-    calc_time_remaining(
-      rem(minutes, 1440),
-      ["#{days}d" | result]
-    )
+  defp alert_summary(alert, body, opts) do
+    alert_title(alert, body, opts) <> @title_separator <> alert["description"]
   end
 end
