@@ -1,5 +1,8 @@
 # Changelog for `Weather`
 
+## 0.1.4
+1. spruce up readme with buttons and a demo gif
+
 ## 0.1.3
 1. improve pattern matching specificity for public functions ([540a317](https://github.com/spencerolson/weather/commit/540a317a946af9f97dc90de9aaffb615c4b64fd8))
 2. change order of versions in `CHANGELOG.md`, whoops ([de71d0b](https://github.com/spencerolson/weather/commit/de71d0b8d973039988515d551dfa4e303799d2ee))
