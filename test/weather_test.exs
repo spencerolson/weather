@@ -84,6 +84,19 @@ defmodule WeatherTest do
              } = Weather.get(context.opts)
     end
 
+    test "optionally hides alerts", context do
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Storm.response()))
+      end)
+
+      assert {
+               :ok,
+               "\nRain (8:28PM - 9:27PM)\n\n[                                                            ]\n[.........       ...............     ........................]\n[............................................................]\n[............................................................]\n[............................................................]\n[............................................................]\n                +              +              +               \n\n77°  ⬇   73°  ⬇   70°  ⬇   68°  ⬆   72°     \n8PM      11PM     2AM      5AM      8AM     \n\n77° | very heavy rain | 76% humidity\n"
+             } = Weather.get(%Weather.Opts{context.opts | hide_alerts: true})
+    end
+
     test "colorizes alerts", context do
       Req.Test.expect(Weather.API, fn conn ->
         conn

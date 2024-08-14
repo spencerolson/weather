@@ -8,6 +8,7 @@ defmodule Weather.CLI do
 
   @switches [
     help: :boolean,
+    hide_alerts: :boolean,
     colors: :boolean,
     every: :integer,
     hours: :integer,
@@ -21,6 +22,7 @@ defmodule Weather.CLI do
 
   @aliases [
     h: :help,
+    l: :hide_alerts,
     c: :colors,
     e: :every,
     r: :hours,
@@ -34,6 +36,7 @@ defmodule Weather.CLI do
 
   @descriptions %{
     help: "Prints this help message",
+    hide_alerts: "Hides weather alerts, even when alerts are available. Default is false, which shows alerts if there are any available",
     colors: "Enables colorized output for the hourly report. Defaults to true",
     every:
       "Sets the hour interval at which data is reported for the hourly report. Defaults to 3",
