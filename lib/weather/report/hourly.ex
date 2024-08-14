@@ -6,6 +6,8 @@ defmodule Weather.Report.Hourly do
   alias Weather.Colors
   alias Weather.DateUtils
 
+  @separator "\n"
+
   @doc """
   Generate an hourly report.
   """
@@ -22,7 +24,7 @@ defmodule Weather.Report.Hourly do
       |> parse_data(opts)
       |> Enum.reduce({"", ""}, fn data, acc -> add_to_time_and_temp_reports(data, acc, opts) end)
 
-    [temps, times, "" | report]
+    [temps <> @separator <> times | report]
   end
 
   defp add_to_time_and_temp_reports(data, {times, temps}, opts) do
