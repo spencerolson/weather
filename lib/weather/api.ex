@@ -3,13 +3,16 @@ defmodule Weather.API do
   Fetches weather data from the OpenWeatherMap API.
   """
 
+  alias Weather.Fixtures.TestResponse.Clear
+  alias Weather.Fixtures.TestResponse.Storm
+
   @url "https://api.openweathermap.org/data/3.0/onecall"
 
   @doc """
   Fetches weather data from the OpenWeatherMap API.
   """
   @spec fetch_weather(Weather.Opts.t()) :: {:ok, Req.Response.t()} | {:error, Exception.t()}
-  def fetch_weather(%Weather.Opts{} = opts) do
+  def fetch_weather(%Weather.Opts{test: nil} = opts) do
     :weather
     |> Application.get_env(:finch_config)
     |> Req.default_options()
@@ -18,6 +21,11 @@ defmodule Weather.API do
     |> req_opts()
     |> Req.request()
   end
+
+  def fetch_weather(%Weather.Opts{test: test}), do: {:ok, Req.Response.new(status: 200, body: fake_body(test))}
+
+  defp fake_body("clear"), do: Clear.response()
+  defp fake_body("storm"), do: Storm.response()
 
   defp req_opts(opts) do
     Keyword.merge(
