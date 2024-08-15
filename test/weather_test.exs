@@ -2,11 +2,11 @@ defmodule WeatherTest do
   @moduledoc nodoc: true
   use ExUnit.Case, async: true
 
-  alias Weather.Fixtures.TestResponse.BadRequest
-  alias Weather.Fixtures.TestResponse.Clear
-  alias Weather.Fixtures.TestResponse.Rain
-  alias Weather.Fixtures.TestResponse.Storm
-  alias Weather.Fixtures.TestResponse.Unauthorized
+  alias Weather.TestResponse.BadRequest
+  alias Weather.TestResponse.Clear
+  alias Weather.TestResponse.Rain
+  alias Weather.TestResponse.Storm
+  alias Weather.TestResponse.Unauthorized
 
   doctest Weather
 

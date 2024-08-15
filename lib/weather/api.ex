@@ -3,9 +3,9 @@ defmodule Weather.API do
   Fetches weather data from the OpenWeatherMap API.
   """
 
-  alias Weather.Fixtures.TestResponse.Clear
-  alias Weather.Fixtures.TestResponse.Rain
-  alias Weather.Fixtures.TestResponse.Storm
+  alias Weather.TestResponse.Clear
+  alias Weather.TestResponse.Rain
+  alias Weather.TestResponse.Storm
 
   @url "https://api.openweathermap.org/data/3.0/onecall"
 

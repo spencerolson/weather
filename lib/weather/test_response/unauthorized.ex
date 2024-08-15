@@ -1,4 +1,4 @@
-defmodule Weather.Fixtures.TestResponse.Unauthorized do
+defmodule Weather.TestResponse.Unauthorized do
   @moduledoc false
 
   @spec response() :: map()
