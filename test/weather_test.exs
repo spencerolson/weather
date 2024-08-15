@@ -92,7 +92,7 @@ defmodule WeatherTest do
                """
 
                76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°
-               15       18       21       00       03
+               15       18       21       00       03\s
 
                77° | scattered clouds | 37% humidity
                """
@@ -480,7 +480,7 @@ defmodule WeatherTest do
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                66°  ⬇   65°  ⬆   67°  ⬆   73°  ⬇   71°
-               07       10       13       16       19
+               07       10       13       16       19\s
 
                66° | moderate rain | 92% humidity
                """
