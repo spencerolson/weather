@@ -31,7 +31,7 @@ defmodule Weather.Report.Rain do
   end
 
   defp rain_forecasted?(body) do
-    Enum.any?(body["minutely"], fn minutely -> minutely["precipitation"] > 0 end)
+    Enum.any?(body["minutely"], fn %{"precipitation" => mm_h} -> mm_h > 0 end)
   end
 
   defp build_report(body) do
