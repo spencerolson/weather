@@ -60,7 +60,18 @@ defmodule Weather.Opts do
           units: String.t()
         ]
 
-  @keys [:latitude, :longitude, :appid, :colors, :every_n_hours, :hide_alerts, :hours, :test, :twelve, :units]
+  @keys [
+    :latitude,
+    :longitude,
+    :appid,
+    :colors,
+    :every_n_hours,
+    :hide_alerts,
+    :hours,
+    :test,
+    :twelve,
+    :units
+  ]
   @enforce_keys @keys
   defstruct @keys
 
@@ -124,8 +135,11 @@ defmodule Weather.Opts do
 
   defp test(parsed_args) do
     case parsed_args[:test] do
-      val when val in [nil, "clear", "storm"] -> {:ok, val}
-      val -> {:error, "Invalid --test. Expected \"clear\" or \"storm\". Received: #{inspect(val)}"}
+      val when val in [nil, "clear", "storm"] ->
+        {:ok, val}
+
+      val ->
+        {:error, "Invalid --test. Expected \"clear\" or \"storm\". Received: #{inspect(val)}"}
     end
   end
 
@@ -176,9 +190,14 @@ defmodule Weather.Opts do
 
   defp hide_alerts(parsed_args) do
     case parsed_args[:hide_alerts] do
-      hide_alerts when is_boolean(hide_alerts) -> {:ok, hide_alerts}
-      nil -> {:ok, false}
-      hide_alerts -> {:error, "Invalid --hide-alerts. Expected a boolean. Received: #{inspect(hide_alerts)}"}
+      hide_alerts when is_boolean(hide_alerts) ->
+        {:ok, hide_alerts}
+
+      nil ->
+        {:ok, false}
+
+      hide_alerts ->
+        {:error, "Invalid --hide-alerts. Expected a boolean. Received: #{inspect(hide_alerts)}"}
     end
   end
 

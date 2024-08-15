@@ -16,7 +16,9 @@ defmodule Weather.Report.Alerts do
   @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
   def generate({report, body, %Weather.Opts{} = opts}), do: add_alerts({report, body, opts})
 
-  defp add_alerts({report, %{"alerts" => alerts} = body, %Weather.Opts{hide_alerts: false} = opts}) do
+  defp add_alerts(
+         {report, %{"alerts" => alerts} = body, %Weather.Opts{hide_alerts: false} = opts}
+       ) do
     alerts
     |> Enum.map_join(@alerts_separator, &alert_summary(&1, body, opts))
     |> then(&{[&1 | report], body, opts})
@@ -31,7 +33,9 @@ defmodule Weather.Report.Alerts do
     decorate_title("#{title} (#{starting} - #{ending})", opts)
   end
 
-  defp decorate_title(title, %Weather.Opts{colors: true}), do: Colors.colorize(title, @red_ansi_code)
+  defp decorate_title(title, %Weather.Opts{colors: true}),
+    do: Colors.colorize(title, @red_ansi_code)
+
   defp decorate_title(title, _), do: title
 
   defp alert_summary(alert, body, opts) do

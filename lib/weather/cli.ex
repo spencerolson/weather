@@ -36,7 +36,8 @@ defmodule Weather.CLI do
 
   @descriptions %{
     help: "Prints this help message",
-    hide_alerts: "Hides weather alerts, even when alerts are available. Default is false, which shows alerts if there are any available",
+    hide_alerts:
+      "Hides weather alerts, even when alerts are available. Default is false, which shows alerts if there are any available",
     colors: "Enables colorized output for the hourly report. Defaults to true",
     every:
       "Sets the hour interval at which data is reported for the hourly report. Defaults to 3",
