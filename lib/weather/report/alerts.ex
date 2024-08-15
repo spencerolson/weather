@@ -38,6 +38,10 @@ defmodule Weather.Report.Alerts do
 
   defp decorate_title(title, _), do: title
 
+  defp alert_summary(alert, body, %Weather.Opts{alert_titles_only: true} = opts) do
+    alert_title(alert, body, opts)
+  end
+
   defp alert_summary(alert, body, opts) do
     alert_title(alert, body, opts) <> @title_separator <> alert["description"]
   end
