@@ -249,6 +249,45 @@ defmodule WeatherTest do
              }
     end
 
+    test "optionally shows only the title for alerts", context do
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Storm.response()))
+      end)
+
+      assert Weather.get(%Weather.Opts{context.opts | alert_titles_only: true}) == {
+               :ok,
+               """
+
+               Rain (8:28PM - 9:27PM)
+
+               [                                                            ]
+               [.........       ...............     ........................]
+               [............................................................]
+               [............................................................]
+               [............................................................]
+               [............................................................]
+                               +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
+
+               77°  ⬇   73°  ⬇   70°  ⬇   68°  ⬆   72°
+               8PM      11PM     2AM      5AM      8AM
+
+               77° | very heavy rain | 76% humidity
+
+               FLOOD WATCH (5:00PM - 7:00AM)
+
+               TORNADO WATCH (7:48PM - 9:00PM)
+
+               SEVERE THUNDERSTORM WARNING (8:12PM - 9:30PM)
+
+               SEVERE THUNDERSTORM WARNING (7:42PM - 8:45PM)
+
+               SEVERE THUNDERSTORM WARNING (8:17PM - 8:45PM)
+               """
+             }
+    end
+
     test "uses the first description for current weather, if there are multiple", context do
       Req.Test.expect(Weather.API, fn conn ->
         conn

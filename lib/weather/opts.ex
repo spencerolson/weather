@@ -16,6 +16,10 @@ defmodule Weather.Opts do
       when alerts are available. Defaults to false, which shows alerts if there
       are any available.
 
+    * `:alert_titles_only` - a boolean representing whether to show only the titles
+      of weather alerts. Defaults to false, which shows titles along with full
+      alert descriptions.
+
     * `:hours` - an integer representing the number of hours to report on for the
       hourly report. Defaults to 12. Max is 48.
 
@@ -39,6 +43,7 @@ defmodule Weather.Opts do
           colors: boolean(),
           every_n_hours: integer(),
           hide_alerts: boolean(),
+          alert_titles_only: boolean(),
           hours: integer(),
           latitude: float(),
           longitude: float(),
@@ -52,6 +57,7 @@ defmodule Weather.Opts do
           colors: boolean(),
           every: integer(),
           hide_alerts: boolean(),
+          alert_titles_only: boolean(),
           hours: integer(),
           latitude: float(),
           longitude: float(),
@@ -67,6 +73,7 @@ defmodule Weather.Opts do
     :colors,
     :every_n_hours,
     :hide_alerts,
+    :alert_titles_only,
     :hours,
     :test,
     :twelve,
@@ -89,6 +96,7 @@ defmodule Weather.Opts do
          {:ok, latitude} <- latitude(parsed_args, test),
          {:ok, longitude} <- longitude(parsed_args, test),
          {:ok, hide_alerts} <- hide_alerts(parsed_args),
+         {:ok, alert_titles_only} <- alert_titles_only(parsed_args),
          {:ok, hours} <- hours(parsed_args),
          {:ok, every_n_hours} <- every_n_hours(hours, parsed_args),
          {:ok, colors} <- colors(parsed_args),
@@ -99,6 +107,7 @@ defmodule Weather.Opts do
         colors: colors,
         every_n_hours: every_n_hours,
         hide_alerts: hide_alerts,
+        alert_titles_only: alert_titles_only,
         hours: hours,
         latitude: latitude,
         longitude: longitude,
@@ -199,6 +208,20 @@ defmodule Weather.Opts do
 
       hide_alerts ->
         {:error, "Invalid --hide-alerts. Expected a boolean. Received: #{inspect(hide_alerts)}"}
+    end
+  end
+
+  defp alert_titles_only(parsed_args) do
+    case parsed_args[:alert_titles_only] do
+      alert_titles_only when is_boolean(alert_titles_only) ->
+        {:ok, alert_titles_only}
+
+      nil ->
+        {:ok, false}
+
+      alert_titles_only ->
+        {:error,
+         "Invalid --alert-titles-only. Expected a boolean. Received: #{inspect(alert_titles_only)}"}
     end
   end
 
