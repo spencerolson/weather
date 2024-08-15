@@ -30,7 +30,7 @@ defmodule Weather.Report.Current do
   end
 
   defp add_description(report, body) do
-    %{"current" => %{"weather" => [%{"description" => description}]}} = body
+    %{"current" => %{"weather" => [%{"description" => description} | _]}} = body
     [description | report]
   end
 
