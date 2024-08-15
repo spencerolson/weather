@@ -1,5 +1,10 @@
 # Changelog for `Weather`
 
+## 0.2.3
+
+### Bug Fixes
+1. Fix a problem where test responses were not available when the library was being used as a dependency ([39bce22](https://github.com/spencerolson/weather/commit/39bce22d217b99f640000af27abe12f568f888f2))
+
 ## 0.2.2
 
 ### Features
