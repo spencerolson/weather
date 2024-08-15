@@ -22,7 +22,8 @@ defmodule Weather.API do
     |> Req.request()
   end
 
-  def fetch_weather(%Weather.Opts{test: test}), do: {:ok, Req.Response.new(status: 200, body: fake_body(test))}
+  def fetch_weather(%Weather.Opts{test: test}),
+    do: {:ok, Req.Response.new(status: 200, body: fake_body(test))}
 
   defp fake_body("clear"), do: Clear.response()
   defp fake_body("storm"), do: Storm.response()
