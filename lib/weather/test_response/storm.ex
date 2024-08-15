@@ -1,4 +1,4 @@
-defmodule Weather.Fixtures.TestResponse.Storm do
+defmodule Weather.TestResponse.Storm do
   @moduledoc false
 
   @spec response() :: map()

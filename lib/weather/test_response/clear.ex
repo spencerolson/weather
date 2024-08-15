@@ -1,4 +1,4 @@
-defmodule Weather.Fixtures.TestResponse.Clear do
+defmodule Weather.TestResponse.Clear do
   @moduledoc false
 
   @spec response() :: map()
