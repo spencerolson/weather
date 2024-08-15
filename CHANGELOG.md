@@ -1,5 +1,10 @@
 # Changelog for `Weather`
 
+## 0.2.4
+
+### Features
+1. add `--alert-titles-only` CLI switch ([f4b7cf9](https://github.com/spencerolson/weather/commit/f4b7cf91efaf8c966543f7a93263081ff2b802f4))
+
 ## 0.2.3
 
 ### Bug Fixes
