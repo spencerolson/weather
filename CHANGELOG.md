@@ -1,5 +1,10 @@
 # Changelog for `Weather`
 
+## 0.2.2
+
+### Features
+1. add formatter check to github actions ([3ec74db](https://github.com/spencerolson/weather/commit/3ec74db3a804f1a4037c049c070a31c60622c071))
+
 ## 0.2.1
 
 ### Bug Fixes
