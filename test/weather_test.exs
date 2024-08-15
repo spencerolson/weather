@@ -1,12 +1,13 @@
 defmodule WeatherTest do
   @moduledoc nodoc: true
   use ExUnit.Case, async: true
-  use Mimic
 
   alias Weather.Fixtures.TestResponse.BadRequest
   alias Weather.Fixtures.TestResponse.Clear
+  alias Weather.Fixtures.TestResponse.Rain
   alias Weather.Fixtures.TestResponse.Storm
   alias Weather.Fixtures.TestResponse.Unauthorized
+
   doctest Weather
 
   describe "get/1" do
@@ -81,6 +82,19 @@ defmodule WeatherTest do
       assert {
                :ok,
                "\nRain (8:28PM - 9:27PM)\n\n[                                                            ]\n[.........       ...............     ........................]\n[............................................................]\n[............................................................]\n[............................................................]\n[............................................................]\n                +              +              +               \n\n77°  ⬇   73°  ⬇   70°  ⬇   68°  ⬆   72°     \n8PM      11PM     2AM      5AM      8AM     \n\n77° | very heavy rain | 76% humidity\n\nFLOOD WATCH (5:00PM - 7:00AM)\n* WHAT...Flash flooding caused by excessive rainfall is possible.\n\n* WHERE...Portions of Kansas, including the following areas,\nAtchison KS, Doniphan, Johnson KS, Leavenworth, Miami and\nWyandotte and Missouri, including the following areas, Adair,\nAndrew, Buchanan, Caldwell, Carroll, Cass, Chariton, Clay,\nClinton, Daviess, De Kalb, Gentry, Grundy, Harrison, Jackson,\nJohnson MO, Lafayette, Linn MO, Livingston, Macon, Mercer,\nNodaway, Platte, Putnam, Ray, Saline, Schuyler, Sullivan and Worth.\n\n* WHEN...From 5 PM CDT this afternoon through Wednesday morning.\n\n* IMPACTS...Excessive runoff may result in flooding of rivers,\ncreeks, streams, and other low-lying and flood-prone locations.\nCreeks and streams may rise out of their banks. Low-water\ncrossings may be flooded. Area creeks and streams are running high\nand could flood with more heavy rain.\n\n* ADDITIONAL DETAILS...\n- Forecast rainfall with thunderstorms this afternoon and\nevening.\n- http://www.weather.gov/safety/flood\n\nTORNADO WATCH (7:48PM - 9:00PM)\nTORNADO WATCH 497 REMAINS VALID UNTIL 9 PM CDT THIS EVENING FOR\nTHE FOLLOWING AREAS\n\nIN MISSOURI THIS WATCH INCLUDES 4 COUNTIES\n\nIN NORTH CENTRAL MISSOURI\n\nPUTNAM                SULLIVAN\n\nIN NORTHEAST MISSOURI\n\nADAIR                 SCHUYLER\n\nTHIS INCLUDES THE CITIES OF DOWNING, GLENWOOD, GREEN CITY,\nGREENTOP, KIRKSVILLE, LANCASTER, MILAN, QUEEN CITY,\nAND UNIONVILLE.\n\nSEVERE THUNDERSTORM WARNING (8:12PM - 9:30PM)\nSVREAX\n\nThe National Weather Service in Pleasant Hill has issued a\n\n* Severe Thunderstorm Warning for...\nSoutheastern Adair County in northeastern Missouri...\nSoutheastern Linn County in north central Missouri...\nMacon County in north central Missouri...\n\n* Until 930 PM CDT.\n\n* At 812 PM CDT, severe thunderstorms were located along a line\nextending from near Edina to near Brookfield, moving east at 45\nmph.\n\nHAZARD...60 mph wind gusts and penny size hail.\n\nSOURCE...Emergency management. The Kirksville Airport reported a\n61 mph wind gust at 805 pm.\n\nIMPACT...Expect damage to roofs, siding, and trees.\n\n* Locations impacted include...\nKirksville, Macon, Brookfield, Marceline, La Plata, Bevier,\nBucklin, Atlanta, Callao, Brashear, New Cambria, Gibbs, Millard,\nElmer, Ethel, South Gifford, Kirksville Regional, New Boston, and\nSaint Catherine.\n\nSEVERE THUNDERSTORM WARNING (7:42PM - 8:45PM)\nSVREAX\n\nThe National Weather Service in Pleasant Hill has issued a\n\n* Severe Thunderstorm Warning for...\nAdair County in northeastern Missouri...\nLinn County in north central Missouri...\nEastern Sullivan County in north central Missouri...\nSoutheastern Putnam County in north central Missouri...\nSouthern Schuyler County in northeastern Missouri...\nNorthwestern Macon County in north central Missouri...\nNortheastern Livingston County in north central Missouri...\n\n* Until 845 PM CDT.\n\n* At 742 PM CDT, severe thunderstorms were located along a line\nextending from 6 miles north of Novinger to near Chillicothe,\nmoving east at 25 mph.\n\nHAZARD...60 mph wind gusts and penny size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Expect damage to roofs, siding, and trees.\n\n* Locations impacted include...\nKirksville, Brookfield, Marceline, La Plata, Green City, Bucklin,\nMeadville, Novinger, Greentop, Laclede, Linneus, Greencastle,\nBrashear, Wheeling, Browning, New Cambria, Purdin, Gibbs, Millard,\nand Elmer.\n\nSEVERE THUNDERSTORM WARNING (8:17PM - 8:45PM)\nAt 816 PM CDT, severe thunderstorms were located along a line\nextending from near Greentop to near Laclede, moving east at 25 mph.\n\nHAZARD...60 mph wind gusts and penny size hail.\n\nSOURCE...Emergency management. The Kirksville Airport reported a 61\nmph wind gust at 805 pm. Widespread power outages have been\nreported in Putnam and Schuyler counties.\n\nIMPACT...Expect damage to roofs, siding, and trees.\n\nLocations impacted include...\nKirksville, Brookfield, Marceline, La Plata, Bucklin, Meadville,\nNovinger, Laclede, Linneus, Brashear, Wheeling, Browning, New\nCambria, Purdin, Gibbs, Millard, Elmer, Ethel, South Gifford, and\nKirksville Regional.\n"
+             } = Weather.get(context.opts)
+    end
+
+    test "uses the first description for current weather, if there are multiple", context do
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Rain.response()))
+      end)
+
+      assert {
+               :ok,
+               "\nRain (7:28AM - 8:27AM)\n\n[                                                            ]\n[                                                            ]\n[                    ........................................]\n[............................................................]\n[............................................................]\n[............................................................]\n                +              +              +               \n\n66°  ⬇   65°  ⬆   67°  ⬆   73°  ⬇   71°     \n7AM      10AM     1PM      4PM      7PM     \n\n66° | moderate rain | 92% humidity\n"
              } = Weather.get(context.opts)
     end
 
