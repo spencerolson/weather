@@ -46,7 +46,7 @@ defmodule Weather.CLI do
     latitude: "The latitude of the location for which to fetch weather data",
     longitude: "The longitude of the location for which to fetch weather data",
     api_key: "The OpenWeatherMap API key",
-    test: "Fake weather data for testing purposes. Options: \"clear\", \"storm\"",
+    test: "Fake weather data for testing purposes. Options: \"clear\", \"rain\", \"storm\"",
     twelve:
       "Enables 12-hour time format for the hourly report. Defaults to true. When false, 24-hour time format is used",
     units:

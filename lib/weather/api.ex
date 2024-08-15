@@ -4,6 +4,7 @@ defmodule Weather.API do
   """
 
   alias Weather.Fixtures.TestResponse.Clear
+  alias Weather.Fixtures.TestResponse.Rain
   alias Weather.Fixtures.TestResponse.Storm
 
   @url "https://api.openweathermap.org/data/3.0/onecall"
@@ -26,6 +27,7 @@ defmodule Weather.API do
     do: {:ok, Req.Response.new(status: 200, body: fake_body(test))}
 
   defp fake_body("clear"), do: Clear.response()
+  defp fake_body("rain"), do: Rain.response()
   defp fake_body("storm"), do: Storm.response()
 
   defp req_opts(opts) do
