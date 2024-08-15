@@ -110,7 +110,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-               Rain (8:28PM - 9:27PM)
+                                  << ☔ 8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [.........       ...............     ........................]
@@ -260,7 +260,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-               Rain (8:28PM - 9:27PM)
+                                  << ☔ 8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [.........       ...............     ........................]
@@ -299,7 +299,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-               Rain (7:28AM - 8:27AM)
+                                  << ☔ 7:28AM - 8:27AM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [                                                            ]
@@ -328,7 +328,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-               Rain (8:28PM - 9:27PM)
+                                  << ☔ 8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [.........       ...............     ........................]
@@ -357,7 +357,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-               Rain (8:28PM - 9:27PM)
+                                  << ☔ 8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [.........       ...............     ........................]
@@ -508,7 +508,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-               Rain (07:28 - 08:27)
+                                   << ☔ 07:28 - 08:27 >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [                                                            ]
