@@ -81,8 +81,24 @@ defmodule Weather.Report.Rain do
     start_time = DateUtils.time_by_minute(start_dt, body["timezone"], opts)
     end_time = DateUtils.time_by_minute(end_dt, body["timezone"], opts)
 
-    ["Rain (#{start_time} - #{end_time})", "" | report]
+    "<< ☔ #{start_time} - #{end_time} >>"
+    |> center(report)
+    |> then(&[&1, "" | report])
   end
+
+  defp center(str, [row | _]) do
+    case length(row) - String.length(str) do
+      diff when diff > 1 ->
+        before_len = div(diff, 2)
+        after_len = diff - before_len
+        padding(before_len) <> str <> padding(after_len)
+
+      _ ->
+        str
+    end
+  end
+
+  defp padding(length), do: String.duplicate(" ", length)
 
   defp add_15_min_markers(report) do
     markers =
