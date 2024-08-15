@@ -172,7 +172,6 @@
           {Credo.Check.Readability.OnePipePerLine, []},
           {Credo.Check.Readability.SeparateAliasRequire, []},
           {Credo.Check.Readability.SingleFunctionToBlockPipe, []},
-          {Credo.Check.Readability.SinglePipe, []},
           {Credo.Check.Readability.Specs, []},
           {Credo.Check.Readability.StrictModuleLayout, []},
           {Credo.Check.Readability.WithCustomTaggedTuple, []},
@@ -203,6 +202,7 @@
           {Credo.Check.Refactor.ModuleDependencies, []},
           {Credo.Check.Consistency.UnusedVariableNames, []},
           {Credo.Check.Refactor.IoPuts, []},
+          {Credo.Check.Readability.SinglePipe, []}
           # {Credo.Check.Refactor.MapInto, []},
           # {Credo.Check.Warning.LazyLogging, []},
 

@@ -7,6 +7,7 @@ defmodule Weather.Report do
   alias Weather.Report.Current
   alias Weather.Report.Hourly
   alias Weather.Report.Rain
+  alias Weather.Report.SunriseSunset
 
   @padding "\n"
   @separator "\n\n"
@@ -19,6 +20,7 @@ defmodule Weather.Report do
     {[], resp.body, opts}
     |> Alerts.generate()
     |> Current.generate()
+    |> SunriseSunset.generate()
     |> Hourly.generate()
     |> Rain.generate()
     |> aggregate_report()
