@@ -24,7 +24,7 @@ defmodule Weather.Opts do
     * `:longitude` - a float representing the longitude of your location.
 
     * `:test` - a string representing the type of fake weather data to return for
-      testing purposes. Options are "clear" and "storm".
+      testing purposes. Options are "clear", "rain", "storm".
 
     * `:twelve` - a boolean representing whether to use 12-hour time format for
       the hourly report. Defaults to true. When false, 24-hour time format is used.
@@ -135,11 +135,12 @@ defmodule Weather.Opts do
 
   defp test(parsed_args) do
     case parsed_args[:test] do
-      val when val in [nil, "clear", "storm"] ->
+      val when val in [nil, "clear", "rain", "storm"] ->
         {:ok, val}
 
       val ->
-        {:error, "Invalid --test. Expected \"clear\" or \"storm\". Received: #{inspect(val)}"}
+        {:error,
+         "Invalid --test. Expected \"clear\", \"rain\", or \"storm\". Received: #{inspect(val)}"}
     end
   end
 
