@@ -28,7 +28,9 @@ defmodule Weather.MixProject do
       extra_applications: [:logger],
       env: [
         # https://github.com/wojtekmach/req/issues/299
-        finch_config: [connect_options: [transport_opts: [cacertfile: "#{__DIR__}/priv/cacerts.pem"]]]
+        finch_config: [
+          connect_options: [transport_opts: [cacertfile: "#{__DIR__}/priv/cacerts.pem"]]
+        ]
       ]
     ]
   end
@@ -68,8 +70,9 @@ defmodule Weather.MixProject do
              "git diff --quiet && git diff --cached --quiet",
              "1. Check for uncommitted changes"
            ),
-         :ok <- run("mix credo > /dev/null", "2. Run credo"),
-         :ok <- run("mix test > /dev/null", "3. Run tests") do
+         :ok <- run("mix format --check-formatted &> /dev/null", "2. Check formatting"),
+         :ok <- run("mix credo &> /dev/null", "3. Run credo"),
+         :ok <- run("mix test &> /dev/null", "4. Run tests") do
       Mix.shell().cmd("git push")
     else
       :error -> [:red, "Failed!"] |> IO.ANSI.format() |> IO.puts()
