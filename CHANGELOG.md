@@ -1,5 +1,19 @@
 # Changelog for `Weather`
 
+## 0.2.1
+
+### Bug Fixes
+1. Fix a problem where an error would be thrown if there were multiple descriptions for the current weather ([39a3e6c](https://github.com/spencerolson/weather/commit/39a3e6c7e6936641c38716982ad0a9c29684f2b9))
+2. Fix formatting bugs ([1e3d3cb](https://github.com/spencerolson/weather/commit/1e3d3cb689794e9c258ad9674b07abb630af7250)):
+    - add newline at end of unauthorized responses
+    - add newline at end of unexpected responses
+    - add newline at end of error reponses
+    - remove unwanted trailing whitespace at end of temp and time lines for hourly report
+
+### Features
+1. Add formatting check to `mix push` ([a643f53](https://github.com/spencerolson/weather/commit/a643f5313480f9bd7f3022d8ab57508e7c578d2c))
+2. Add 'rain' as option for --test switch ([841f803](https://github.com/spencerolson/weather/commit/841f80323d80337a5166674c832cc7a6e5b613c3))
+
 ## 0.2.0
 
 ### Breaking Changes
