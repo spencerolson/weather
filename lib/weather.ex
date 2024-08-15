@@ -24,15 +24,37 @@ defmodule Weather do
   end
 
   defp handle_response({:ok, %Req.Response{status: 401} = resp}, _opts) do
-    {:error,
-     "Unauthorized (status 401)\n\nAre you sure you provided the correct API key?\n\n#{resp.body["message"]}"}
+    {
+      :error,
+      """
+      Unauthorized (status 401)
+
+      Are you sure you provided the correct API key?
+
+      #{resp.body["message"]}
+      """
+    }
   end
 
   defp handle_response({:ok, %Req.Response{} = resp}, _opts) do
-    {:error, "Unexpected response (status #{resp.status})\n\n#{resp.body["message"]}"}
+    {
+      :error,
+      """
+      Unexpected response (status #{resp.status})
+
+      #{resp.body["message"]}
+      """
+    }
   end
 
   defp handle_response({:error, error}, _opts) do
-    {:error, "Error\n\n#{inspect(error)}"}
+    {
+      :error,
+      """
+      Error
+
+      #{inspect(error)}
+      """
+    }
   end
 end

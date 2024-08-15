@@ -37,6 +37,14 @@ defmodule Weather.Report.Hourly do
     }
   end
 
+  defp display_temp(%{arrow: ""} = data, %Weather.Opts{colors: true} = opts) do
+    "#{Colors.colorize_temp(data[:temp], opts)}"
+  end
+
+  defp display_temp(%{arrow: ""} = data, _) do
+    "#{data[:temp]}°"
+  end
+
   defp display_temp(data, %Weather.Opts{colors: true} = opts) do
     "#{Colors.colorize_temp(data[:temp], opts)}  #{data[:arrow]}   "
   end
