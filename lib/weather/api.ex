@@ -30,6 +30,9 @@ defmodule Weather.API do
   def fetch_weather(%Weather.Opts{test: test}),
     do: {:ok, Req.Response.new(status: 200, body: fake_body(test))}
 
+  @doc """
+  Fetches location data (latitude, longitude, name, country) given a zip code.
+  """
   @spec fetch_location(%{zip: String.t()}, String.t()) ::
           {:ok, Req.Response.t()} | {:error, Exception.t()}
   def fetch_location(%{zip: zip}, appid) do
