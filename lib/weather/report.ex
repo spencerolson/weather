@@ -25,17 +25,17 @@ defmodule Weather.Report do
     |> SunriseSunset.generate()
     |> RainHourly.generate()
     |> RainMinutely.generate()
-    |> add_location_name()
+    |> add_label()
     |> aggregate_report()
     |> add_padding()
   end
 
-  defp add_location_name({report, body, %Weather.Opts{location_name: nil} = opts}),
+  defp add_label({report, body, %Weather.Opts{label: nil} = opts}),
     do: {report, body, opts}
 
-  defp add_location_name({report, body, opts}) do
+  defp add_label({report, body, opts}) do
     {
-      ["#{opts.location_name}" | report],
+      ["#{opts.label}" | report],
       body,
       opts
     }

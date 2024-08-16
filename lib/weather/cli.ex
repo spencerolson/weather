@@ -13,6 +13,7 @@ defmodule Weather.CLI do
     colors: :boolean,
     every: :integer,
     hours: :integer,
+    label: :string,
     latitude: :float,
     longitude: :float,
     api_key: :string,
@@ -29,6 +30,7 @@ defmodule Weather.CLI do
     c: :colors,
     e: :every,
     r: :hours,
+    b: :label,
     t: :latitude,
     n: :longitude,
     a: :api_key,
@@ -51,6 +53,8 @@ defmodule Weather.CLI do
       "Sets the number of hours to report on for the hourly report. Defaults to 12. Max is 48",
     latitude: "The latitude of the location for which to fetch weather data",
     longitude: "The longitude of the location for which to fetch weather data",
+    label:
+      "The name of the location for which weather data is being fetched. If present, the report will include the label in the output. If not provided but a zip code is provided, the label will be set to the name of the location associated with the zip code.",
     api_key: "The OpenWeatherMap API key",
     test: "Fake weather data for testing purposes. Options: \"clear\", \"rain\", \"storm\"",
     twelve:
