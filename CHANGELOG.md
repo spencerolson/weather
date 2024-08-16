@@ -1,5 +1,11 @@
 # Changelog for `Weather`
 
+## 0.2.7
+
+### Bug Fixes
+1. Don't blow up when there is no "minutely" data returned ([91d3c59](https://github.com/spencerolson/weather/commit/91d3c593080234c489e96f7a8c7fc37b15757b64))
+2. Remove ambiguity of alert time spans by including day ([1181af0](https://github.com/spencerolson/weather/commit/1181af0c64621bb9994280af124aed729c2e2e8b))
+
 ## 0.2.6
 
 ### Features
