@@ -1,4 +1,4 @@
-defmodule Weather.Report.Rain do
+defmodule Weather.Report.RainMinutely do
   @moduledoc """
   Generates a chart showing rain intensity each minute for the next hour.
   """
