@@ -90,7 +90,7 @@ defmodule Weather.Opts do
   @enforce_keys @keys
   defstruct @keys
 
-  @fake_api_key "z9c141l98zx9b2z29fn98bi16m1g9f21"
+  @fake_api_key "MyFakeApiKeyz9c141l98bi16m1g9f21"
   @fake_latitude 42.3871
   @fake_longitude -87.9562
 
@@ -306,5 +306,14 @@ defmodule Weather.Opts do
       :ok,
       parsed_args[:label] || label_from_zip
     }
+  end
+end
+
+defimpl Inspect, for: Weather.Opts do
+  @spec inspect(Weather.Opts.t(), Inspect.Opts.t()) :: binary()
+  def inspect(weather_opts, opts) do
+    weather_opts
+    |> Map.put(:appid, "<<REDACTED>>")
+    |> Inspect.Any.inspect(opts)
   end
 end
