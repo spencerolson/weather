@@ -28,6 +28,19 @@ defmodule Weather.DateUtils do
     time(unix_time, timezone, "%0H:%0M")
   end
 
+  @doc """
+  Returns the time specific to the minute, displayed in 12-hour or 24-hour format, with the day.
+  """
+  @spec time_by_minute_with_day(integer(), String.t(), Weather.Opts.t()) :: String.t()
+  def time_by_minute_with_day(unix_time, timezone, %Weather.Opts{twelve: true} = _opts)
+      when is_integer(unix_time) do
+    time(unix_time, timezone, "%a %-I:%0M%p")
+  end
+
+  def time_by_minute_with_day(unix_time, timezone, _) when is_integer(unix_time) do
+    time(unix_time, timezone, "%a %0H:%0M")
+  end
+
   defp time(unix_time, timezone, format) do
     unix_time
     |> datetime(timezone)

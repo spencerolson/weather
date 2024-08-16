@@ -28,8 +28,8 @@ defmodule Weather.Report.Alerts do
 
   defp alert_title(alert, body, opts) do
     title = String.upcase(alert["event"])
-    starting = DateUtils.time_by_minute(alert["start"], body["timezone"], opts)
-    ending = DateUtils.time_by_minute(alert["end"], body["timezone"], opts)
+    starting = DateUtils.time_by_minute_with_day(alert["start"], body["timezone"], opts)
+    ending = DateUtils.time_by_minute_with_day(alert["end"], body["timezone"], opts)
     decorate_title("#{title} (#{starting} - #{ending})", opts)
   end
 
