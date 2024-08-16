@@ -1,6 +1,6 @@
 defmodule Weather.Report.RainHourly do
   @moduledoc """
-  Generates a chart showing rain intensity each minute for the next hour.
+  Generates a report showing which hours rain is forecasted (up to 24 hours).
   """
 
   alias Weather.DateUtils
@@ -8,7 +8,7 @@ defmodule Weather.Report.RainHourly do
   @max_hours 24
 
   @doc """
-  Generates a rain report.
+  Generates a report showing which hours rain is forecasted (up to 24 hours).
   """
   @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
   def generate({report, body, %Weather.Opts{} = opts}) do
