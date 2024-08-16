@@ -12,11 +12,13 @@ defmodule Weather.Report.RainMinutely do
   Generates a chart showing rain intensity each minute for the next hour.
   """
   @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body, %Weather.Opts{} = opts}) do
+  def generate({report, %{"minutely" => _} = body, %Weather.Opts{} = opts}) do
     report
     |> add_rain_report(body, opts)
     |> then(&{&1, body, opts})
   end
+
+  def generate(weather_report), do: weather_report
 
   defp add_rain_report(report, body, opts) do
     if rain_forecasted?(body) do
@@ -75,11 +77,11 @@ defmodule Weather.Report.RainMinutely do
   end
 
   defp add_title(report, body, opts) do
-    %{"minutely" => [%{"dt" => start_dt} | _]} = body
+    %{"minutely" => [%{"dt" => start_dt} | _], "timezone" => tz} = body
     [%{"dt" => end_dt} | _] = Enum.reverse(body["minutely"])
 
-    start_time = DateUtils.time_by_minute(start_dt, body["timezone"], opts)
-    end_time = DateUtils.time_by_minute(end_dt, body["timezone"], opts)
+    start_time = DateUtils.time_by_minute(start_dt, tz, opts)
+    end_time = DateUtils.time_by_minute(end_dt, tz, opts)
 
     "<< ☔ #{start_time} - #{end_time} >>"
     |> center(report)
