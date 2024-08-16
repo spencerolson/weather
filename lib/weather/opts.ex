@@ -37,9 +37,10 @@ defmodule Weather.Opts do
       "imperial" (Fahrenheit). Other options are "metric" (Celsius) and
       "standard" (Kelvin).
 
-    * `:location_name` - An optional string representing the name of the location
+    * `:label` - An optional string representing the name of the location
       for which weather data is being fetched. If present, the report will include
-      the location name in the output.
+      the label in the output. If not provided but a zip code is provided, the
+      label will be set to the name of the location associated with the zip code.
   """
 
   @type t() :: %Weather.Opts{
@@ -53,7 +54,8 @@ defmodule Weather.Opts do
           longitude: float(),
           test: String.t(),
           twelve: boolean(),
-          units: String.t()
+          units: String.t(),
+          label: String.t()
         }
 
   @type parsed_args() :: [
@@ -83,7 +85,7 @@ defmodule Weather.Opts do
     :test,
     :twelve,
     :units,
-    :location_name
+    :label
   ]
   @enforce_keys @keys
   defstruct @keys
@@ -99,7 +101,8 @@ defmodule Weather.Opts do
   def new(parsed_args \\ []) do
     with {:ok, test} <- test(parsed_args),
          {:ok, api_key} <- api_key(parsed_args, test),
-         {:ok, latitude, longitude, location_name} <- coords(parsed_args, api_key, test),
+         {:ok, latitude, longitude, label_from_zip} <- coords(parsed_args, api_key, test),
+         {:ok, label} <- label(parsed_args, label_from_zip),
          {:ok, hide_alerts} <- hide_alerts(parsed_args),
          {:ok, alert_titles_only} <- alert_titles_only(parsed_args),
          {:ok, hours} <- hours(parsed_args),
@@ -119,7 +122,7 @@ defmodule Weather.Opts do
         test: test,
         twelve: twelve,
         units: units,
-        location_name: location_name
+        label: label
       }
     else
       {:error, reason} ->
@@ -285,8 +288,8 @@ defmodule Weather.Opts do
   defp lookup_by_zip(zip, api_key) do
     case Weather.API.fetch_location(%{zip: zip}, api_key) do
       {:ok, %Req.Response{status: 200} = resp} ->
-        %{body: %{"lat" => latitude, "lon" => longitude, "name" => name}} = resp
-        {:ok, latitude, longitude, name}
+        %{body: %{"lat" => latitude, "lon" => longitude, "name" => label_from_zip}} = resp
+        {:ok, latitude, longitude, label_from_zip}
 
       {:ok, _} ->
         {:error,
@@ -296,5 +299,12 @@ defmodule Weather.Opts do
         {:error,
          "Exception encountered when making a request to the OpenWeatherMap API\n\n#{inspect(exception)}"}
     end
+  end
+
+  defp label(parsed_args, label_from_zip) do
+    {
+      :ok,
+      parsed_args[:label] || label_from_zip
+    }
   end
 end
