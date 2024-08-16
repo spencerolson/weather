@@ -58,6 +58,7 @@ defmodule Weather.MixProject do
         "An Elixir library and command-line interface for fetching weather data from the OpenWeatherMap API.",
       licenses: ["MIT"],
       links: %{
+        "Changelog" => "https://github.com/spencerolson/weather/blob/main/CHANGELOG.md",
         "GitHub" => "https://github.com/spencerolson/weather",
         "OpenWeatherMap 'One Call API 3.0'" => "https://openweathermap.org/api/one-call-3"
       }
