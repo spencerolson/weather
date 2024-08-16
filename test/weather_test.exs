@@ -34,10 +34,10 @@ defmodule WeatherTest do
                :ok,
                """
 
+               🌞 5:17AM | 🌚 8:25PM
+
                76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°
                3PM      6PM      9PM      12AM     3AM
-
-               🌞 5:17AM | 🌚 8:25PM
 
                77° | scattered clouds | 37% humidity
                """
@@ -55,10 +55,10 @@ defmodule WeatherTest do
                :ok,
                """
 
+               🌞 5:17AM | 🌚 8:25PM
+
                76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°  ⮕   58°  ⬆   67°  ⬆   69°  ⬇   65°
                3PM      6PM      9PM      12AM     3AM      6AM      9AM      12PM     3PM
-
-               🌞 5:17AM | 🌚 8:25PM
 
                77° | scattered clouds | 37% humidity
                """
@@ -76,10 +76,10 @@ defmodule WeatherTest do
                :ok,
                """
 
+               🌞 5:17AM | 🌚 8:25PM
+
                76°  ⬇   64°  ⬇   58°
                3PM      9PM      3AM
-
-               🌞 5:17AM | 🌚 8:25PM
 
                77° | scattered clouds | 37% humidity
                """
@@ -97,10 +97,10 @@ defmodule WeatherTest do
                :ok,
                """
 
+               🌞 05:17 | 🌚 20:25
+
                76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°
                15       18       21       00       03\s
-
-               🌞 05:17 | 🌚 20:25
 
                77° | scattered clouds | 37% humidity
                """
@@ -128,10 +128,12 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               77°  ⬇   73°  ⬇   70°  ⬇   68°  ⬆   72°
-               8PM      11PM     2AM      5AM      8AM
+               ☔ 9PM - 2AM
 
                🌞 5:44AM | 🌚 8:42PM
+
+               77°  ⬇   73°  ⬇   70°  ⬇   68°  ⬆   72°
+               8PM      11PM     2AM      5AM      8AM
 
                77° | very heavy rain | 76% humidity
 
@@ -280,10 +282,12 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               77°  ⬇   73°  ⬇   70°  ⬇   68°  ⬆   72°
-               8PM      11PM     2AM      5AM      8AM
+               ☔ 9PM - 2AM
 
                🌞 5:44AM | 🌚 8:42PM
+
+               77°  ⬇   73°  ⬇   70°  ⬇   68°  ⬆   72°
+               8PM      11PM     2AM      5AM      8AM
 
                77° | very heavy rain | 76% humidity
 
@@ -321,10 +325,12 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               66°  ⬇   65°  ⬆   67°  ⬆   73°  ⬇   71°
-               7AM      10AM     1PM      4PM      7PM
+               ☔ 7AM - 9AM, 10AM - 12PM
 
                🌞 6:01AM | 🌚 7:52PM
+
+               66°  ⬇   65°  ⬆   67°  ⬆   73°  ⬇   71°
+               7AM      10AM     1PM      4PM      7PM
 
                66° | moderate rain | 92% humidity
                """
@@ -352,10 +358,12 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               77°  ⬇   73°  ⬇   70°  ⬇   68°  ⬆   72°
-               8PM      11PM     2AM      5AM      8AM
+               ☔ 9PM - 2AM
 
                🌞 5:44AM | 🌚 8:42PM
+
+               77°  ⬇   73°  ⬇   70°  ⬇   68°  ⬆   72°
+               8PM      11PM     2AM      5AM      8AM
 
                77° | very heavy rain | 76% humidity
                """
@@ -383,10 +391,12 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               \e[38;5;214m77°\e[0m  ⬇   \e[38;5;214m73°\e[0m  ⬇   \e[38;5;214m70°\e[0m  ⬇   \e[38;5;226m68°\e[0m  ⬆   \e[38;5;214m72°\e[0m
-               8PM      11PM     2AM      5AM      8AM
+               ☔ 9PM - 2AM
 
                🌞 5:44AM | 🌚 8:42PM
+
+               \e[38;5;214m77°\e[0m  ⬇   \e[38;5;214m73°\e[0m  ⬇   \e[38;5;214m70°\e[0m  ⬇   \e[38;5;226m68°\e[0m  ⬆   \e[38;5;214m72°\e[0m
+               8PM      11PM     2AM      5AM      8AM
 
                77° | very heavy rain | 76% humidity
 
@@ -536,10 +546,12 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               66°  ⬇   65°  ⬆   67°  ⬆   73°  ⬇   71°
-               07       10       13       16       19\s
+               ☔ 07 - 09, 10 - 12
 
                🌞 06:01 | 🌚 19:52
+
+               66°  ⬇   65°  ⬆   67°  ⬆   73°  ⬇   71°
+               07       10       13       16       19\s
 
                66° | moderate rain | 92% humidity
                """
@@ -610,10 +622,10 @@ defmodule WeatherTest do
                :ok,
                """
 
+               🌞 5:17AM | 🌚 8:25PM
+
                76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°
                3PM      6PM      9PM      12AM     3AM
-
-               🌞 5:17AM | 🌚 8:25PM
 
                77° | scattered clouds | 37% humidity
                """
@@ -631,10 +643,10 @@ defmodule WeatherTest do
                :ok,
                """
 
+               🌞 5:17AM | 🌚 8:25PM
+
                \e[38;5;214m76°\e[0m  ⬇   \e[38;5;214m74°\e[0m  ⬇   \e[38;5;226m64°\e[0m  ⬇   \e[38;5;226m60°\e[0m  ⬇   \e[38;5;148m58°\e[0m
                3PM      6PM      9PM      12AM     3AM
-
-               🌞 5:17AM | 🌚 8:25PM
 
                77° | scattered clouds | 37% humidity
                """
@@ -652,10 +664,10 @@ defmodule WeatherTest do
                :ok,
                """
 
+               🌞 5:17AM | 🌚 8:25PM
+
                \e[38;5;88m76°\e[0m  ⬇   \e[38;5;88m74°\e[0m  ⬇   \e[38;5;88m64°\e[0m  ⬇   \e[38;5;88m60°\e[0m  ⬇   \e[38;5;88m58°\e[0m
                3PM      6PM      9PM      12AM     3AM
-
-               🌞 5:17AM | 🌚 8:25PM
 
                77° | scattered clouds | 37% humidity
                """
@@ -673,10 +685,10 @@ defmodule WeatherTest do
                :ok,
                """
 
+               🌞 5:17AM | 🌚 8:25PM
+
                \e[38;5;245m76°\e[0m  ⬇   \e[38;5;245m74°\e[0m  ⬇   \e[38;5;245m64°\e[0m  ⬇   \e[38;5;245m60°\e[0m  ⬇   \e[38;5;245m58°\e[0m
                3PM      6PM      9PM      12AM     3AM
-
-               🌞 5:17AM | 🌚 8:25PM
 
                77° | scattered clouds | 37% humidity
                """
@@ -690,10 +702,10 @@ defmodule WeatherTest do
                :ok,
                """
 
+               🌞 5:17AM | 🌚 8:25PM
+
                76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°
                3PM      6PM      9PM      12AM     3AM
-
-               🌞 5:17AM | 🌚 8:25PM
 
                77° | scattered clouds | 37% humidity
                """
