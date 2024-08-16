@@ -1,5 +1,15 @@
 # Changelog for `Weather`
 
+## 0.2.5
+
+### Features
+1. spruce up "minutely" rain title ([a08c91f](https://github.com/spencerolson/weather/commit/a08c91fdf38d7ba7409848bfeed6d5a7313b3328))
+2. add 🌞 sunrise | 🌚 sunset ([f7babe0](https://github.com/spencerolson/weather/commit/f7babe0203aaa903035256e49d5d6a1604d4dd85))
+3. add hourly rain report ([06f8bb1](https://github.com/spencerolson/weather/commit/06f8bb173cb1d599016fe7592fc4a763df1575ef))
+
+### Features
+1. add `--alert-titles-only` CLI switch ([f4b7cf9](https://github.com/spencerolson/weather/commit/f4b7cf91efaf8c966543f7a93263081ff2b802f4))
+
 ## 0.2.4
 
 ### Features
