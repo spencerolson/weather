@@ -18,7 +18,8 @@ defmodule Weather.CLI do
     api_key: :string,
     units: :string,
     test: :string,
-    twelve: :boolean
+    twelve: :boolean,
+    zip: :string
   ]
 
   @aliases [
@@ -33,7 +34,8 @@ defmodule Weather.CLI do
     a: :api_key,
     u: :units,
     s: :test,
-    w: :twelve
+    w: :twelve,
+    z: :zip
   ]
 
   @descriptions %{
@@ -54,7 +56,9 @@ defmodule Weather.CLI do
     twelve:
       "Enables 12-hour time format for the hourly report. Defaults to true. When false, 24-hour time format is used",
     units:
-      "The units in which to return the weather data. Options: \"metric\" (celsius), \"celsius\", \"imperial\" (fahrenheit), \"fahrenheit\", \"standard\" (kelvin), \"kelvin\""
+      "The units in which to return the weather data. Options: \"metric\" (celsius), \"celsius\", \"imperial\" (fahrenheit), \"fahrenheit\", \"standard\" (kelvin), \"kelvin\"",
+    zip:
+      "A zip code string to fetch weather data for. This can be used in place of latitude and longitude"
   }
 
   @doc """

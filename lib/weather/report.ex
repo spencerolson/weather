@@ -25,8 +25,20 @@ defmodule Weather.Report do
     |> SunriseSunset.generate()
     |> RainHourly.generate()
     |> RainMinutely.generate()
+    |> add_location_name()
     |> aggregate_report()
     |> add_padding()
+  end
+
+  defp add_location_name({report, body, %Weather.Opts{location_name: nil} = opts}),
+    do: {report, body, opts}
+
+  defp add_location_name({report, body, opts}) do
+    {
+      ["#{opts.location_name}" | report],
+      body,
+      opts
+    }
   end
 
   defp aggregate_report({report, _body, _opts}), do: Enum.join(report, @separator)

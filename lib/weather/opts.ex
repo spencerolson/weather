@@ -36,6 +36,10 @@ defmodule Weather.Opts do
     * `:units` - a string representing the units of measurement. Default is
       "imperial" (Fahrenheit). Other options are "metric" (Celsius) and
       "standard" (Kelvin).
+
+    * `:location_name` - An optional string representing the name of the location
+      for which weather data is being fetched. If present, the report will include
+      the location name in the output.
   """
 
   @type t() :: %Weather.Opts{
@@ -63,7 +67,8 @@ defmodule Weather.Opts do
           longitude: float(),
           test: String.t(),
           twelve: boolean(),
-          units: String.t()
+          units: String.t(),
+          zip: String.t()
         ]
 
   @keys [
@@ -77,7 +82,8 @@ defmodule Weather.Opts do
     :hours,
     :test,
     :twelve,
-    :units
+    :units,
+    :location_name
   ]
   @enforce_keys @keys
   defstruct @keys
@@ -93,8 +99,7 @@ defmodule Weather.Opts do
   def new(parsed_args \\ []) do
     with {:ok, test} <- test(parsed_args),
          {:ok, api_key} <- api_key(parsed_args, test),
-         {:ok, latitude} <- latitude(parsed_args, test),
-         {:ok, longitude} <- longitude(parsed_args, test),
+         {:ok, latitude, longitude, location_name} <- coords(parsed_args, api_key, test),
          {:ok, hide_alerts} <- hide_alerts(parsed_args),
          {:ok, alert_titles_only} <- alert_titles_only(parsed_args),
          {:ok, hours} <- hours(parsed_args),
@@ -113,7 +118,8 @@ defmodule Weather.Opts do
         longitude: longitude,
         test: test,
         twelve: twelve,
-        units: units
+        units: units,
+        location_name: location_name
       }
     else
       {:error, reason} ->
@@ -239,54 +245,56 @@ defmodule Weather.Opts do
     end
   end
 
-  defp latitude(_, test) when test != nil, do: {:ok, @fake_latitude}
+  defp coords(_, _, test) when test != nil, do: {:ok, @fake_latitude, @fake_longitude, nil}
 
-  defp latitude(parsed_args, _) do
-    parse_latitude(parsed_args[:latitude] || System.get_env("MY_HOME_LAT"))
-  end
-
-  defp parse_latitude(nil) do
-    {:error,
-     "Missing latitude. Please set the MY_HOME_LAT environment variable or provide a value via the --latitude flag."}
-  end
-
-  defp parse_latitude(latitude) when is_binary(latitude) do
-    case Float.parse(latitude) do
-      {parsed_latitude, ""} ->
-        {:ok, parsed_latitude}
-
-      _ ->
-        {:error, "Invalid latitude. Value provided must represent a float. Received: #{latitude}"}
+  defp coords(parsed_args, api_key, _) do
+    case parsed_args[:zip] do
+      nil -> parse_lat_long(parsed_args)
+      _ -> lookup_by_zip(parsed_args[:zip], api_key)
     end
   end
 
-  defp parse_latitude(latitude) when is_float(latitude) do
-    {:ok, latitude}
+  defp parse_lat_long(parsed_args) do
+    with {:ok, latitude} <-
+           parse_coord(:latitude, parsed_args[:latitude] || System.get_env("MY_HOME_LAT")),
+         {:ok, longitude} <-
+           parse_coord(:longitude, parsed_args[:longitude] || System.get_env("MY_HOME_LONG")) do
+      {:ok, latitude, longitude, nil}
+    else
+      {:error, msg} -> {:error, msg}
+    end
   end
 
-  defp longitude(_, test) when test != nil, do: {:ok, @fake_longitude}
-
-  defp longitude(parsed_args, _) do
-    parse_longitude(parsed_args[:longitude] || System.get_env("MY_HOME_LONG"))
+  defp parse_coord(type, nil) do
+    {:error, "Invalid --#{type}. Value provided must represent a float. Received: nil"}
   end
 
-  defp parse_longitude(nil) do
-    {:error,
-     "Missing longitude. Please set the MY_HOME_LONG environment variable or provide a value via the --longitude flag."}
-  end
-
-  defp parse_longitude(longitude) when is_binary(longitude) do
-    case Float.parse(longitude) do
-      {parsed_longitude, ""} ->
-        {:ok, parsed_longitude}
+  defp parse_coord(type, value) when is_binary(value) do
+    case Float.parse(value) do
+      {coord, ""} ->
+        {:ok, coord}
 
       _ ->
         {:error,
-         "Invalid longitude. Value provided must represent a float. Received: #{longitude}"}
+         "Invalid --#{type}. Value provided must represent a float. Received: #{inspect(value)}"}
     end
   end
 
-  defp parse_longitude(longitude) when is_float(longitude) do
-    {:ok, longitude}
+  defp parse_coord(_, value) when is_float(value), do: {:ok, value}
+
+  defp lookup_by_zip(zip, api_key) do
+    case Weather.API.fetch_location(%{zip: zip}, api_key) do
+      {:ok, %Req.Response{status: 200} = resp} ->
+        %{body: %{"lat" => latitude, "lon" => longitude, "name" => name}} = resp
+        {:ok, latitude, longitude, name}
+
+      {:ok, _} ->
+        {:error,
+         "Invalid --zip. Value provided must be a valid zip code. Received: #{inspect(zip)}"}
+
+      {:error, exception} ->
+        {:error,
+         "Exception encountered when making a request to the OpenWeatherMap API\n\n#{inspect(exception)}"}
+    end
   end
 end
