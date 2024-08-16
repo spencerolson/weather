@@ -160,7 +160,7 @@ defmodule WeatherTest do
 
                77° | very heavy rain | 76% humidity
 
-               FLOOD WATCH (5:00PM - 7:00AM)
+               FLOOD WATCH (Tue 5:00PM - Wed 7:00AM)
                * WHAT...Flash flooding caused by excessive rainfall is possible.
 
                * WHERE...Portions of Kansas, including the following areas,
@@ -184,7 +184,7 @@ defmodule WeatherTest do
                evening.
                - http://www.weather.gov/safety/flood
 
-               TORNADO WATCH (7:48PM - 9:00PM)
+               TORNADO WATCH (Tue 7:48PM - Tue 9:00PM)
                TORNADO WATCH 497 REMAINS VALID UNTIL 9 PM CDT THIS EVENING FOR
                THE FOLLOWING AREAS
 
@@ -202,7 +202,7 @@ defmodule WeatherTest do
                GREENTOP, KIRKSVILLE, LANCASTER, MILAN, QUEEN CITY,
                AND UNIONVILLE.
 
-               SEVERE THUNDERSTORM WARNING (8:12PM - 9:30PM)
+               SEVERE THUNDERSTORM WARNING (Tue 8:12PM - Tue 9:30PM)
                SVREAX
 
                The National Weather Service in Pleasant Hill has issued a
@@ -231,7 +231,7 @@ defmodule WeatherTest do
                Elmer, Ethel, South Gifford, Kirksville Regional, New Boston, and
                Saint Catherine.
 
-               SEVERE THUNDERSTORM WARNING (7:42PM - 8:45PM)
+               SEVERE THUNDERSTORM WARNING (Tue 7:42PM - Tue 8:45PM)
                SVREAX
 
                The National Weather Service in Pleasant Hill has issued a
@@ -263,7 +263,7 @@ defmodule WeatherTest do
                Brashear, Wheeling, Browning, New Cambria, Purdin, Gibbs, Millard,
                and Elmer.
 
-               SEVERE THUNDERSTORM WARNING (8:17PM - 8:45PM)
+               SEVERE THUNDERSTORM WARNING (Tue 8:17PM - Tue 8:45PM)
                At 816 PM CDT, severe thunderstorms were located along a line
                extending from near Greentop to near Laclede, moving east at 25 mph.
 
@@ -314,15 +314,15 @@ defmodule WeatherTest do
 
                77° | very heavy rain | 76% humidity
 
-               FLOOD WATCH (5:00PM - 7:00AM)
+               FLOOD WATCH (Tue 5:00PM - Wed 7:00AM)
 
-               TORNADO WATCH (7:48PM - 9:00PM)
+               TORNADO WATCH (Tue 7:48PM - Tue 9:00PM)
 
-               SEVERE THUNDERSTORM WARNING (8:12PM - 9:30PM)
+               SEVERE THUNDERSTORM WARNING (Tue 8:12PM - Tue 9:30PM)
 
-               SEVERE THUNDERSTORM WARNING (7:42PM - 8:45PM)
+               SEVERE THUNDERSTORM WARNING (Tue 7:42PM - Tue 8:45PM)
 
-               SEVERE THUNDERSTORM WARNING (8:17PM - 8:45PM)
+               SEVERE THUNDERSTORM WARNING (Tue 8:17PM - Tue 8:45PM)
                """
              }
     end
@@ -423,7 +423,7 @@ defmodule WeatherTest do
 
                77° | very heavy rain | 76% humidity
 
-               \e[38;5;9mFLOOD WATCH (5:00PM - 7:00AM)\e[0m
+               \e[38;5;9mFLOOD WATCH (Tue 5:00PM - Wed 7:00AM)\e[0m
                * WHAT...Flash flooding caused by excessive rainfall is possible.
 
                * WHERE...Portions of Kansas, including the following areas,
@@ -447,7 +447,7 @@ defmodule WeatherTest do
                evening.
                - http://www.weather.gov/safety/flood
 
-               \e[38;5;9mTORNADO WATCH (7:48PM - 9:00PM)\e[0m
+               \e[38;5;9mTORNADO WATCH (Tue 7:48PM - Tue 9:00PM)\e[0m
                TORNADO WATCH 497 REMAINS VALID UNTIL 9 PM CDT THIS EVENING FOR
                THE FOLLOWING AREAS
 
@@ -465,7 +465,7 @@ defmodule WeatherTest do
                GREENTOP, KIRKSVILLE, LANCASTER, MILAN, QUEEN CITY,
                AND UNIONVILLE.
 
-               \e[38;5;9mSEVERE THUNDERSTORM WARNING (8:12PM - 9:30PM)\e[0m
+               \e[38;5;9mSEVERE THUNDERSTORM WARNING (Tue 8:12PM - Tue 9:30PM)\e[0m
                SVREAX
 
                The National Weather Service in Pleasant Hill has issued a
@@ -494,7 +494,7 @@ defmodule WeatherTest do
                Elmer, Ethel, South Gifford, Kirksville Regional, New Boston, and
                Saint Catherine.
 
-               \e[38;5;9mSEVERE THUNDERSTORM WARNING (7:42PM - 8:45PM)\e[0m
+               \e[38;5;9mSEVERE THUNDERSTORM WARNING (Tue 7:42PM - Tue 8:45PM)\e[0m
                SVREAX
 
                The National Weather Service in Pleasant Hill has issued a
@@ -526,7 +526,7 @@ defmodule WeatherTest do
                Brashear, Wheeling, Browning, New Cambria, Purdin, Gibbs, Millard,
                and Elmer.
 
-               \e[38;5;9mSEVERE THUNDERSTORM WARNING (8:17PM - 8:45PM)\e[0m\
+               \e[38;5;9mSEVERE THUNDERSTORM WARNING (Tue 8:17PM - Tue 8:45PM)\e[0m\
 
                At 816 PM CDT, severe thunderstorms were located along a line
                extending from near Greentop to near Laclede, moving east at 25 mph.
