@@ -19,6 +19,17 @@ defmodule Weather do
     |> handle_response(opts)
   end
 
+  @doc """
+  Fetches weather from the OpenWeatherMap API. Raises a `RuntimeError` if any problems are encountered.
+  """
+  @spec get!(Weather.Opts.t()) :: String.t()
+  def get!(%Weather.Opts{} = opts \\ Weather.Opts.new()) do
+    case get(opts) do
+      {:ok, report} -> report
+      {:error, error} -> raise RuntimeError, error
+    end
+  end
+
   defp handle_response({:ok, %Req.Response{status: 200} = resp}, opts) do
     {:ok, Weather.ComprehensiveReport.generate(resp, opts)}
   end
