@@ -3,6 +3,8 @@ defmodule Weather.Report.Alerts do
   Generates a report for any active alerts.
   """
 
+  use Weather.Report
+
   alias Weather.Colors
   alias Weather.DateUtils
 
@@ -13,11 +15,8 @@ defmodule Weather.Report.Alerts do
   @doc """
   Generate a report for any active alerts.
   """
-  @spec generate({list(), map()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body}), do: generate({report, body, Weather.Opts.new()})
-
-  @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body, %Weather.Opts{} = opts}), do: add_alerts({report, body, opts})
+  @impl Weather.Report
+  def generate({report, body, opts}), do: add_alerts({report, body, opts})
 
   defp add_alerts(
          {report, %{"alerts" => alerts} = body, %Weather.Opts{hide_alerts: false} = opts}

@@ -3,6 +3,8 @@ defmodule Weather.Report.RainHourly do
   Generates a report showing which hours rain is forecasted (up to 24 hours).
   """
 
+  use Weather.Report
+
   alias Weather.DateUtils
 
   @max_hours 24
@@ -10,11 +12,8 @@ defmodule Weather.Report.RainHourly do
   @doc """
   Generates a report showing which hours rain is forecasted (up to 24 hours).
   """
-  @spec generate({list(), map()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body}), do: generate({report, body, Weather.Opts.new()})
-
-  @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body, %Weather.Opts{} = opts}) do
+  @impl Weather.Report
+  def generate({report, body, opts}) do
     body
     |> raining_streaks(opts)
     |> Enum.map(fn streak ->
