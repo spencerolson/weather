@@ -6,7 +6,10 @@ defmodule Weather.DateUtils do
   @doc """
   Returns the time specific to the hour, displayed in 12-hour or 24-hour format.
   """
+
   @spec time_by_hour(integer(), String.t(), Weather.Opts.t()) :: String.t()
+  def time_by_hour(unix_time, timezone, opts \\ Weather.Opts.new())
+
   def time_by_hour(unix_time, timezone, %Weather.Opts{twelve: true}) when is_integer(unix_time) do
     time(unix_time, timezone, "%-I%p")
   end
@@ -19,12 +22,15 @@ defmodule Weather.DateUtils do
   Returns the time specific to the minute, displayed in 12-hour or 24-hour format.
   """
   @spec time_by_minute(integer(), String.t(), Weather.Opts.t()) :: String.t()
-  def time_by_minute(unix_time, timezone, %Weather.Opts{twelve: true} = _opts)
+  def time_by_minute(unix_time, timezone, opts \\ Weather.Opts.new())
+
+  def time_by_minute(unix_time, timezone, %Weather.Opts{twelve: true})
       when is_integer(unix_time) do
     time(unix_time, timezone, "%-I:%0M%p")
   end
 
-  def time_by_minute(unix_time, timezone, _) when is_integer(unix_time) do
+  def time_by_minute(unix_time, timezone, %Weather.Opts{twelve: false})
+      when is_integer(unix_time) do
     time(unix_time, timezone, "%0H:%0M")
   end
 
@@ -32,12 +38,15 @@ defmodule Weather.DateUtils do
   Returns the time specific to the minute, displayed in 12-hour or 24-hour format, with the day.
   """
   @spec time_by_minute_with_day(integer(), String.t(), Weather.Opts.t()) :: String.t()
-  def time_by_minute_with_day(unix_time, timezone, %Weather.Opts{twelve: true} = _opts)
+  def time_by_minute_with_day(unix_time, timezone, opts \\ Weather.Opts.new())
+
+  def time_by_minute_with_day(unix_time, timezone, %Weather.Opts{twelve: true})
       when is_integer(unix_time) do
     time(unix_time, timezone, "%a %-I:%0M%p")
   end
 
-  def time_by_minute_with_day(unix_time, timezone, _) when is_integer(unix_time) do
+  def time_by_minute_with_day(unix_time, timezone, %Weather.Opts{twelve: false})
+      when is_integer(unix_time) do
     time(unix_time, timezone, "%a %0H:%0M")
   end
 

@@ -10,6 +10,9 @@ defmodule Weather.Report.RainHourly do
   @doc """
   Generates a report showing which hours rain is forecasted (up to 24 hours).
   """
+  @spec generate({list(), map()}) :: {list(), map(), Weather.Opts.t()}
+  def generate({report, body}), do: generate({report, body, Weather.Opts.new()})
+
   @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
   def generate({report, body, %Weather.Opts{} = opts}) do
     body
