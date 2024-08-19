@@ -14,6 +14,8 @@ defmodule Weather.API do
   Fetches weather data from the OpenWeatherMap API.
   """
   @spec fetch_weather(Weather.Opts.t()) :: {:ok, Req.Response.t()} | {:error, Exception.t()}
+  def fetch_weather(opts \\ Weather.Opts.new())
+
   def fetch_weather(%Weather.Opts{test: nil} = opts) do
     set_req_default_options()
 
@@ -29,6 +31,10 @@ defmodule Weather.API do
 
   def fetch_weather(%Weather.Opts{test: test}),
     do: {:ok, Req.Response.new(status: 200, body: fake_body(test))}
+
+  defp fake_body("clear"), do: Clear.response()
+  defp fake_body("rain"), do: Rain.response()
+  defp fake_body("storm"), do: Storm.response()
 
   @doc """
   Fetches location data (latitude, longitude, name, country) given a zip code.
@@ -48,10 +54,6 @@ defmodule Weather.API do
     |> Application.get_env(:finch_config)
     |> Req.default_options()
   end
-
-  defp fake_body("clear"), do: Clear.response()
-  defp fake_body("rain"), do: Rain.response()
-  defp fake_body("storm"), do: Storm.response()
 
   defp req_opts(params, url) do
     Keyword.merge(

@@ -11,6 +11,9 @@ defmodule Weather.Report.RainMinutely do
   @doc """
   Generates a chart showing rain intensity each minute for the next hour.
   """
+  @spec generate({list(), map()}) :: {list(), map(), Weather.Opts.t()}
+  def generate({report, body}), do: generate({report, body, Weather.Opts.new()})
+
   @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
   def generate({report, %{"minutely" => _} = body, %Weather.Opts{} = opts}) do
     report
