@@ -1,4 +1,4 @@
-defmodule Weather.Report do
+defmodule Weather.ComprehensiveReport do
   @moduledoc """
   Generates a comprehensive weather report composed of subreports.
   """
