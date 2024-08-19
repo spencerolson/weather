@@ -3,19 +3,18 @@ defmodule Weather.Report.Hourly do
   Generates an hourly report up to 48 hours, reporting every N hours (starting now, N defaulting to 3).
   """
 
+  use Weather.Report
+
   alias Weather.Colors
   alias Weather.DateUtils
 
   @separator "\n"
 
   @doc """
-  Generate an hourly report.
+  Generate an hourly temperature report.
   """
-  @spec generate({list(), map()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body}), do: generate({report, body, Weather.Opts.new()})
-
-  @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body, %Weather.Opts{} = opts}) do
+  @impl Weather.Report
+  def generate({report, body, opts}) do
     report
     |> add_hourly_weather(body, opts)
     |> then(&{&1, body, opts})

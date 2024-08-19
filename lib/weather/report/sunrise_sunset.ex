@@ -3,16 +3,16 @@ defmodule Weather.Report.SunriseSunset do
   Generates a report showing sunrise and sunset times.
   """
 
+  use Weather.Report
+
   alias Weather.DateUtils
 
   @doc """
   Generates a sunrise and sunset report.
   """
-  @spec generate({list(), map()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body}), do: generate({report, body, Weather.Opts.new()})
 
-  @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body, %Weather.Opts{} = opts}) do
+  @impl Weather.Report
+  def generate({report, body, opts}) do
     %{
       "current" => %{"sunrise" => sunrise, "sunset" => sunset},
       "timezone" => timezone

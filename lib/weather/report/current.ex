@@ -3,14 +3,13 @@ defmodule Weather.Report.Current do
   Generates a report for the current weather.
   """
 
+  use Weather.Report
+
   @doc """
   Generate a report for the current weather.
   """
-  @spec generate({list(), map()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body}), do: generate({report, body, Weather.Opts.new()})
-
-  @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body, %Weather.Opts{} = opts}) do
+  @impl Weather.Report
+  def generate({report, body, opts}) do
     report
     |> add_current_weather(body)
     |> then(&{&1, body, opts})

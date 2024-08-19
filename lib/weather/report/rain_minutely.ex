@@ -3,6 +3,8 @@ defmodule Weather.Report.RainMinutely do
   Generates a chart showing rain intensity each minute for the next hour.
   """
 
+  use Weather.Report
+
   alias Weather.DateUtils
 
   @rain_indicator "."
@@ -11,11 +13,8 @@ defmodule Weather.Report.RainMinutely do
   @doc """
   Generates a chart showing rain intensity each minute for the next hour.
   """
-  @spec generate({list(), map()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, body}), do: generate({report, body, Weather.Opts.new()})
-
-  @spec generate({list(), map(), Weather.Opts.t()}) :: {list(), map(), Weather.Opts.t()}
-  def generate({report, %{"minutely" => _} = body, %Weather.Opts{} = opts}) do
+  @impl Weather.Report
+  def generate({report, %{"minutely" => _} = body, opts}) do
     report
     |> add_rain_report(body, opts)
     |> then(&{&1, body, opts})
