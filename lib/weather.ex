@@ -20,7 +20,7 @@ defmodule Weather do
   end
 
   defp handle_response({:ok, %Req.Response{status: 200} = resp}, opts) do
-    {:ok, Weather.Report.generate(resp, opts)}
+    {:ok, Weather.ComprehensiveReport.generate(resp, opts)}
   end
 
   defp handle_response({:ok, %Req.Response{status: 401} = resp}, _opts) do
