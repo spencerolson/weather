@@ -1,5 +1,12 @@
 # Changelog for `Weather`
 
+## 0.2.8
+
+### Features
+- Add `Weather.get!` ([bd7aadc](https://github.com/spencerolson/weather/commit/bd7aadcb6c8f5449dfded495b9ebb43e846dcb6c))
+- Redact `appid` when inspecting %Weather.Opts{} ([927f630](https://github.com/spencerolson/weather/commit/927f630fcfdd8f9143712d8bba4a402b14c35b58))
+- Add default args to many methods for ease of use ([38710fe](https://github.com/spencerolson/weather/commit/38710fe8a1b4ccfbc5eb4a780105978200152f32))
+
 ## 0.2.7
 
 ### Bug Fixes
