@@ -141,7 +141,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-                                  << ☔ 8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
+                                  << 🌧️  8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [.........       ...............     ........................]
@@ -151,7 +151,7 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               ☔ 9PM - 2AM
+               🌧️  9PM - 2AM
 
                🌞 5:44AM | 🌚 8:42PM
 
@@ -295,7 +295,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-                                  << ☔ 8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
+                                  << 🌧️  8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [.........       ...............     ........................]
@@ -305,7 +305,7 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               ☔ 9PM - 2AM
+               🌧️  9PM - 2AM
 
                🌞 5:44AM | 🌚 8:42PM
 
@@ -338,7 +338,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-                                  << ☔ 7:28AM - 8:27AM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
+                                  << 🌧️  7:28AM - 8:27AM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [                                                            ]
@@ -348,7 +348,7 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               ☔ 7AM - 9AM, 10AM - 12PM
+               🌧️  7AM - 9AM, 10AM - 12PM
 
                🌞 6:01AM | 🌚 7:52PM
 
@@ -371,7 +371,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-                                  << ☔ 8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
+                                  << 🌧️  8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [.........       ...............     ........................]
@@ -381,7 +381,7 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               ☔ 9PM - 2AM
+               🌧️  9PM - 2AM
 
                🌞 5:44AM | 🌚 8:42PM
 
@@ -404,7 +404,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-                                  << ☔ 8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
+                                  << 🌧️  8:28PM - 9:27PM >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [.........       ...............     ........................]
@@ -414,7 +414,7 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               ☔ 9PM - 2AM
+               🌧️  9PM - 2AM
 
                🌞 5:44AM | 🌚 8:42PM
 
@@ -559,7 +559,7 @@ defmodule WeatherTest do
                :ok,
                """
 
-                                   << ☔ 07:28 - 08:27 >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
+                                   << 🌧️  07:28 - 08:27 >>\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
                [                                                            ]
                [                                                            ]
@@ -569,7 +569,7 @@ defmodule WeatherTest do
                [............................................................]
                                +              +              +\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s
 
-               ☔ 07 - 09, 10 - 12
+               🌧️  07 - 09, 10 - 12
 
                🌞 06:01 | 🌚 19:52
 

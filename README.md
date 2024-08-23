@@ -31,7 +31,7 @@ Weather.API.fetch_weather(opts)
 
 Weather.get!(opts) |> IO.puts
 
-                    << ☔ 12:28PM - 1:27PM >>
+                    << 🌧️ 12:28PM - 1:27PM >>
 
  [                                                            ]
  [                                                            ]
@@ -41,7 +41,7 @@ Weather.get!(opts) |> IO.puts
  [............................................................]
                  +              +              +
 
- ☔ 12PM - 2PM, 3PM - 5PM
+ 🌧️ 12PM - 2PM, 3PM - 5PM
 
  🌞 11:01AM | 🌚 12:52AM
 
@@ -281,7 +281,7 @@ $ weather --every 1 --hours 5
 ```bash
 $ weather --test storm --alert-titles-only
 
-                   << ☔ 8:28PM - 9:27PM >>
+                   << 🌧️ 8:28PM - 9:27PM >>
 
 [                                                            ]
 [.........       ...............     ........................]
@@ -291,7 +291,7 @@ $ weather --test storm --alert-titles-only
 [............................................................]
                 +              +              +
 
-☔ 9PM - 2AM
+🌧️ 9PM - 2AM
 
 🌞 5:44AM | 🌚 8:42PM
 
