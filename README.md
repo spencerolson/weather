@@ -66,6 +66,18 @@ $ weather --units metric --no-twelve
 25° | clear sky | 48% humidity
 ```
 
+## Features
+- Access to raw API responses
+- Access to formatted rain reports
+- ANSI-colorized output
+- Detailed rain intensity forecast for the next hour
+- Weather alerts
+- Customizable length and interval for hourly weather
+- Customizable time (12 or 24 hour) and temp display (celsius, fahrenheit, kelvin)
+- Usable as a dependency or standalone CLI
+- Weather lookup by ZIP code
+- Mock weather responses to test responses for varying conditions
+
 ## Getting Started
 
 In order to fetch real weather data, you'll want to first create an API Key for OpenWeatherMap's ["One Call API 3.0"](https://openweathermap.org/api/one-call-3) service. However, if you're not ready to do that yet, you can always play around with `Weather` by passing the `test` option (for more information, see the [Options](#options) section below).
@@ -76,7 +88,7 @@ Follow the directions on OpenWeatherMap's ["One Call API 3.0"](https://openweath
 
 After creating your API Key, make sure to set your "Calls per day (no more than)" to 1,000 at your [subscriptions](https://home.openweathermap.org/subscriptions) page. This ensures you'll never go over the limit of the 1,000 free API calls per day (I believe the default is 2,000 which is a bit irritating).
 
-Note that it can take some time for your API key to become ready for use. I think it took a few hours for my key to become activated.
+It can take some time for your API key to become ready for use. I think it took a few hours for my key to become activated.
 
 ### <a id="set-env-vars"></a> (Optional) Set environment variables for your API Key, Latitude, and Longitude
 
@@ -207,10 +219,37 @@ All available modules can be found on [hexdocs](https://hexdocs.pm/weather).
    <big list of options>
    ```
 
-## Options
-Option names listed below are for the command line interface. All options can also be passed as a [Keyword list](https://hexdocs.pm/elixir/keywords-and-maps.html#keyword-lists) to [`Weather.Opts.new/1`]. Note that hyphens must be converted to underscores for the option names passed to [`Weather.Opts.new/1`]. For example, `Weather.Opts.new(hide_alerts: true)`
+## "Minutely" Rain Chart
 
-*Note that boolean switches take no values. --someval sets the value to `true` and --no-someval sets the value to `false`.*
+When any rain is expected within the next hour, a rain chart will be output by [`Weather.Report.RainMinutely/1`]. It looks something like:
+
+```bash
+                    << 🌧️ 12:28PM - 1:27PM >>
+
+ [                                                            ]
+ [                                                            ]
+ [                    ........................................]
+ [............................................................]
+ [............................................................]
+ [............................................................]
+                 +              +              +
+```
+
+For each column, the number of dots corresponds with the rain intensity for that minute:
+- 0 dots = "No Rain"
+- 1 dot  = "Very Light" (< 0.25 mm/hr)
+- 2 dots = "Light" (>= 0.25 and < 1 mm/hr)
+- 3 dots = "Moderate" (>= 1 and < 4 mm/hr)
+- 4 dots = "Heavy" (>= 4 and < 16 mm/hr)
+- 5 dots = "Very Heavy" (>= 16 and < 50 mm/hr)
+- 5 dots = "Violent" (>= 50 mm/hr)
+
+The `+` characters are 15-minute markers. So the first `+` is 15 minutes from now, the second `+` is 30 minutes from now, and the third `+` is 45 minutes from now.
+
+## Options
+Option names listed below are for the command line interface. All options can also be passed as a [Keyword list](https://hexdocs.pm/elixir/keywords-and-maps.html#keyword-lists) to [`Weather.Opts.new/1`]. Hyphens must be converted to underscores for the option names passed to [`Weather.Opts.new/1`]. For example, `Weather.Opts.new(hide_alerts: true)`
+
+*Boolean switches take no values. --someval sets the value to `true` and --no-someval sets the value to `false`.*
 
 - `--help` (`-h`): Prints the help message. (boolean)
 - `--hide-alerts` (`-l`): Hides weather alerts, even when alerts are available. Default is false, which shows alerts if there are any available. (boolean)
@@ -232,7 +271,7 @@ Option names listed below are for the command line interface. All options can al
 All examples below assume the api key, latitude, and longitude environment variables have been set (see [(Optional) Set environment variables for your API Key, Latitude, and Longitude
 ](#set-env-vars))
 
-### Fetch weather using a zip code (no latitude or longitude needed)
+### Fetch weather using a ZIP code (no latitude or longitude needed)
 
 ```bash
 $ weather --zip 60618
@@ -247,6 +286,8 @@ Chicago
 79° | broken clouds | 44% humidity
 
 ```
+
+Fetching weather by ZIP code will result in _two_ API calls to OpenWeather; one to get the location data for that ZIP, and one to get the weather.
 
 ### Fetch weather with results in Celcius and using 24-hour time.
 
@@ -328,6 +369,40 @@ Home Sweet Home
 
 ```
 
+### Get the latitude, longitude, and name of a location by ZIP code (`iex` only)
+
+```elixir
+opts = Weather.Opts.new(zip: 60618)
+opts.latitude
+# => 41.9464
+opts.longitude
+# => -87.7042
+opts.label
+# => "Chicago"
+```
+
+### View the temperature thresholds for colorized output (`iex` only)
+
+When viewed in iex, you will see different colors for each temp in the output (you can't see them in this README because markdown doesn't support ANSI colors).
+
+```elixir
+Weather.Colors.list_current()
+
+Current Color Configuration (temps in fahrenheit)
+
+-10°
+0°
+33°
+40°
+50°
+60°
+70°
+80°
+90°
+100°
+# => :ok
+```
+
 ## License
 
 The MIT License (MIT)
@@ -341,3 +416,4 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [`Weather.Opts.new/1`]: https://hexdocs.pm/weather/Weather.Opts.html#new/1
+[`Weather.Report.RainMinutely/1`]: https://hexdocs.pm/weather/Weather.Report.RainMinutely.html#generate/1
