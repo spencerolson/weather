@@ -80,7 +80,7 @@ Note that it can take some time for your API key to become ready for use. I thin
 
 ### <a id="set-env-vars"></a> (Optional) Set environment variables for your API Key, Latitude, and Longitude
 
-Set the `OPENWEATHER_API_KEY` (openweather API key), `MY_HOME_LAT` (latitude), and `MY_HOME_LONG` (longitude) environment variables. With these set, you won't need to pass this information to [`Weather.Opts.new/1`] and it'll default to using these values.
+Set the `OPENWEATHER_API_KEY`, `WEATHER_LATITUDE`, and `WEATHER_LONGITUDE` environment variables. With these set, you won't need to pass `api_key`, `latitude`, or `longitude` to [`Weather.Opts.new/1`] and it'll default to using these values.
 
 For example, with these environment variables set you can simply:
 
