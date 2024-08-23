@@ -1,4 +1,4 @@
-# Weather
+# <img src="priv/static/images/logo.png" alt="Logo" height="30"/> Weather
 
 [![Build
 Status](https://github.com/spencerolson/weather/actions/workflows/elixir.yml/badge.svg)](https://github.com/spencerolson/weather/actions/workflows/elixir.yml) [![License](https://img.shields.io/hexpm/l/weather.svg)](https://github.com/spencerolson/weather/blob/main/LICENSE.md) [![Hex.pm](https://img.shields.io/hexpm/v/weather.svg)](https://hex.pm/packages/weather) [![Documentation](https://img.shields.io/badge/documentation-purple)](https://hexdocs.pm/weather)
