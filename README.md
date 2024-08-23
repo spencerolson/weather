@@ -221,7 +221,7 @@ All available modules can be found on [hexdocs](https://hexdocs.pm/weather).
 
 ## "Minutely" Rain Chart
 
-When any rain is expected within the next hour, a rain chart will be output by [`Weather.Report.RainMinutely/1`]. It looks something like:
+When any rain is expected within the next hour, a rain chart will be output by [`Weather.Report.RainMinutely.generate/1`]. It looks something like:
 
 ```bash
                     << 🌧️ 12:28PM - 1:27PM >>
@@ -416,4 +416,4 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [`Weather.Opts.new/1`]: https://hexdocs.pm/weather/Weather.Opts.html#new/1
-[`Weather.Report.RainMinutely/1`]: https://hexdocs.pm/weather/Weather.Report.RainMinutely.html#generate/1
+[`Weather.Report.RainMinutely.generate/1`]: https://hexdocs.pm/weather/Weather.Report.RainMinutely.html#generate/1
