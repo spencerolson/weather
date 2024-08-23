@@ -259,9 +259,9 @@ defmodule Weather.Opts do
 
   defp parse_lat_long(parsed_args) do
     with {:ok, latitude} <-
-           parse_coord(:latitude, parsed_args[:latitude] || System.get_env("MY_HOME_LAT")),
+           parse_coord(:latitude, parsed_args[:latitude] || System.get_env("WEATHER_LATITUDE")),
          {:ok, longitude} <-
-           parse_coord(:longitude, parsed_args[:longitude] || System.get_env("MY_HOME_LONG")) do
+           parse_coord(:longitude, parsed_args[:longitude] || System.get_env("WEATHER_LONGITUDE")) do
       {:ok, latitude, longitude, nil}
     else
       {:error, msg} -> {:error, msg}
