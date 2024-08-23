@@ -85,7 +85,7 @@ defmodule Weather.Report.RainMinutely do
     start_time = DateUtils.time_by_minute(start_dt, tz, opts)
     end_time = DateUtils.time_by_minute(end_dt, tz, opts)
 
-    "<< ☔ #{start_time} - #{end_time} >>"
+    "<< 🌧️  #{start_time} - #{end_time} >>"
     |> center(report)
     |> then(&[&1, "" | report])
   end

@@ -27,7 +27,7 @@ defmodule Weather.Report.RainHourly do
   defp add_to_report([], report, body, opts), do: {report, body, opts}
 
   defp add_to_report(rain_streaks, report, body, opts) do
-    rain_report = "☔ " <> Enum.join(rain_streaks, ", ")
+    rain_report = "🌧️  " <> Enum.join(rain_streaks, ", ")
     {[rain_report | report], body, opts}
   end
 
