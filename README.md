@@ -242,7 +242,7 @@ For each column, the number of dots corresponds with the rain intensity for that
 - 3 dots = "Moderate" (>= 1 and < 4 mm/hr)
 - 4 dots = "Heavy" (>= 4 and < 16 mm/hr)
 - 5 dots = "Very Heavy" (>= 16 and < 50 mm/hr)
-- 5 dots = "Violent" (>= 50 mm/hr)
+- 6 dots = "Violent" (>= 50 mm/hr)
 
 The `+` characters are 15-minute markers. So the first `+` is 15 minutes from now, the second `+` is 30 minutes from now, and the third `+` is 45 minutes from now.
 
