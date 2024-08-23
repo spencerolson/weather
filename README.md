@@ -1,7 +1,7 @@
 # <img src="priv/static/images/logo.png" alt="Logo" height="30"/> Weather
 
 [![Build
-Status](https://github.com/spencerolson/weather/actions/workflows/elixir.yml/badge.svg)](https://github.com/spencerolson/weather/actions/workflows/elixir.yml) [![Hex.pm](https://img.shields.io/hexpm/v/weather.svg)](https://hex.pm/packages/weather) [![Documentation](https://img.shields.io/badge/documentation-purple)](https://hexdocs.pm/weather)
+Status](https://github.com/spencerolson/weather/actions/workflows/elixir.yml/badge.svg)](https://github.com/spencerolson/weather/actions/workflows/elixir.yml) [![License](https://img.shields.io/hexpm/l/weather.svg)](https://github.com/spencerolson/weather/blob/main/LICENSE.md) [![Hex.pm](https://img.shields.io/hexpm/v/weather.svg)](https://hex.pm/packages/weather) [![Documentation](https://img.shields.io/badge/documentation-purple)](https://hexdocs.pm/weather)
 
 An Elixir library for fetching data from the [OpenWeatherMap One Call API 3.0](https://openweathermap.org/api/one-call-3) service.
 
@@ -405,15 +405,27 @@ Current Color Configuration (temps in fahrenheit)
 
 ## License
 
-The MIT License (MIT)
+MIT License
 
 Copyright (c) 2024 Spencer Olson
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 [`Weather.Opts.new/1`]: https://hexdocs.pm/weather/Weather.Opts.html#new/1
 [`Weather.Report.RainMinutely.generate/1`]: https://hexdocs.pm/weather/Weather.Report.RainMinutely.html#generate/1
