@@ -1,5 +1,14 @@
 # Changelog for `Weather`
 
+## 0.3.0
+
+### Breaking Changes
+- Rename latitude and longitude env vars. `MY_HOME_LAT` -> `WEATHER_LATITUDE`, `MY_HOME_LONG` -> `WEATHER_LONGITUDE` ([fd0fd10](https://github.com/spencerolson/weather/commit/fd0fd10680ca5504f105dea4d9ba8f208fbe34a5))
+- Change rain icon `☔ -> 🌧️`. Arguably not a breaking change but it could be if folks match on the icon ([eee817f](https://github.com/spencerolson/weather/commit/eee817f92a34380cb2fdcd3cb486bcebb4d5b67b))
+
+### Features
+- Update the README, finally! ([a33eda3](https://github.com/spencerolson/weather/commit/a33eda3fafc7017aa6e7e391f09f7669e98385a9))
+
 ## 0.2.8
 
 ### Features
