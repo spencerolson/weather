@@ -734,5 +734,23 @@ defmodule WeatherTest do
                """
              }
     end
+
+    test "omits hourly data when passed 0 for hours", context do
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
+      end)
+
+      assert Weather.get(%Weather.Opts{context.opts | hours: 0}) == {
+               :ok,
+               """
+
+               🌞 5:17AM | 🌚 8:25PM
+
+               77° | scattered clouds | 37% humidity
+               """
+             }
+    end
   end
 end

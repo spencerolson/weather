@@ -14,6 +14,11 @@ defmodule Weather.Report.Hourly do
   Generate an hourly temperature report.
   """
   @impl Weather.Report
+  def generate({_, _, %Weather.Opts{hours: h, every_n_hours: e}} = weather)
+      when 0 in [h, e] do
+    weather
+  end
+
   def generate({report, body, opts}) do
     report
     |> add_hourly_weather(body, opts)
