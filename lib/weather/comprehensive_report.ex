@@ -26,6 +26,7 @@ defmodule Weather.ComprehensiveReport do
     |> RainHourly.generate()
     |> RainMinutely.generate()
     |> add_label()
+    |> generate_custom_reports()
     |> aggregate_report()
     |> add_padding()
   end
@@ -43,4 +44,10 @@ defmodule Weather.ComprehensiveReport do
 
   defp aggregate_report({report, _body, _opts}), do: Enum.join(report, @separator)
   defp add_padding(report), do: @padding <> report <> @padding
+
+  defp generate_custom_reports(weather) do
+    :weather
+    |> Application.get_env(:custom_reports, [])
+    |> Enum.reduce(weather, fn report, acc -> report.generate(acc) end)
+  end
 end
