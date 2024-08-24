@@ -90,7 +90,7 @@ After creating your API Key, make sure to set your "Calls per day (no more than)
 
 It can take some time for your API key to become ready for use. I think it took a few hours for my key to become activated.
 
-### <a id="set-env-vars"></a> (Optional) Set environment variables for your API Key, Latitude, and Longitude
+### (Optional) Set environment variables for your API Key, Latitude, and Longitude
 
 Set the `OPENWEATHER_API_KEY`, `WEATHER_LATITUDE`, and `WEATHER_LONGITUDE` environment variables. With these set, you won't need to pass `api_key`, `latitude`, or `longitude` to [`Weather.Opts.new/1`] and it'll default to using these values.
 
@@ -266,10 +266,73 @@ Option names listed below are for the command line interface. All options can al
 - `--twelve` (`-w`): Enables 12-hour time format for the hourly report. Defaults to true. When false, 24-hour time format is used. (boolean)
 - `--zip` (`-z`): A zip code string to fetch weather data for. This can be used in place of latitude and longitude. (string)
 
+## Customization
+
+### How to Customize your Weather Report
+
+1. Define a module in `lib/weather/report/custom` that implements the `Weather.Report` behaviour (definines `generate/1`).
+
+   ```elixir
+   defmodule Weather.Report.Custom.FullMoon do
+     @moduledoc """
+     A custom `Weather.Report` that prints when there's a full moon.
+     """
+
+     use Weather.Report
+
+     @full_moon_phase 0.5
+
+     @doc """
+     Generates a full moon report.
+     """
+     @impl Weather.Report
+     def generate({report, %{"daily" => [%{"moon_phase" => @full_moon_phase} | _]} = body, opts}) do
+       {
+         ["🌝🌚 OMG FULL MOON TONIGHT 🌚🌝" | report],
+         body,
+         opts
+       }
+     end
+
+     def generate(weather), do: weather
+   end
+   ```
+
+2. Add that module to the list of custom reports in your `config/config.exs`
+
+   ```elixir
+   config :weather, custom_reports: [Weather.Report.Custom.FullMoon]
+   ```
+
+3. Re-generate the escript
+
+   ```bash
+   $ mix escript.build
+   ```
+
+4. Wait for a full moon...🌑🌒🌓🌔🌕
+
+5. Enjoy your customized weather report
+
+   ```bash
+   $ ./weather
+
+   🌝🌚 OMG FULL MOON TONIGHT 🌚🌝
+
+   🌞 5:17AM | 🌚 8:25PM
+
+   76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°
+   3PM      6PM      9PM      12AM     3AM
+
+   77° | scattered clouds | 37% humidity
+   ```
+
+6. Issue a [pull request](https://github.com/spencerolson/weather/pulls) to have your custom report added to the repo so others can use it! :D (please don't include the changes you made to `config/config.exs` in your PR)
+
 ## Examples
 
 All examples below assume the api key, latitude, and longitude environment variables have been set (see [(Optional) Set environment variables for your API Key, Latitude, and Longitude
-](#set-env-vars))
+](#optional-set-environment-variables-for-your-api-key-latitude-and-longitude))
 
 ### Fetch weather using a ZIP code (no latitude or longitude needed)
 

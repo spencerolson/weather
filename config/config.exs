@@ -8,3 +8,7 @@ if config_env() == :test do
       plug: {Req.Test, Weather.API}
     ]
 end
+
+# config :weather, custom_reports: [
+#   Weather.Report.Custom.FullMoon
+# ]

@@ -40,7 +40,7 @@ defmodule Weather.TestResponse.Clear do
             "night" => 60.31
           },
           "humidity" => 45,
-          "moon_phase" => 0.04,
+          "moon_phase" => 0.5,
           "moonrise" => 1_717_757_280,
           "moonset" => 1_717_816_500,
           "pop" => 0,

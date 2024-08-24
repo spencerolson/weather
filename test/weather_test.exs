@@ -12,6 +12,8 @@ defmodule WeatherTest do
 
   describe "get/1" do
     setup do
+      on_exit(fn -> Application.delete_env(:weather, :custom_reports) end)
+
       %{
         opts:
           Weather.Opts.new(
@@ -724,6 +726,31 @@ defmodule WeatherTest do
       assert Weather.get(opts) == {
                :ok,
                """
+
+               🌞 5:17AM | 🌚 8:25PM
+
+               76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°
+               3PM      6PM      9PM      12AM     3AM
+
+               77° | scattered clouds | 37% humidity
+               """
+             }
+    end
+
+    test "supports custom weather reports", context do
+      Application.put_env(:weather, :custom_reports, [Weather.Report.Custom.FullMoon])
+
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
+      end)
+
+      assert Weather.get(context.opts) == {
+               :ok,
+               """
+
+               🌝🌚 OMG FULL MOON TONIGHT 🌚🌝
 
                🌞 5:17AM | 🌚 8:25PM
 
