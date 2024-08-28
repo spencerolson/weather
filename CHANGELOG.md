@@ -1,5 +1,13 @@
 # Changelog for `Weather`
 
+## 0.3.1
+
+### Bug Fixes
+- Handle `0` for 'hours' and 'every' options ([e5b4140](https://github.com/spencerolson/weather/commit/e5b4140d74d2b6e50002e1215438e815832bab48))
+
+### Features
+- Add support for custom reports! See the [Customization](https://github.com/spencerolson/weather/blob/main/README.md#customization) section in the README for more info ([ba0fa30](https://github.com/spencerolson/weather/commit/ba0fa30624b81cf30b2a8c5ce391d56fdeafdc1e))
+
 ## 0.3.0
 
 ### Breaking Changes
