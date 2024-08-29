@@ -159,7 +159,7 @@ See [Options](#options) for the list of options you can pass to [`Weather.Opts.n
 
 All available modules can be found on [hexdocs](https://hexdocs.pm/weather).
 
-### Using `Weather` as a Commmand Line Interface
+### Using `Weather` as a Command Line Interface
 
 1. Clone the repository
    ```bash
@@ -270,7 +270,7 @@ Option names listed below are for the command line interface. All options can al
 
 ### How to Customize your Weather Report
 
-1. Define a module in `lib/weather/report/custom` that implements the `Weather.Report` behaviour (definines `generate/1`).
+1. Define a module in `lib/weather/report/custom` that implements the `Weather.Report` behaviour (defines `generate/1`).
 
    ```elixir
    defmodule Weather.Report.Custom.FullMoon do
@@ -352,7 +352,7 @@ Chicago
 
 Fetching weather by ZIP code will result in _two_ API calls to OpenWeather; one to get the location data for that ZIP, and one to get the weather.
 
-### Fetch weather with results in Celcius and using 24-hour time.
+### Fetch weather with results in Celsius and using 24-hour time.
 
 ```bash
 $ weather --units celsius --no-twelve
