@@ -12,6 +12,7 @@ defmodule Weather.CLI do
     feels_like: :boolean,
     alert_titles_only: :boolean,
     colors: :boolean,
+    color_codes: :string,
     every: :integer,
     hours: :integer,
     label: :string,
@@ -30,6 +31,7 @@ defmodule Weather.CLI do
     l: :hide_alerts,
     o: :alert_titles_only,
     c: :colors,
+    d: :color_codes,
     e: :every,
     r: :hours,
     b: :label,
@@ -49,6 +51,8 @@ defmodule Weather.CLI do
     alert_titles_only:
       "Shows only the titles of weather alerts. Default is false, which shows titles along with full alert descriptions",
     colors: "Enables colorized output for the hourly report. Defaults to true",
+    color_codes:
+      "A comma-separated list of up to 10 color codes to use for colorized output. Values must be integers in the range of 0 to 255 inclusive, or '_' to use the default. Defaults to 202,214,226,148,39,51,15,245,88,9. Values correspond with the following categories: arctic, freezing, cold, chilly, cool, mild, warm, hot, very_hot, scorching",
     every:
       "Sets the hour interval at which data is reported for the hourly report. Defaults to 3",
     hours:

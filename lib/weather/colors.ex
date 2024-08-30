@@ -2,6 +2,32 @@ defmodule Weather.Colors do
   @moduledoc """
   Provides ANSI color codes for use in the Weather module.
   """
+  @type category() ::
+          :arctic
+          | :freezing
+          | :cold
+          | :chilly
+          | :cool
+          | :mild
+          | :warm
+          | :hot
+          | :very_hot
+          | :scorching
+
+  @type codes() :: %{category() => integer()}
+
+  @codes %{
+    arctic: 245,
+    freezing: 15,
+    cold: 51,
+    chilly: 39,
+    cool: 148,
+    mild: 226,
+    warm: 214,
+    hot: 202,
+    very_hot: 9,
+    scorching: 88
+  }
 
   @doc """
   Colorizes a string according to a color code.
@@ -22,7 +48,7 @@ defmodule Weather.Colors do
     temp
     |> to_fahrenheit(opts)
     |> round()
-    |> color_code()
+    |> color_code(opts)
     |> then(&colorize("#{temp}°", &1))
   end
 
@@ -55,6 +81,12 @@ defmodule Weather.Colors do
   end
 
   @doc """
+  Returns the default ANSI color codes associated with temperature categories.
+  """
+  @spec default_color_codes() :: codes()
+  def default_color_codes, do: @codes
+
+  @doc """
   Removes ANSI characters from a given string.
   """
   @spec remove_ansi(String.t()) :: String.t()
@@ -63,16 +95,21 @@ defmodule Weather.Colors do
     Regex.replace(ansi_characters, str, "")
   end
 
-  defp color_code(temp) when temp < 0, do: 245
-  defp color_code(temp) when temp in 0..32, do: 15
-  defp color_code(temp) when temp in 33..39, do: 51
-  defp color_code(temp) when temp in 40..49, do: 39
-  defp color_code(temp) when temp in 50..59, do: 148
-  defp color_code(temp) when temp in 60..69, do: 226
-  defp color_code(temp) when temp in 70..79, do: 214
-  defp color_code(temp) when temp in 80..89, do: 202
-  defp color_code(temp) when temp in 90..99, do: 9
-  defp color_code(temp) when temp >= 100, do: 88
+  defp color_code(temp, opts) do
+    category = categorize(temp)
+    Map.fetch!(opts.color_codes, category)
+  end
+
+  defp categorize(temp) when temp < 0, do: :arctic
+  defp categorize(temp) when temp in 0..32, do: :freezing
+  defp categorize(temp) when temp in 33..39, do: :cold
+  defp categorize(temp) when temp in 40..49, do: :chilly
+  defp categorize(temp) when temp in 50..59, do: :cool
+  defp categorize(temp) when temp in 60..69, do: :mild
+  defp categorize(temp) when temp in 70..79, do: :warm
+  defp categorize(temp) when temp in 80..89, do: :hot
+  defp categorize(temp) when temp in 90..99, do: :very_hot
+  defp categorize(temp) when temp >= 100, do: :scorching
 
   defp print_color(n) do
     [IO.ANSI.color(n), "IO.ANSI.color(#{n})"]
