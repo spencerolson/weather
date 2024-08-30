@@ -69,7 +69,7 @@ $ weather --units metric --no-twelve
 ## Features
 - Access to raw API responses
 - Access to formatted rain reports
-- ANSI-colorized output
+- Customizable ANSI-colorized output
 - Detailed rain intensity forecast for the next hour
 - Weather alerts
 - Customizable length and interval for hourly weather
@@ -253,8 +253,10 @@ Option names listed below are for the command line interface. All options can al
 
 - `--help` (`-h`): Prints the help message. (boolean)
 - `--hide-alerts` (`-l`): Hides weather alerts, even when alerts are available. Default is false, which shows alerts if there are any available. (boolean)
+- `--feels-like` (`-f`): Shows the 'feels like' temperature instead of the actual temperature. Defaults to false. (boolean)
 - `--alert-titles-only` (`-o`): Shows only the titles of weather alerts. Default is false, which shows titles along with full alert descriptions. (boolean)
 - `--colors` (`-c`): Enables colorized output for the hourly report. Defaults to true. (boolean)
+- `--color-codes` (`-d`): A comma-separated list of up to 10 color codes to use for colorized output. Values must be integers in the range of 0 to 255 inclusive, or '_' to use the default. Defaults to 202,214,226,148,39,51,15,245,88,9. Values correspond with the following categories: arctic, freezing, cold, chilly, cool, mild, warm, hot, very_hot, scorching. (string)
 - `--every` (`-e`): Sets the hour interval at which data is reported for the hourly report. Defaults to 3. (integer)
 - `--hours` (`-r`): Sets the number of hours to report on for the hourly report. Defaults to 12. Max is 48. (integer)
 - `--label` (`-b`): The name of the location for which weather data is being fetched. If present, the report will include - the label in the output. If not provided but a zip code is provided, the label will be set to the name of the location associated with the zip code.. (string)
@@ -268,7 +270,24 @@ Option names listed below are for the command line interface. All options can al
 
 ## Customization
 
-### How to Customize your Weather Report
+### Custom Colors
+
+```elixir
+Weather.Colors.list()
+# => prints available colors and their associated codes
+
+pink = 201
+gray = 248
+Weather.Opts.new(color_codes: %{cool: bright_pink, warm: gray})
+```
+
+or as a command line interface:
+
+```bash
+$ weather --color-codes "_,_,_,_,201,_,248,_,_,_"
+```
+
+### Adding a Custom Report
 
 1. Define a module in `lib/weather/report/custom` that implements the `Weather.Report` behaviour (defines `generate/1`).
 

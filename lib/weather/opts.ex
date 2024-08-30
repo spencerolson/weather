@@ -9,6 +9,9 @@ defmodule Weather.Opts do
     * `:colors` - a boolean representing whether or not to colorize the output
       of the hourly report. Defaults to true.
 
+    * `:color_codes` - a map representing temperature color codes. Defaults
+      to `Weather.Colors.default_color_codes/0`.
+
     * `:every_n_hours` - an integer representing the hour interval at which data is
       reported for the hourly report. Defaults to 3.
 
@@ -49,6 +52,7 @@ defmodule Weather.Opts do
   @type t() :: %Weather.Opts{
           appid: String.t(),
           colors: boolean(),
+          color_codes: Weather.Colors.codes(),
           every_n_hours: integer(),
           hide_alerts: boolean(),
           feels_like: boolean(),
@@ -65,6 +69,7 @@ defmodule Weather.Opts do
   @type parsed_arg() ::
           {:api_key, String.t()}
           | {:colors, boolean()}
+          | {:color_codes, String.t() | Weather.Colors.codes()}
           | {:every, integer()}
           | {:hide_alerts, boolean()}
           | {:feels_like, boolean()}
@@ -91,6 +96,7 @@ defmodule Weather.Opts do
     :hours,
     :every_n_hours,
     :colors,
+    :color_codes,
     :twelve,
     :units
   ]
@@ -198,6 +204,33 @@ defmodule Weather.Opts do
 
   defp add(:colors, args, opts), do: add_bool(:colors, args, opts, true)
 
+  defp add(:color_codes, %{color_codes: codes_str}, opts) when is_binary(codes_str) do
+    custom_codes = String.split(codes_str, ",", trim: true)
+
+    color_codes =
+      Weather.Colors.default_color_codes()
+      |> Enum.with_index()
+      |> Map.new(fn {{category, default_code}, index} ->
+        case Enum.at(custom_codes, index) do
+          nil -> {category, default_code}
+          custom_code -> {category, parse_custom_code(custom_code, default_code)}
+        end
+      end)
+
+    {:ok, Map.put(opts, :color_codes, color_codes)}
+  end
+
+  defp add(:color_codes, %{color_codes: codes}, opts) when is_map(codes) do
+    defaults = Weather.Colors.default_color_codes()
+    color_codes = Map.merge(defaults, codes)
+    {:ok, Map.put(opts, :color_codes, color_codes)}
+  end
+
+  defp add(:color_codes, _, opts) do
+    color_codes = Weather.Colors.default_color_codes()
+    {:ok, Map.put(opts, :color_codes, color_codes)}
+  end
+
   defp add(:twelve, args, opts), do: add_bool(:twelve, args, opts, true)
 
   defp add(:units, args, opts) do
@@ -270,6 +303,13 @@ defmodule Weather.Opts do
   end
 
   defp do_parse_coord(value, _) when is_float(value), do: {:ok, value}
+
+  defp parse_custom_code(code, default) do
+    case Integer.parse(code) do
+      {int, ""} when int in 0..255 -> int
+      _ -> default
+    end
+  end
 
   defp lookup_by_zip(zip, opts) do
     case Weather.API.fetch_location(%{zip: zip}, opts.appid) do

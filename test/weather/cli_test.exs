@@ -63,6 +63,7 @@ defmodule Weather.CLITest do
                --feels-like: Shows the 'feels like' temperature instead of the actual temperature. Defaults to false. (boolean)
                --alert-titles-only: Shows only the titles of weather alerts. Default is false, which shows titles along with full alert descriptions. (boolean)
                --colors: Enables colorized output for the hourly report. Defaults to true. (boolean)
+               --color-codes: A comma-separated list of up to 10 color codes to use for colorized output. Values must be integers in the range of 0 to 255 inclusive, or '_' to use the default. Defaults to 202,214,226,148,39,51,15,245,88,9. Values correspond with the following categories: arctic, freezing, cold, chilly, cool, mild, warm, hot, very_hot, scorching. (string)
                --every: Sets the hour interval at which data is reported for the hourly report. Defaults to 3. (integer)
                --hours: Sets the number of hours to report on for the hourly report. Defaults to 12. Max is 48. (integer)
                --label: The name of the location for which weather data is being fetched. If present, the report will include the label in the output. If not provided but a zip code is provided, the label will be set to the name of the location associated with the zip code.. (string)
@@ -82,6 +83,7 @@ defmodule Weather.CLITest do
                -l: --hide-alerts
                -o: --alert-titles-only
                -c: --colors
+               -d: --color-codes
                -e: --every
                -r: --hours
                -b: --label
