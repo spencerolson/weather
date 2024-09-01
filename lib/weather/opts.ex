@@ -12,6 +12,9 @@ defmodule Weather.Opts do
     * `:every_n_hours` - an integer representing the hour interval at which data is
       reported for the hourly report. Defaults to 3.
 
+    * `:feels_like` - a boolean representing whether to show the "feels like" temperature
+      instead of the actual temperature. Defaults to false.
+
     * `:hide_alerts` - a boolean representing whether to hide weather alerts, even
       when alerts are available. Defaults to false, which shows alerts if there
       are any available.
@@ -48,6 +51,7 @@ defmodule Weather.Opts do
           colors: boolean(),
           every_n_hours: integer(),
           hide_alerts: boolean(),
+          feels_like: boolean(),
           alert_titles_only: boolean(),
           hours: integer(),
           latitude: float(),
@@ -63,6 +67,7 @@ defmodule Weather.Opts do
           colors: boolean(),
           every: integer(),
           hide_alerts: boolean(),
+          feels_like: boolean(),
           alert_titles_only: boolean(),
           hours: integer(),
           latitude: float(),
@@ -80,6 +85,7 @@ defmodule Weather.Opts do
     :colors,
     :every_n_hours,
     :hide_alerts,
+    :feels_like,
     :alert_titles_only,
     :hours,
     :test,
@@ -104,6 +110,7 @@ defmodule Weather.Opts do
          {:ok, latitude, longitude, label_from_zip} <- coords(parsed_args, api_key, test),
          {:ok, label} <- label(parsed_args, label_from_zip),
          {:ok, hide_alerts} <- hide_alerts(parsed_args),
+         {:ok, feels_like} <- feels_like(parsed_args),
          {:ok, alert_titles_only} <- alert_titles_only(parsed_args),
          {:ok, hours} <- hours(parsed_args),
          {:ok, every_n_hours} <- every_n_hours(hours, parsed_args),
@@ -115,6 +122,7 @@ defmodule Weather.Opts do
         colors: colors,
         every_n_hours: every_n_hours,
         hide_alerts: hide_alerts,
+        feels_like: feels_like,
         alert_titles_only: alert_titles_only,
         hours: hours,
         latitude: latitude,
@@ -217,6 +225,19 @@ defmodule Weather.Opts do
 
       hide_alerts ->
         {:error, "Invalid --hide-alerts. Expected a boolean. Received: #{inspect(hide_alerts)}"}
+    end
+  end
+
+  defp feels_like(parsed_args) do
+    case parsed_args[:feels_like] do
+      feels_like when is_boolean(feels_like) ->
+        {:ok, feels_like}
+
+      nil ->
+        {:ok, false}
+
+      feels_like ->
+        {:error, "Invalid --feels-like. Expected a boolean. Received: #{inspect(feels_like)}"}
     end
   end
 

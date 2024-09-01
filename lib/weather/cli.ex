@@ -9,6 +9,7 @@ defmodule Weather.CLI do
   @switches [
     help: :boolean,
     hide_alerts: :boolean,
+    feels_like: :boolean,
     alert_titles_only: :boolean,
     colors: :boolean,
     every: :integer,
@@ -25,6 +26,7 @@ defmodule Weather.CLI do
 
   @aliases [
     h: :help,
+    f: :feels_like,
     l: :hide_alerts,
     o: :alert_titles_only,
     c: :colors,
@@ -51,6 +53,8 @@ defmodule Weather.CLI do
       "Sets the hour interval at which data is reported for the hourly report. Defaults to 3",
     hours:
       "Sets the number of hours to report on for the hourly report. Defaults to 12. Max is 48",
+    feels_like:
+      "Shows the 'feels like' temperature instead of the actual temperature. Defaults to false",
     latitude: "The latitude of the location for which to fetch weather data",
     longitude: "The longitude of the location for which to fetch weather data",
     label:
