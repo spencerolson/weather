@@ -46,6 +46,27 @@ defmodule WeatherTest do
              }
     end
 
+    test "optionally returns 'feels like' temps", context do
+      Req.Test.expect(Weather.API, fn conn ->
+        conn
+        |> Plug.Conn.put_resp_header("content-type", "application/json")
+        |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
+      end)
+
+      assert Weather.get(%Weather.Opts{context.opts | feels_like: true}) == {
+               :ok,
+               """
+
+               🌞 5:17AM | 🌚 8:25PM
+
+               75°  ⬇   73°  ⬇   63°  ⬇   59°  ⬇   57°
+               3PM      6PM      9PM      12AM     3AM
+
+               76° | scattered clouds | 37% humidity
+               """
+             }
+    end
+
     test "accepts an optional label for the overall report", context do
       Req.Test.expect(Weather.API, fn conn ->
         conn

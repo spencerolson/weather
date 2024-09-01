@@ -69,8 +69,8 @@ defmodule Weather.Report.Hourly do
   defp parse_hourly([current_data, next_data], timezone, opts) do
     %{
       time: DateUtils.time_by_hour(current_data["dt"], timezone, opts),
-      temp: temp(current_data),
-      arrow: arrow(current_data, next_data)
+      temp: temp(current_data, opts),
+      arrow: arrow(current_data, next_data, opts)
     }
   end
 
@@ -84,12 +84,20 @@ defmodule Weather.Report.Hourly do
     String.duplicate(" ", length)
   end
 
-  defp temp(data), do: round(data["temp"])
+  defp temp(data, opts) do
+    opts
+    |> temp_key()
+    |> then(&Map.fetch!(data, &1))
+    |> round()
+  end
 
-  defp arrow(_, :empty), do: ""
+  defp temp_key(%Weather.Opts{feels_like: true}), do: "feels_like"
+  defp temp_key(_), do: "temp"
 
-  defp arrow(current_data, next_data) do
-    case temp(next_data) - temp(current_data) do
+  defp arrow(_, :empty, _), do: ""
+
+  defp arrow(current_data, next_data, opts) do
+    case temp(next_data, opts) - temp(current_data, opts) do
       diff when diff > 0 -> "⬆"
       diff when diff < 0 -> "⬇"
       _ -> "⮕"
