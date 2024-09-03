@@ -334,7 +334,10 @@ defimpl Inspect, for: Weather.Opts do
   @spec inspect(Weather.Opts.t(), Inspect.Opts.t()) :: binary()
   def inspect(weather_opts, opts) do
     weather_opts
-    |> Map.put(:appid, "<<REDACTED>>")
+    |> redact_appid()
     |> Inspect.Any.inspect(opts)
   end
+
+  defp redact_appid(%Weather.Opts{appid: nil} = weather_opts), do: weather_opts
+  defp redact_appid(weather_opts), do: Map.put(weather_opts, :appid, "<<REDACTED>>")
 end
