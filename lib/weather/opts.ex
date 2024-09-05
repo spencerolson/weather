@@ -105,64 +105,51 @@ defmodule Weather.Opts do
   """
   @spec new(parsed_args()) :: Weather.Opts.t()
   def new(parsed_args \\ []) do
-    with {:ok, test} <- test(parsed_args),
-         {:ok, api_key} <- api_key(parsed_args, test),
-         {:ok, latitude, longitude, label_from_zip} <- coords(parsed_args, api_key, test),
-         {:ok, label} <- label(parsed_args, label_from_zip),
-         {:ok, hide_alerts} <- hide_alerts(parsed_args),
-         {:ok, feels_like} <- feels_like(parsed_args),
-         {:ok, alert_titles_only} <- alert_titles_only(parsed_args),
-         {:ok, hours} <- hours(parsed_args),
-         {:ok, every_n_hours} <- every_n_hours(hours, parsed_args),
-         {:ok, colors} <- colors(parsed_args),
-         {:ok, twelve} <- twelve(parsed_args),
-         {:ok, units} <- units(parsed_args) do
-      %Weather.Opts{
-        appid: api_key,
-        colors: colors,
-        every_n_hours: every_n_hours,
-        hide_alerts: hide_alerts,
-        feels_like: feels_like,
-        alert_titles_only: alert_titles_only,
-        hours: hours,
-        latitude: latitude,
-        longitude: longitude,
-        test: test,
-        twelve: twelve,
-        units: units,
-        label: label
-      }
+    with {:ok, opts} <- test(parsed_args, %{}),
+         {:ok, opts} <- api_key(parsed_args, opts),
+         {:ok, opts} <- coords(parsed_args, opts),
+         {:ok, opts} <- label(parsed_args, opts),
+         {:ok, opts} <- hide_alerts(parsed_args, opts),
+         {:ok, opts} <- feels_like(parsed_args, opts),
+         {:ok, opts} <- alert_titles_only(parsed_args, opts),
+         {:ok, opts} <- hours(parsed_args, opts),
+         {:ok, opts} <- every_n_hours(parsed_args, opts),
+         {:ok, opts} <- colors(parsed_args, opts),
+         {:ok, opts} <- twelve(parsed_args, opts),
+         {:ok, opts} <- units(parsed_args, opts) do
+      struct!(__MODULE__, opts)
     else
       {:error, reason} ->
         raise(ArgumentError, reason)
     end
   end
 
-  defp api_key(_, test) when test != nil, do: {:ok, @fake_api_key}
+  defp api_key(_, %{test: test} = opts) when test != nil,
+    do: {:ok, Map.put(opts, :appid, @fake_api_key)}
 
-  defp api_key(parsed_args, _) do
+  defp api_key(parsed_args, opts) do
     api_key = parsed_args[:api_key] || System.get_env("OPENWEATHER_API_KEY")
 
     if api_key do
-      {:ok, api_key}
+      {:ok, Map.put(opts, :appid, api_key)}
     else
       {:error,
        "Missing API key. Please set the OPENWEATHER_API_KEY environment variable or provide a value via the --api-key flag."}
     end
   end
 
-  defp colors(parsed_args) do
+  defp colors(parsed_args, opts) do
     case parsed_args[:colors] do
-      colors when is_boolean(colors) -> {:ok, colors}
-      nil -> {:ok, true}
+      colors when is_boolean(colors) -> {:ok, Map.put(opts, :colors, colors)}
+      nil -> {:ok, Map.put(opts, :colors, true)}
       colors -> {:error, "Invalid --colors. Expected a boolean. Received: #{inspect(colors)}"}
     end
   end
 
-  defp test(parsed_args) do
+  defp test(parsed_args, opts) do
     case parsed_args[:test] do
       val when val in [nil, "clear", "rain", "storm"] ->
-        {:ok, val}
+        {:ok, Map.put(opts, :test, val)}
 
       val ->
         {:error,
@@ -170,30 +157,30 @@ defmodule Weather.Opts do
     end
   end
 
-  defp twelve(parsed_args) do
+  defp twelve(parsed_args, opts) do
     case parsed_args[:twelve] do
-      twelve when is_boolean(twelve) -> {:ok, twelve}
-      nil -> {:ok, true}
+      twelve when is_boolean(twelve) -> {:ok, Map.put(opts, :twelve, twelve)}
+      nil -> {:ok, Map.put(opts, :twelve, true)}
       twelve -> {:error, "Invalid --twelve. Expected a boolean. Received: #{inspect(twelve)}"}
     end
   end
 
-  defp units(parsed_args) do
+  defp units(parsed_args, opts) do
     case parsed_args[:units] do
       "celsius" ->
-        {:ok, "metric"}
+        {:ok, Map.put(opts, :units, "metric")}
 
       "fahrenheit" ->
-        {:ok, "imperial"}
+        {:ok, Map.put(opts, :units, "imperial")}
 
       "kelvin" ->
-        {:ok, "standard"}
+        {:ok, Map.put(opts, :units, "standard")}
 
       units when units in ["imperial", "metric", "standard"] ->
-        {:ok, units}
+        {:ok, Map.put(opts, :units, units)}
 
       nil ->
-        {:ok, "imperial"}
+        {:ok, Map.put(opts, :units, "imperial")}
 
       units ->
         {:error,
@@ -201,53 +188,53 @@ defmodule Weather.Opts do
     end
   end
 
-  defp every_n_hours(hours, parsed_args) do
+  defp every_n_hours(parsed_args, opts) do
     case parsed_args[:every] do
-      every when every >= 0 and every <= hours ->
-        {:ok, every}
+      every when every >= 0 and every <= opts.hours ->
+        {:ok, Map.merge(opts, %{every_n_hours: every})}
 
       nil ->
-        {:ok, 3}
+        {:ok, Map.merge(opts, %{every_n_hours: 3})}
 
       every ->
         {:error,
-         "Invalid --every. Expected an integer >= 0 and <= #{hours}. Received: #{inspect(every)}"}
+         "Invalid --every. Expected an integer >= 0 and <= #{opts.hours}. Received: #{inspect(every)}"}
     end
   end
 
-  defp hide_alerts(parsed_args) do
+  defp hide_alerts(parsed_args, opts) do
     case parsed_args[:hide_alerts] do
       hide_alerts when is_boolean(hide_alerts) ->
-        {:ok, hide_alerts}
+        {:ok, Map.put(opts, :hide_alerts, hide_alerts)}
 
       nil ->
-        {:ok, false}
+        {:ok, Map.put(opts, :hide_alerts, false)}
 
       hide_alerts ->
         {:error, "Invalid --hide-alerts. Expected a boolean. Received: #{inspect(hide_alerts)}"}
     end
   end
 
-  defp feels_like(parsed_args) do
+  defp feels_like(parsed_args, opts) do
     case parsed_args[:feels_like] do
       feels_like when is_boolean(feels_like) ->
-        {:ok, feels_like}
+        {:ok, Map.put(opts, :feels_like, feels_like)}
 
       nil ->
-        {:ok, false}
+        {:ok, Map.put(opts, :feels_like, false)}
 
       feels_like ->
         {:error, "Invalid --feels-like. Expected a boolean. Received: #{inspect(feels_like)}"}
     end
   end
 
-  defp alert_titles_only(parsed_args) do
+  defp alert_titles_only(parsed_args, opts) do
     case parsed_args[:alert_titles_only] do
       alert_titles_only when is_boolean(alert_titles_only) ->
-        {:ok, alert_titles_only}
+        {:ok, Map.put(opts, :alert_titles_only, alert_titles_only)}
 
       nil ->
-        {:ok, false}
+        {:ok, Map.put(opts, :alert_titles_only, false)}
 
       alert_titles_only ->
         {:error,
@@ -255,13 +242,13 @@ defmodule Weather.Opts do
     end
   end
 
-  defp hours(parsed_args) do
+  defp hours(parsed_args, opts) do
     case parsed_args[:hours] do
       hours when hours >= 0 and hours <= 48 ->
-        {:ok, hours}
+        {:ok, Map.put(opts, :hours, hours)}
 
       nil ->
-        {:ok, 12}
+        {:ok, Map.put(opts, :hours, 12)}
 
       hours ->
         {:error,
@@ -269,21 +256,29 @@ defmodule Weather.Opts do
     end
   end
 
-  defp coords(_, _, test) when test != nil, do: {:ok, @fake_latitude, @fake_longitude, nil}
+  defp coords(_, %{test: test} = opts) when test != nil do
+    {
+      :ok,
+      Map.merge(opts, %{latitude: @fake_latitude, longitude: @fake_longitude, label: nil})
+    }
+  end
 
-  defp coords(parsed_args, api_key, _) do
+  defp coords(parsed_args, opts) do
     case parsed_args[:zip] do
-      nil -> parse_lat_long(parsed_args)
-      _ -> lookup_by_zip(parsed_args[:zip], api_key)
+      nil -> parse_lat_long(parsed_args, opts)
+      _ -> lookup_by_zip(parsed_args, opts)
     end
   end
 
-  defp parse_lat_long(parsed_args) do
+  defp parse_lat_long(parsed_args, opts) do
     with {:ok, latitude} <-
            parse_coord(:latitude, parsed_args[:latitude] || System.get_env("WEATHER_LATITUDE")),
          {:ok, longitude} <-
            parse_coord(:longitude, parsed_args[:longitude] || System.get_env("WEATHER_LONGITUDE")) do
-      {:ok, latitude, longitude, nil}
+      {
+        :ok,
+        Map.merge(opts, %{latitude: latitude, longitude: longitude, label: nil})
+      }
     else
       {:error, msg} -> {:error, msg}
     end
@@ -306,11 +301,17 @@ defmodule Weather.Opts do
 
   defp parse_coord(_, value) when is_float(value), do: {:ok, value}
 
-  defp lookup_by_zip(zip, api_key) do
-    case Weather.API.fetch_location(%{zip: zip}, api_key) do
+  defp lookup_by_zip(parsed_args, opts) do
+    zip = Keyword.fetch!(parsed_args, :zip)
+
+    case Weather.API.fetch_location(%{zip: zip}, opts.appid) do
       {:ok, %Req.Response{status: 200} = resp} ->
         %{body: %{"lat" => latitude, "lon" => longitude, "name" => label_from_zip}} = resp
-        {:ok, latitude, longitude, label_from_zip}
+
+        {
+          :ok,
+          Map.merge(opts, %{latitude: latitude, longitude: longitude, label: label_from_zip})
+        }
 
       {:ok, _} ->
         {:error,
@@ -322,11 +323,9 @@ defmodule Weather.Opts do
     end
   end
 
-  defp label(parsed_args, label_from_zip) do
-    {
-      :ok,
-      parsed_args[:label] || label_from_zip
-    }
+  defp label(parsed_args, opts) do
+    label = parsed_args[:label] || opts.label
+    {:ok, Map.put(opts, :label, label)}
   end
 end
 
