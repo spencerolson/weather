@@ -30,5 +30,7 @@ jobs:
         run: mix format --check-formatted
       - name: Run Linter
         run: mix credo
+      - name: Run Dialyzer
+        run: mix dialyzer
       - name: Run Tests
-        run: mix test
+        run: mix test --include slow

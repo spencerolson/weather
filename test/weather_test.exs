@@ -2,6 +2,8 @@ defmodule WeatherTest do
   @moduledoc nodoc: true
   use ExUnit.Case, async: true
 
+  alias Weather.API
+  alias Weather.Opts
   alias Weather.TestResponse.BadRequest
   alias Weather.TestResponse.Clear
   alias Weather.TestResponse.Rain
@@ -16,7 +18,7 @@ defmodule WeatherTest do
 
       %{
         opts:
-          Weather.Opts.new(
+          Opts.new(
             api_key: "123abc",
             latitude: 30.308689,
             longitude: -84.248528,
@@ -26,7 +28,7 @@ defmodule WeatherTest do
     end
 
     test "gets weather data", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
@@ -47,13 +49,13 @@ defmodule WeatherTest do
     end
 
     test "optionally returns 'feels like' temps", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | feels_like: true}) == {
+      assert Weather.get(%Opts{context.opts | feels_like: true}) == {
                :ok,
                """
 
@@ -68,13 +70,13 @@ defmodule WeatherTest do
     end
 
     test "accepts an optional label for the overall report", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | label: "Home Sweet Home"}) == {
+      assert Weather.get(%Opts{context.opts | label: "Home Sweet Home"}) == {
                :ok,
                """
 
@@ -91,13 +93,13 @@ defmodule WeatherTest do
     end
 
     test "accepts an optional length for the hourly report", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | hours: 24}) == {
+      assert Weather.get(%Opts{context.opts | hours: 24}) == {
                :ok,
                """
 
@@ -112,13 +114,13 @@ defmodule WeatherTest do
     end
 
     test "accepts an optional interval for the hourly report", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | every_n_hours: 6}) == {
+      assert Weather.get(%Opts{context.opts | every_n_hours: 6}) == {
                :ok,
                """
 
@@ -133,13 +135,13 @@ defmodule WeatherTest do
     end
 
     test "supports 24-hour format", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | twelve: false}) == {
+      assert Weather.get(%Opts{context.opts | twelve: false}) == {
                :ok,
                """
 
@@ -154,7 +156,7 @@ defmodule WeatherTest do
     end
 
     test "displays minutely rain and alerts", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Storm.response()))
@@ -308,13 +310,13 @@ defmodule WeatherTest do
     end
 
     test "optionally shows only the title for alerts", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Storm.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | alert_titles_only: true}) == {
+      assert Weather.get(%Opts{context.opts | alert_titles_only: true}) == {
                :ok,
                """
 
@@ -351,7 +353,7 @@ defmodule WeatherTest do
     end
 
     test "uses the first description for current weather, if there are multiple", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Rain.response()))
@@ -384,13 +386,13 @@ defmodule WeatherTest do
     end
 
     test "optionally hides alerts", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Storm.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | hide_alerts: true}) == {
+      assert Weather.get(%Opts{context.opts | hide_alerts: true}) == {
                :ok,
                """
 
@@ -417,13 +419,13 @@ defmodule WeatherTest do
     end
 
     test "colorizes alerts", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Storm.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | colors: true}) == {
+      assert Weather.get(%Opts{context.opts | colors: true}) == {
                :ok,
                """
 
@@ -572,13 +574,13 @@ defmodule WeatherTest do
     end
 
     test "supports 24-hour format in rain report", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Rain.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | twelve: false}) == {
+      assert Weather.get(%Opts{context.opts | twelve: false}) == {
                :ok,
                """
 
@@ -605,7 +607,7 @@ defmodule WeatherTest do
     end
 
     test "handles unauthorized responses", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(401, :json.encode(Unauthorized.response()))
@@ -623,7 +625,7 @@ defmodule WeatherTest do
     end
 
     test "handles unexpected responses", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(400, :json.encode(BadRequest.response()))
@@ -638,9 +640,10 @@ defmodule WeatherTest do
       assert Weather.get(context.opts) == {:error, message}
     end
 
-    @tag capture_log: true
+    @tag :capture_log
+    @tag :slow
     test "handles errors", context do
-      Req.Test.expect(Weather.API, 4, &Req.Test.transport_error(&1, :econnrefused))
+      Req.Test.expect(API, 4, &Req.Test.transport_error(&1, :econnrefused))
 
       message = """
       Error
@@ -651,12 +654,13 @@ defmodule WeatherTest do
       assert Weather.get(context.opts) == {:error, message}
     end
 
-    @tag capture_log: true
+    @tag :capture_log
+    @tag :slow
     test "retries after errors", context do
-      Req.Test.expect(Weather.API, 1, &Req.Test.transport_error(&1, :econnrefused))
+      Req.Test.expect(API, 1, &Req.Test.transport_error(&1, :econnrefused))
 
       Req.Test.expect(
-        Weather.API,
+        API,
         fn conn ->
           conn
           |> Plug.Conn.put_resp_header("content-type", "application/json")
@@ -679,13 +683,13 @@ defmodule WeatherTest do
     end
 
     test "colorizes fahrenheit temps correctly", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | colors: true}) == {
+      assert Weather.get(%Opts{context.opts | colors: true}) == {
                :ok,
                """
 
@@ -700,13 +704,13 @@ defmodule WeatherTest do
     end
 
     test "colorizes celsius temps correctly", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | units: "metric", colors: true}) == {
+      assert Weather.get(%Opts{context.opts | units: "metric", colors: true}) == {
                :ok,
                """
 
@@ -721,13 +725,13 @@ defmodule WeatherTest do
     end
 
     test "colorizes kelvin temps correctly", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | units: "standard", colors: true}) == {
+      assert Weather.get(%Opts{context.opts | units: "standard", colors: true}) == {
                :ok,
                """
 
@@ -742,7 +746,7 @@ defmodule WeatherTest do
     end
 
     test "supports returning test data, which doesn't require an API key, latitude, or longitude to be present" do
-      opts = Weather.Opts.new(test: "clear", colors: false)
+      opts = Opts.new(test: "clear", colors: false)
 
       assert Weather.get(opts) == {
                :ok,
@@ -761,7 +765,7 @@ defmodule WeatherTest do
     test "supports custom weather reports", context do
       Application.put_env(:weather, :custom_reports, [Weather.Report.Custom.FullMoon])
 
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
@@ -784,13 +788,13 @@ defmodule WeatherTest do
     end
 
     test "omits hourly data when passed 0 for hours", context do
-      Req.Test.expect(Weather.API, fn conn ->
+      Req.Test.expect(API, fn conn ->
         conn
         |> Plug.Conn.put_resp_header("content-type", "application/json")
         |> Plug.Conn.send_resp(200, :json.encode(Clear.response()))
       end)
 
-      assert Weather.get(%Weather.Opts{context.opts | hours: 0}) == {
+      assert Weather.get(%Opts{context.opts | hours: 0}) == {
                :ok,
                """
 
