@@ -278,7 +278,7 @@ Weather.Colors.list()
 
 pink = 201
 gray = 248
-Weather.Opts.new(color_codes: %{cool: bright_pink, warm: gray})
+Weather.Opts.new(color_codes: %{cool: pink, warm: gray})
 ```
 
 or as a command line interface:
