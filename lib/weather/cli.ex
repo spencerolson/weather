@@ -88,7 +88,7 @@ defmodule Weather.CLI do
     |> handle_parsed()
   end
 
-  defp handle_parsed({parsed, _remaining, _invalid = []}), do: {:ok, Enum.into(parsed, %{})}
+  defp handle_parsed({parsed, _remaining, _invalid = []}), do: {:ok, parsed}
 
   defp handle_parsed({_parsed, _remaining, invalid}),
     do: {:error, Enum.map_join(invalid, "\n", &invalid_message/1)}
@@ -99,27 +99,27 @@ defmodule Weather.CLI do
 
   defp handle_request({:error, reason}), do: {:error, reason}
 
-  defp handle_request({:ok, %{help: true}}) do
-    {
-      :ok,
-      """
-      Usage: weather [options]
-
-      Options:
-      #{Enum.map_join(@switches, "\n", &format_switch/1)}
-
-      * Note that boolean switches take no values. --<switch> sets the value to true and --no-<switch> sets the value to false.
-
-      Aliases:
-      #{Enum.map_join(@aliases, "\n", &format_alias/1)}
-      """
-    }
-  end
-
   defp handle_request({:ok, parsed_args}) do
-    parsed_args
-    |> Weather.Opts.new()
-    |> Weather.get()
+    if parsed_args[:help] do
+      {
+        :ok,
+        """
+        Usage: weather [options]
+
+        Options:
+        #{Enum.map_join(@switches, "\n", &format_switch/1)}
+
+        * Note that boolean switches take no values. --<switch> sets the value to true and --no-<switch> sets the value to false.
+
+        Aliases:
+        #{Enum.map_join(@aliases, "\n", &format_alias/1)}
+        """
+      }
+    else
+      parsed_args
+      |> Weather.Opts.new()
+      |> Weather.get()
+    end
   end
 
   defp print_response({_, response}), do: IO.puts(response)

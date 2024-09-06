@@ -43,7 +43,8 @@ defmodule Weather.MixProject do
       {:mimic, "~> 1.7", only: :test},
       {:plug, "~> 1.0"},
       {:req, "~> 0.5.0"},
-      {:tz, "~> 0.27"}
+      {:tz, "~> 0.27"},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -73,7 +74,8 @@ defmodule Weather.MixProject do
            ),
          :ok <- run("mix format --check-formatted &> /dev/null", "2. Check formatting"),
          :ok <- run("mix credo &> /dev/null", "3. Run credo"),
-         :ok <- run("mix test &> /dev/null", "4. Run tests") do
+         :ok <- run("mix dialyzer --quiet &> /dev/null", "4. Run dialyzer"),
+         :ok <- run("mix test --include slow &> /dev/null", "5. Run tests") do
       Mix.shell().cmd("git push")
     else
       :error -> [:red, "Failed!"] |> IO.ANSI.format() |> IO.puts()
