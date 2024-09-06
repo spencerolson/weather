@@ -1,5 +1,9 @@
 # Changelog for `Weather`
 
+## 0.3.3
+
+No notable changes. Just a README typo fix.
+
 ## 0.3.2
 
 ### Bug Fixes
