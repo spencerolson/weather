@@ -62,7 +62,7 @@ defmodule Weather.Opts do
           label: String.t()
         }
 
-  @type parsed_args() :: [
+  @type parsed_args() :: %{
           api_key: String.t(),
           colors: boolean(),
           every: integer(),
@@ -76,7 +76,7 @@ defmodule Weather.Opts do
           twelve: boolean(),
           units: String.t(),
           zip: String.t()
-        ]
+        }
 
   @keys [
     :test,
@@ -104,7 +104,7 @@ defmodule Weather.Opts do
   Create a new `Weather.Opts` struct, applying defaults where necessary.
   """
   @spec new(parsed_args()) :: Weather.Opts.t()
-  def new(parsed_args \\ []) do
+  def new(parsed_args \\ %{}) do
     opts =
       Enum.reduce(@keys, %{}, fn key, opts ->
         case add(key, parsed_args, opts) do
@@ -151,14 +151,17 @@ defmodule Weather.Opts do
   defp add(:latitude, parsed_args, opts) do
     case parsed_args[:zip] do
       nil -> parse_lat_long(parsed_args, opts)
-      _ -> lookup_by_zip(parsed_args, opts)
+      zip -> lookup_by_zip(zip, opts)
     end
   end
 
   defp add(:longitude, _, opts), do: {:ok, opts}
 
-  defp add(:label, _, %{label: label} = opts) when label != nil, do: {:ok, opts}
-  defp add(:label, parsed_args, opts), do: {:ok, Map.put(opts, :label, parsed_args[:label])}
+  defp add(:label, %{label: label}, opts) when label != nil do
+    {:ok, Map.put(opts, :label, label)}
+  end
+
+  defp add(:label, _, opts), do: {:ok, opts}
 
   defp add(:hide_alerts, parsed_args, opts), do: add_bool(:hide_alerts, parsed_args, opts, false)
 
@@ -268,9 +271,7 @@ defmodule Weather.Opts do
 
   defp parse_coord(_, value) when is_float(value), do: {:ok, value}
 
-  defp lookup_by_zip(parsed_args, opts) do
-    zip = Keyword.fetch!(parsed_args, :zip)
-
+  defp lookup_by_zip(zip, opts) do
     case Weather.API.fetch_location(%{zip: zip}, opts.appid) do
       {:ok, %Req.Response{status: 200} = resp} ->
         %{body: %{"lat" => latitude, "lon" => longitude, "name" => label_from_zip}} = resp
