@@ -1,5 +1,15 @@
 # Changelog for `Weather`
 
+## 0.3.2
+
+### Bug Fixes
+- Fix a bug where the hourly rain report would report rain for the current hour when no more rain was expected between <now> and the end of the hour ([752e374](https://github.com/spencerolson/weather/commit/752e374c4d292db3bb2dd87ec30563bed56ac208))
+
+### Features
+- Add `--feels-like` CLI switch ([34f6546](https://github.com/spencerolson/weather/commit/34f6546ea8ae659d0763dd364bb6b053ae34c2ed))
+- Add `--color-codes` CLI switch ([8aa009d](https://github.com/spencerolson/weather/commit/8aa009d9657b1369b00770ff17ffd5374f2476ca))
+- Add dialyxer ([0615e52](https://github.com/spencerolson/weather/commit/0615e528527633c8e386f43753f32b9434878300))
+
 ## 0.3.1
 
 ### Bug Fixes
