@@ -259,14 +259,14 @@ Option names listed below are for the command line interface. All options can al
 - `--color-codes` (`-d`): A comma-separated list of up to 10 color codes to use for colorized output. Values must be integers in the range of 0 to 255 inclusive, or '_' to use the default. Defaults to 202,214,226,148,39,51,15,245,88,9. Values correspond with the following categories: arctic, freezing, cold, chilly, cool, mild, warm, hot, very_hot, scorching. (string)
 - `--every` (`-e`): Sets the hour interval at which data is reported for the hourly report. Defaults to 3. (integer)
 - `--hours` (`-r`): Sets the number of hours to report on for the hourly report. Defaults to 12. Max is 48. (integer)
-- `--label` (`-b`): The name of the location for which weather data is being fetched. If present, the report will include - the label in the output. If not provided but a zip code is provided, the label will be set to the name of the location associated with the zip code.. (string)
+- `--label` (`-b`): The name of the location for which weather data is being fetched. If present, the report will include - the label in the output. If not provided but a zip code is provided, the label will be set to the name of the location associated with the zip code. (string)
 - `--latitude` (`-t`): The latitude of the location for which to fetch weather data. (float)
 - `--longitude` (`-n`): The longitude of the location for which to fetch weather data. (float)
 - `--api-key` (`-a`): The OpenWeatherMap API key. (string)
 - `--units` (`-u`): The units in which to return the weather data. Options: "metric" (celsius), "celsius", "imperial" (fahrenheit), "fahrenheit", "standard" (kelvin), "kelvin". (string)
 - `--test` (`-s`): Fake weather data for testing purposes. Options: "clear", "rain", "storm". (string)
 - `--twelve` (`-w`): Enables 12-hour time format for the hourly report. Defaults to true. When false, 24-hour time format is used. (boolean)
-- `--zip` (`-z`): A zip code string to fetch weather data for. This can be used in place of latitude and longitude. (string)
+- `--zip` (`-z`): A zip code string to fetch weather data for. This can be used in place of latitude and longitude. For most accurate results format should be zip/post code and ISO 3166 country code divided by comma. See https://openweathermap.org/api/geocoding-api#direct_zip for more information. (string)
 
 ## Customization
 
@@ -356,16 +356,19 @@ All examples below assume the api key, latitude, and longitude environment varia
 ### Fetch weather using a ZIP code (no latitude or longitude needed)
 
 ```bash
-$ weather --zip 60618
+$ weather --zip E14,GB --no-twelve --units metric
 
-Chicago
+London
 
-🌞 6:07AM | 🌚 7:39PM
+🌞 06:22 | 🌚 19:33
 
-79°  ⬆   81°  ⮕   81°  ⬇   74°  ⬇   69°
-12PM     3PM      6PM      9PM      12AM
+19°  ⬆   21°  ⬇   20°  ⬇   17°  ⮕   17°
+13       16       19       22       01
 
-79° | broken clouds | 44% humidity
+19° | clear sky | 76% humidity
+
+YELLOW RAIN WARNING (Sat 21:00 - Sun 18:00)
+Whilst there remains some uncertainty with exact details, areas of heavy and at times thundery rain are expected to spread north, then west, across England and Wales from this evening and overnight. These areas of heavy rain may become more persistent across western areas during Sunday daytime whilst slow-moving heavy showers and thunderstorms are likely to develop further east.
 
 ```
 
@@ -454,7 +457,7 @@ Home Sweet Home
 ### Get the latitude, longitude, and name of a location by ZIP code (`iex` only)
 
 ```elixir
-opts = Weather.Opts.new(zip: 60618)
+opts = Weather.Opts.new(zip: "60618,US")
 opts.latitude
 # => 41.9464
 opts.longitude

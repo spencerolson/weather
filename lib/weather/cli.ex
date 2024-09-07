@@ -62,7 +62,7 @@ defmodule Weather.CLI do
     latitude: "The latitude of the location for which to fetch weather data",
     longitude: "The longitude of the location for which to fetch weather data",
     label:
-      "The name of the location for which weather data is being fetched. If present, the report will include the label in the output. If not provided but a zip code is provided, the label will be set to the name of the location associated with the zip code.",
+      "The name of the location for which weather data is being fetched. If present, the report will include the label in the output. If not provided but a zip code is provided, the label will be set to the name of the location associated with the zip code",
     api_key: "The OpenWeatherMap API key",
     test: "Fake weather data for testing purposes. Options: \"clear\", \"rain\", \"storm\"",
     twelve:
@@ -70,7 +70,7 @@ defmodule Weather.CLI do
     units:
       "The units in which to return the weather data. Options: \"metric\" (celsius), \"celsius\", \"imperial\" (fahrenheit), \"fahrenheit\", \"standard\" (kelvin), \"kelvin\"",
     zip:
-      "A zip code string to fetch weather data for. This can be used in place of latitude and longitude"
+      "A zip code string to fetch weather data for. This can be used in place of latitude and longitude. For most accurate results format should be zip/post code and ISO 3166 country code divided by comma. See https://openweathermap.org/api/geocoding-api#direct_zip for more information"
   }
 
   @doc """
