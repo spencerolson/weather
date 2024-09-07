@@ -457,7 +457,7 @@ Home Sweet Home
 ### Get the latitude, longitude, and name of a location by ZIP code (`iex` only)
 
 ```elixir
-opts = Weather.Opts.new(zip: 60618)
+opts = Weather.Opts.new(zip: "60618,US")
 opts.latitude
 # => 41.9464
 opts.longitude
