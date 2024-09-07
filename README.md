@@ -75,7 +75,7 @@ $ weather --units metric --no-twelve
 - Customizable length and interval for hourly weather
 - Customizable time (12 or 24 hour) and temp display (celsius, fahrenheit, kelvin)
 - Usable as a dependency or standalone CLI
-- Weather lookup by ZIP code
+- Weather lookup by ZIP code and country code
 - Mock weather responses to test responses for varying conditions
 
 ## Getting Started
