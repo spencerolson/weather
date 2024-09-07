@@ -3,6 +3,8 @@
 [![Build
 Status](https://github.com/spencerolson/weather/actions/workflows/elixir.yml/badge.svg)](https://github.com/spencerolson/weather/actions/workflows/elixir.yml) [![License](https://img.shields.io/hexpm/l/weather.svg)](https://github.com/spencerolson/weather/blob/main/LICENSE.md) [![Hex.pm](https://img.shields.io/hexpm/v/weather.svg)](https://hex.pm/packages/weather) [![Documentation](https://img.shields.io/badge/documentation-purple)](https://hexdocs.pm/weather)
 
+[![Run in Livebook](https://livebook.dev/badge/v1/black.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fspencerolson%2Fweather%2Fblob%2Fmain%2FLIVEBOOK.livemd)
+
 An Elixir library for fetching data from the [OpenWeatherMap One Call API 3.0](https://openweathermap.org/api/one-call-3) service.
 
 Use it as a dependency in your project:
