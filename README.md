@@ -8,9 +8,10 @@ An Elixir library for fetching data from the [OpenWeatherMap One Call API 3.0](h
 Use it as a dependency in your project:
 
 ```elixir
-Mix.install([
-  {:weather, "~> 0.3.3"}
-])
+Mix.install(
+  [{:weather, "~> 0.3.3"}],
+  config: [elixir: [time_zone_database: Tz.TimeZoneDatabase]]
+)
 
 opts = Weather.Opts.new(test: "rain")
 Weather.API.fetch_weather(opts)
@@ -31,24 +32,24 @@ Weather.API.fetch_weather(opts)
 
 Weather.get!(opts) |> IO.puts
 
-                    << 🌧️ 12:28PM - 1:27PM >>
+                   << 🌧️  7:28AM - 8:27AM >>
 
- [                                                            ]
- [                                                            ]
- [                    ........................................]
- [............................................................]
- [............................................................]
- [............................................................]
-                 +              +              +
+[                                                    ....    ]
+[                                              ............  ]
+[                                    ........................]
+[                                   .........................]
+[                                 ...........................]
+[                                ............................]
+                +              +              +
 
- 🌧️ 12PM - 2PM, 3PM - 5PM
+🌧️  8AM - 9AM, 10AM - 12PM
 
- 🌞 11:01AM | 🌚 12:52AM
+🌞 6:01AM | 🌚 7:52PM
 
- 66°  ⬇   65°  ⬆   67°  ⬆   73°  ⬇   71°
- 12PM     3PM      6PM      9PM      12AM
+66°  ⬇   65°  ⬆   67°  ⬆   73°  ⬇   71°
+7AM      10AM     1PM      4PM      7PM
 
- 66° | moderate rain | 92% humidity
+66° | moderate rain | 92% humidity
 
 # => :ok
 ```
@@ -111,7 +112,7 @@ Weather.get!() |> IO.puts()
 
 ### Using `Weather` as a Dependency
 
-Add `weather` to your list of dependencies in `mix.exs`:
+Add `weather` to your list of dependencies in `mix.exs`
 
 ```elixir
 def deps do
@@ -119,7 +120,14 @@ def deps do
 end
 ```
 
-and you're ready to go!
+, configure elixir use a timezone database in `config/config.exs`
+
+```elixir
+# Note there are other timezone database options. See https://hexdocs.pm/elixir/1.13/DateTime.html#module-time-zone-database
+config :elixir, :time_zone_database, Tz.TimeZoneDatabase
+```
+
+, and you're ready to go!
 
 ```elixir
 # If you haven't created an OpenWeatherMap API Key yet, this can be:
