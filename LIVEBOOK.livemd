@@ -1,0 +1,118 @@
+# Weather Livebook
+
+```elixir
+Mix.install(
+  [{:weather, "~> 0.3.3"}],
+  config: [elixir: [time_zone_database: Tz.TimeZoneDatabase]]
+)
+```
+
+## Getting Started
+
+### Fetching Fake Data
+
+<!-- livebook:{"break_markdown":true} -->
+
+First, let's make sure our dependencies installed correctly and ensure we can fetch some fake weather data. For this step, we don't need an OpenWeather API Token.
+
+```elixir
+opts = Weather.Opts.new(test: "rain")
+{:ok, fake_response} = Weather.API.fetch_weather(opts)
+fake_response.body
+```
+
+### Fetching Real Data
+
+<!-- livebook:{"break_markdown":true} -->
+
+1. Create an API Key for the OpenWeather One Call API 3.0 [here](https://openweathermap.org/api/one-call-3)
+2. Try running the block of code below. It will fail and you will see a message that looks like ```Missing secret "OPENWEATHER_API_KEY"``` with an "Add secret" button. Click the "Add Secret" button.
+3. Enter your API key in the "Value" input (leave the "Name" input with the prefilled name of "OPENWEATHER_API_KEY"). Click "+Add".
+4. Reevaluate the block of code below. If everything worked correctly, you should see a "success!!" return value.
+
+```elixir
+api_key = System.fetch_env!("LB_OPENWEATHER_API_KEY")
+"success!!"
+```
+
+Now that we've configured our API Key, we can fetch some real weather data:
+
+```elixir
+opts =
+  Weather.Opts.new(
+    api_key: api_key,
+    zip: "30-003,PL",
+    units: "metric",
+    twelve: false
+  )
+
+{:ok, real_response} = Weather.API.fetch_weather(opts)
+real_response.body
+```
+
+If you don't care about the raw response and just want some pretty output, you can use `Weather.get!/1`:
+
+```elixir
+opts
+|> Weather.get!()
+|> IO.puts()
+```
+
+## Examples
+
+Setup:
+
+```elixir
+api_key = System.fetch_env!("LB_OPENWEATHER_API_KEY")
+
+opts =
+  Weather.Opts.new(
+    api_key: api_key,
+    latitude: 50.05905800533713,
+    longitude: 19.937632449794567,
+    label: "Kraków",
+    units: "metric",
+    twelve: false
+  )
+```
+
+Fetch weather for every hour for the next 5 hours:
+
+```elixir
+%Weather.Opts{opts | every_n_hours: 1, hours: 5}
+|> Weather.get!()
+|> IO.puts()
+```
+
+Lookup the latitude, longitude, and name of a location by ZIP code:
+
+```elixir
+o = Weather.Opts.new(api_key: api_key, zip: "60618,US")
+{o.latitude, o.longitude, o.label}
+```
+
+View the temp in Fahrenheit using 12-hour time, for the next 48 hours, every 6 hours, using custom colors:
+
+```elixir
+%Weather.Opts{
+  opts
+  | units: "imperial",
+    twelve: true,
+    hours: 48,
+    every_n_hours: 6,
+    color_codes: %{
+      arctic: 30,
+      freezing: 31,
+      cold: 32,
+      chilly: 33,
+      cool: 34,
+      mild: 35,
+      warm: 36,
+      hot: 37,
+      very_hot: 38,
+      scorching: 39
+    }
+}
+|> Weather.get!()
+|> IO.puts()
+```
