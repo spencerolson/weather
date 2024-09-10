@@ -16,19 +16,6 @@ defmodule Weather.Colors do
 
   @type codes() :: %{category() => integer()}
 
-  @codes %{
-    arctic: 245,
-    freezing: 15,
-    cold: 51,
-    chilly: 39,
-    cool: 148,
-    mild: 226,
-    warm: 214,
-    hot: 202,
-    very_hot: 9,
-    scorching: 88
-  }
-
   @doc """
   Colorizes a string according to a color code.
   """
@@ -84,7 +71,7 @@ defmodule Weather.Colors do
   Returns the default ANSI color codes associated with temperature categories.
   """
   @spec default_color_codes() :: codes()
-  def default_color_codes, do: @codes
+  def default_color_codes, do: struct(Weather.Opts).color_codes
 
   @doc """
   Removes ANSI characters from a given string.
