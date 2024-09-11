@@ -332,9 +332,17 @@ defmodule Weather.Opts do
           %__MODULE__{opts | latitude: latitude, longitude: longitude, label: label_from_zip}
         }
 
-      {:ok, _} ->
-        {:error,
-         "Invalid --zip. Value provided must be a valid zip code. Received: #{inspect(zip)}"}
+      {:ok, resp} ->
+        {
+          :error,
+          """
+          Unable to fetch location data for zip '#{zip}' (status: #{resp.status})
+
+          Response from OpenWeatherMap:
+
+          #{resp.body["message"]}
+          """
+        }
 
       {:error, exception} ->
         {:error,
