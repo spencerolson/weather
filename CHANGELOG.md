@@ -1,5 +1,10 @@
 # Changelog for `Weather`
 
+## 0.3.5
+
+### Bug Fixes
+- When you supply a bad API key and a ZIP code, the error message you get back now indicates the API key is bad (previously it stated the ZIP was bad) ([3e63a92](https://github.com/spencerolson/weather/commit/3e63a927e277ae5a4e98a8b21883d144674bceac))
+
 ## 0.3.4
 
 ### Features
