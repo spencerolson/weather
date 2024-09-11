@@ -1,5 +1,12 @@
 # Changelog for `Weather`
 
+## 0.3.4
+
+### Features
+- Add a Livebook! And add "Run in Livebook" button to README ([8270eee](https://github.com/spencerolson/weather/commit/8270eee1e0d010351cc7a9c71066eb8e829a9d05))
+- Improve `--zip` docs, making it clear non-US codes are accepted ([7b104d7](https://github.com/spencerolson/weather/commit/7b104d7bc7e6f09c110404e86f92e2509604cf47))
+- Add timezone database info to readme ([db8ae9e](https://github.com/spencerolson/weather/commit/db8ae9e827cd5edee0e34c93b07f118b0fa8867c))
+
 ## 0.3.3
 
 No notable changes. Just a README typo fix.
