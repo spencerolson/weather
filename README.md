@@ -11,7 +11,7 @@ Use it as a dependency in your project:
 
 ```elixir
 Mix.install(
-  [{:weather, "~> 0.3.3"}],
+  [{:weather, "~> 0.3.4"}],
   config: [elixir: [time_zone_database: Tz.TimeZoneDatabase]]
 )
 
@@ -118,7 +118,7 @@ Add `weather` to your list of dependencies in `mix.exs`
 
 ```elixir
 def deps do
-  [{:weather, "~> 0.3.3"}]
+  [{:weather, "~> 0.3.4"}]
 end
 ```
 
