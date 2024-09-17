@@ -25,13 +25,7 @@ defmodule Weather.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
-      env: [
-        # https://github.com/wojtekmach/req/issues/299
-        finch_config: [
-          connect_options: [transport_opts: [cacertfile: "#{__DIR__}/priv/cacerts.pem"]]
-        ]
-      ]
+      extra_applications: [:logger]
     ]
   end
 
