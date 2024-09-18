@@ -17,8 +17,6 @@ defmodule Weather.API do
   def fetch_weather(opts \\ Weather.Opts.new())
 
   def fetch_weather(%Weather.Opts{test: nil} = opts) do
-    set_req_default_options()
-
     [
       appid: opts.appid,
       lat: opts.latitude,
@@ -42,22 +40,18 @@ defmodule Weather.API do
   @spec fetch_location(%{zip: String.t()}, String.t()) ::
           {:ok, Req.Response.t()} | {:error, Exception.t()}
   def fetch_location(%{zip: zip}, appid) do
-    set_req_default_options()
-
     [zip: zip, appid: appid]
     |> req_opts(@zip_url)
     |> Req.request()
   end
 
-  defp set_req_default_options do
-    :weather
-    |> Application.get_env(:finch_config)
-    |> Req.default_options()
-  end
-
   defp req_opts(params, url) do
     Keyword.merge(
-      [base_url: url, params: params],
+      [
+        base_url: url,
+        params: params,
+        connect_options: [transport_opts: [cacerts: :public_key.cacerts_get()]]
+      ],
       Application.get_env(:weather, :req_options, [])
     )
   end
