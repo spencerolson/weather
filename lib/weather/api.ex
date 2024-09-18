@@ -47,7 +47,11 @@ defmodule Weather.API do
 
   defp req_opts(params, url) do
     Keyword.merge(
-      [base_url: url, params: params],
+      [
+        base_url: url,
+        params: params,
+        connect_options: [transport_opts: [cacerts: :public_key.cacerts_get()]]
+      ],
       Application.get_env(:weather, :req_options, [])
     )
   end
