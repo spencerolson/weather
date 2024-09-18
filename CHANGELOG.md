@@ -1,5 +1,13 @@
 # Changelog for `Weather`
 
+## 0.3.6
+
+### Bug Fixes
+- Remove escript `priv` hack for Req. Now the executable works as expected after installing via `mix escript.install hex weather` :) ([0b6b270](https://github.com/spencerolson/weather/commit/0b6b270b3a7b0d45487e9d773575aa7386c9d833) and [8f70e4a](https://github.com/spencerolson/weather/commit/8f70e4af4412dcb09fd7e18ae2fb33d18a8d2e15))
+
+## Features
+- Update README with simplified CLI installation instructions. CLI can now be installed via `mix escript.install hex weather` ([7ddb58c](https://github.com/spencerolson/weather/commit/7ddb58c44d9af1875e90d26d40822be2ce4cf12f) and [061e5b5](https://github.com/spencerolson/weather/commit/061e5b528b85b24a85ab15af0724c11a73d34c7d))
+
 ## 0.3.5
 
 ### Bug Fixes
