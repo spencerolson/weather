@@ -171,17 +171,11 @@ All available modules can be found on [hexdocs](https://hexdocs.pm/weather).
 
 ### Using `Weather` as a Command Line Interface
 
-1. Clone the repository
+1. Install the escript
    ```bash
-   $ git clone https://github.com/spencerolson/weather.git
+   $ mix escript.install github spencerolson/weather tag v0.3.5
    ```
-2. Generate the executable and move it to a directory that is in your `PATH`
-   ```bash
-   $ cd weather
-   $ mix deps.get
-   $ mix escript.build
-   $ mv weather ~/bin/ # or some other directory that is in your PATH
-   ```
+2. Add the escript to your `$PATH` (more info [here](https://hexdocs.pm/mix/main/Mix.Tasks.Escript.Install.html))
 3. Use it from anywhere!
 
    If you've created an OpenWeatherMap API Key:
@@ -299,7 +293,7 @@ $ weather --color-codes "_,_,_,_,201,_,248,_,_,_"
 
 ### Adding a Custom Report
 
-1. Define a module in `lib/weather/report/custom` that implements the `Weather.Report` behaviour (defines `generate/1`).
+1. Define a module that implements the `Weather.Report` behaviour (defines `generate/1`).
 
    ```elixir
    defmodule Weather.Report.Custom.FullMoon do
@@ -333,18 +327,12 @@ $ weather --color-codes "_,_,_,_,201,_,248,_,_,_"
    config :weather, custom_reports: [Weather.Report.Custom.FullMoon]
    ```
 
-3. Re-generate the escript
-
-   ```bash
-   $ mix escript.build
-   ```
-
-4. Wait for a full moon...🌑🌒🌓🌔🌕
+3. Wait for a full moon...🌑🌒🌓🌔🌕
 
 5. Enjoy your customized weather report
 
-   ```bash
-   $ ./weather
+   ```elixir
+   Weather.get!() |> IO.puts()
 
    🌝🌚 OMG FULL MOON TONIGHT 🌚🌝
 
@@ -354,9 +342,11 @@ $ weather --color-codes "_,_,_,_,201,_,248,_,_,_"
    3PM      6PM      9PM      12AM     3AM
 
    77° | scattered clouds | 37% humidity
+
+   :ok
    ```
 
-6. Issue a [pull request](https://github.com/spencerolson/weather/pulls) to have your custom report added to the repo so others can use it! :D (please don't include the changes you made to `config/config.exs` in your PR)
+6. If you're feeling generous, issue a [pull request](https://github.com/spencerolson/weather/pulls) to have your custom report added to the repo so others can use it! :D Please place the report in `lib/weather/report/custom/`. See `lib/weather/report/custom/full_moon.ex` for an example.
 
 ## Examples
 
