@@ -173,7 +173,7 @@ All available modules can be found on [hexdocs](https://hexdocs.pm/weather).
 
 1. Install the escript
    ```bash
-   $ mix escript.install github spencerolson/weather tag v0.3.5
+   $ mix escript.install hex weather
    ```
 2. Add the escript to your `$PATH` (more info [here](https://hexdocs.pm/mix/main/Mix.Tasks.Escript.Install.html))
 3. Use it from anywhere!
