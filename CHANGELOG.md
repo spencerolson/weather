@@ -1,5 +1,10 @@
 # Changelog for `Weather`
 
+## 0.3.7
+
+### Bug Fixes
+- Un-break search by zip :| ([62ff335](https://github.com/spencerolson/weather/commit/62ff335e331f8d3b63e165ecfa92dcda03578b59))
+
 ## 0.3.6
 
 ### Bug Fixes
