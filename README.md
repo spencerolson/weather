@@ -11,7 +11,7 @@ Use it as a dependency in your project:
 
 ```elixir
 Mix.install(
-  [{:weather, "~> 0.3.7"}]
+  [{:weather, "~> 0.3.8"}]
 )
 
 opts = Weather.Opts.new(test: "rain")
@@ -117,7 +117,7 @@ Add `weather` to your list of dependencies in `mix.exs`
 
 ```elixir
 def deps do
-  [{:weather, "~> 0.3.7"}]
+  [{:weather, "~> 0.3.8"}]
 end
 ```
 

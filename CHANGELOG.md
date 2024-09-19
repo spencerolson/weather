@@ -1,5 +1,10 @@
 # Changelog for `Weather`
 
+## 0.3.8
+
+### Bug Fixes
+- Fix times showing up in UTC when the escript was installed via hex :| ([f09eebb](https://github.com/spencerolson/weather/commit/f09eebb184d029c8bf87f6fe30a312197b3a5376))
+
 ## 0.3.7
 
 ### Bug Fixes
