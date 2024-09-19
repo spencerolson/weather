@@ -8,7 +8,7 @@ defmodule Weather.API do
   alias Weather.TestResponse.Storm
 
   @url "https://api.openweathermap.org/data/3.0/onecall"
-  @zip_url "http://api.openweathermap.org/geo/1.0/zip"
+  @zip_url "https://api.openweathermap.org/geo/1.0/zip"
 
   @doc """
   Fetches weather data from the OpenWeatherMap API.
