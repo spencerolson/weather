@@ -2,7 +2,7 @@
 
 ```elixir
 Mix.install(
-  [{:weather, "~> 0.3.7"}],
+  [{:weather, "~> 0.3.8"}],
   config: [elixir: [time_zone_database: Tz.TimeZoneDatabase]]
 )
 ```
