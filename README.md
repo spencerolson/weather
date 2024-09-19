@@ -11,8 +11,7 @@ Use it as a dependency in your project:
 
 ```elixir
 Mix.install(
-  [{:weather, "~> 0.3.7"}],
-  config: [elixir: [time_zone_database: Tz.TimeZoneDatabase]]
+  [{:weather, "~> 0.3.7"}]
 )
 
 opts = Weather.Opts.new(test: "rain")
@@ -122,14 +121,7 @@ def deps do
 end
 ```
 
-, configure elixir use a timezone database in `config/config.exs`
-
-```elixir
-# Note there are other timezone database options. See https://hexdocs.pm/elixir/1.13/DateTime.html#module-time-zone-database
-config :elixir, :time_zone_database, Tz.TimeZoneDatabase
-```
-
-, and you're ready to go!
+and you're ready to go!
 
 ```elixir
 # If you haven't created an OpenWeatherMap API Key yet, this can be:
