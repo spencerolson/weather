@@ -58,10 +58,14 @@ defmodule Weather.DateUtils do
 
   defp datetime(unix_time, timezone) do
     without_zone = DateTime.from_unix!(unix_time)
+    db = timezone_db(Calendar.get_time_zone_database())
 
-    case DateTime.shift_zone(without_zone, timezone) do
+    case DateTime.shift_zone(without_zone, timezone, db) do
       {:ok, with_zone} -> with_zone
       {:error, _} -> without_zone
     end
   end
+
+  defp timezone_db(Calendar.UTCOnlyTimeZoneDatabase), do: Tz.TimeZoneDatabase
+  defp timezone_db(db), do: db
 end
