@@ -15,7 +15,7 @@ defmodule Weather.MixProject do
       docs: [
         main: "Weather",
         logo: "priv/static/images/logo.png",
-        extras: ["README.md"]
+        extras: ["README.md", "LIVEBOOK.livemd"]
       ],
       escript: escript(),
       elixirc_paths: elixirc_paths(Mix.env())
