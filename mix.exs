@@ -18,7 +18,11 @@ defmodule Weather.MixProject do
         extras: ["README.md", "LIVEBOOK.livemd"]
       ],
       escript: escript(),
-      elixirc_paths: elixirc_paths(Mix.env())
+      elixirc_paths: elixirc_paths(Mix.env()),
+      dialyzer: [
+        # Put the project-level PLT in the priv/ directory (instead of the default _build/ location)
+        plt_file: {:no_warn, "priv/plts/project.plt"}
+      ]
     ]
   end
 
