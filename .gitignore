@@ -28,3 +28,6 @@ weather-*.tar
 /weather
 
 /.vscode
+
+/priv/plts/*.plt
+/priv/plts/*.plt.hash
