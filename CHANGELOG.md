@@ -1,5 +1,13 @@
 # Changelog for `Weather`
 
+## 0.4.0
+
+### Breaking Changes
+- `Weather.Opts.new/1` now returns a tuple `{:ok, Weather.Opts.t()} | {:error, String.t()}` ([4b825a7](https://github.com/spencerolson/weather/commit/4b825a77ba4e82e54a7417c53886bd09e0306df7))
+
+### Features
+- Added `Weather.Opts.new!/1` which either returns a `Weather.Opts` struct or raises an `ArgumentError` when given invalid input (which was the previous behavior of `Weather.Opts.new/1`) ([4b825a7](https://github.com/spencerolson/weather/commit/4b825a77ba4e82e54a7417c53886bd09e0306df7))
+
 ## 0.3.8
 
 ### Bug Fixes
