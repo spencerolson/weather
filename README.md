@@ -14,7 +14,7 @@ Mix.install(
   [{:weather, "~> 0.3.8"}]
 )
 
-opts = Weather.Opts.new(test: "rain")
+opts = Weather.Opts.new!(test: "rain")
 Weather.API.fetch_weather(opts)
 # =>
 # {:ok,
@@ -125,12 +125,12 @@ and you're ready to go!
 
 ```elixir
 # If you haven't created an OpenWeatherMap API Key yet, this can be:
-# opts = Weather.Opts.new(test: "rain")
+# opts = Weather.Opts.new!(test: "rain")
 #
 # If you've set the environment variables for your API key, latitude, and longitude,
 # this can be:
-# opts = Weather.Opts.new()
-opts = Weather.Opts.new(
+# opts = Weather.Opts.new!()
+opts = Weather.Opts.new!(
   api_key: "your-openweather-api-key",
   latitude: 41.411835,
   longitude: -75.665245
@@ -274,7 +274,7 @@ Weather.Colors.list()
 
 pink = 201
 gray = 248
-Weather.Opts.new(color_codes: %{cool: pink, warm: gray})
+Weather.Opts.new!(color_codes: %{cool: pink, warm: gray})
 ```
 
 or as a command line interface:
@@ -449,7 +449,7 @@ Home Sweet Home
 ### Get the latitude, longitude, and name of a location by ZIP code (`iex` only)
 
 ```elixir
-opts = Weather.Opts.new(zip: "60618,US")
+opts = Weather.Opts.new!(zip: "60618,US")
 opts.latitude
 # => 41.9464
 opts.longitude

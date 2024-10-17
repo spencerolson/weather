@@ -18,7 +18,7 @@ defmodule WeatherTest do
 
       %{
         opts:
-          Opts.new(
+          Opts.new!(
             api_key: "123abc",
             latitude: 30.308689,
             longitude: -84.248528,
@@ -746,7 +746,7 @@ defmodule WeatherTest do
     end
 
     test "supports returning test data, which doesn't require an API key, latitude, or longitude to be present" do
-      opts = Opts.new(test: "clear", colors: false)
+      opts = Opts.new!(test: "clear", colors: false)
 
       assert Weather.get(opts) == {
                :ok,

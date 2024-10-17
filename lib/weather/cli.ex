@@ -122,9 +122,12 @@ defmodule Weather.CLI do
     else
       parsed_args
       |> Weather.Opts.new()
-      |> Weather.get()
+      |> handle_opts()
     end
   end
+
+  defp handle_opts({:ok, opts}), do: Weather.get(opts)
+  defp handle_opts(result), do: result
 
   defp print_response({_, response}), do: IO.puts(response)
 

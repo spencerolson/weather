@@ -15,7 +15,7 @@ Mix.install(
 First, let's make sure our dependencies installed correctly and ensure we can fetch some fake weather data. For this step, we don't need an OpenWeather API Token.
 
 ```elixir
-opts = Weather.Opts.new(test: "rain")
+opts = Weather.Opts.new!(test: "rain")
 {:ok, fake_response} = Weather.API.fetch_weather(opts)
 fake_response.body
 ```
@@ -38,7 +38,7 @@ Now that we've configured our API Key, we can fetch some real weather data:
 
 ```elixir
 opts =
-  Weather.Opts.new(
+  Weather.Opts.new!(
     api_key: api_key,
     zip: "30-003,PL",
     units: "metric",
@@ -65,7 +65,7 @@ Setup:
 api_key = System.fetch_env!("LB_OPENWEATHER_API_KEY")
 
 opts =
-  Weather.Opts.new(
+  Weather.Opts.new!(
     api_key: api_key,
     latitude: 50.05905800533713,
     longitude: 19.937632449794567,
@@ -86,7 +86,7 @@ Fetch weather for every hour for the next 5 hours:
 Lookup the latitude, longitude, and name of a location by ZIP code:
 
 ```elixir
-o = Weather.Opts.new(api_key: api_key, zip: "60618,US")
+o = Weather.Opts.new!(api_key: api_key, zip: "60618,US")
 {o.latitude, o.longitude, o.label}
 ```
 

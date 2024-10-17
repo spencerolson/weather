@@ -14,7 +14,7 @@ defmodule Weather.API do
   Fetches weather data from the OpenWeatherMap API.
   """
   @spec fetch_weather(Weather.Opts.t()) :: {:ok, Req.Response.t()} | {:error, Exception.t()}
-  def fetch_weather(opts \\ Weather.Opts.new())
+  def fetch_weather(opts \\ Weather.Opts.new!())
 
   def fetch_weather(%Weather.Opts{test: nil} = opts) do
     [
