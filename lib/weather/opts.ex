@@ -122,20 +122,33 @@ defmodule Weather.Opts do
   @doc """
   Create a new `Weather.Opts` struct, applying defaults where necessary.
   """
-  @spec new(parsed_args()) :: __MODULE__.t()
+  @spec new(parsed_args()) :: {:ok, __MODULE__.t()} | {:error, String.t()}
   def new(parsed_args \\ []) when is_list(parsed_args) do
     args = Enum.into(parsed_args, %{})
 
-    Enum.reduce(
+    Enum.reduce_while(
       @keys,
-      %__MODULE__{appid: nil, latitude: nil, longitude: nil},
-      fn {key, _}, opts ->
+      {:ok, %__MODULE__{appid: nil, latitude: nil, longitude: nil}},
+      fn {key, _}, {:ok, opts} ->
         case add(key, args, opts) do
-          {:ok, new_opts} -> new_opts
-          {:error, reason} -> raise(ArgumentError, reason)
+          {:ok, new_opts} -> {:cont, {:ok, new_opts}}
+          {:error, reason} -> {:halt, {:error, reason}}
         end
       end
     )
+  end
+
+  @doc """
+  Create a new `Weather.Opts` struct, applying defaults where necessary.
+
+  Raises an `ArgumentError` if invalid input is given.
+  """
+  @spec new!(parsed_args()) :: __MODULE__.t()
+  def new!(parsed_args \\ []) do
+    case new(parsed_args) do
+      {:ok, opts} -> opts
+      {:error, reason} -> raise(ArgumentError, reason)
+    end
   end
 
   defp add(:test, %{test: test}, opts) do

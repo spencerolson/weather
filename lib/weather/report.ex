@@ -11,7 +11,7 @@ defmodule Weather.Report do
       @behaviour Weather.Report
 
       @doc false
-      def generate({report, body}), do: generate({report, body, Weather.Opts.new()})
+      def generate({report, body}), do: generate({report, body, Weather.Opts.new!()})
     end
   end
 end

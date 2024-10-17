@@ -97,5 +97,16 @@ defmodule Weather.CLITest do
 
                """
     end
+
+    test "handles bad input gracefully (doesn't throw an error)", context do
+      {result, output} =
+        CaptureIO.with_io(fn -> CLI.main(["--units", "mertric" | context.args]) end)
+
+      assert result == :ok
+
+      assert output == """
+             Invalid --units. Expected \"imperial\", \"fahrenheit\", \"metric\", \"celsius\", \"standard\", or \"kelvin\". Received: \"mertric\"
+             """
+    end
   end
 end

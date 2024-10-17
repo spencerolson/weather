@@ -13,7 +13,7 @@ defmodule Weather do
   """
   @spec get(Weather.Opts.t()) ::
           {:ok, String.t()} | {:error, String.t()}
-  def get(%Weather.Opts{} = opts \\ Weather.Opts.new()) do
+  def get(%Weather.Opts{} = opts \\ Weather.Opts.new!()) do
     opts
     |> Weather.API.fetch_weather()
     |> handle_response(opts)
@@ -23,7 +23,7 @@ defmodule Weather do
   Fetches weather from the OpenWeatherMap API. Raises a `RuntimeError` if any problems are encountered.
   """
   @spec get!(Weather.Opts.t()) :: String.t()
-  def get!(%Weather.Opts{} = opts \\ Weather.Opts.new()) do
+  def get!(%Weather.Opts{} = opts \\ Weather.Opts.new!()) do
     case get(opts) do
       {:ok, report} -> report
       {:error, error} -> raise RuntimeError, error

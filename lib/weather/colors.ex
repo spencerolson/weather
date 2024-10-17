@@ -31,7 +31,7 @@ defmodule Weather.Colors do
   Formats and colorizes a temperature.
   """
   @spec colorize_temp(integer(), Weather.Opts.t()) :: String.t()
-  def colorize_temp(temp, %Weather.Opts{} = opts \\ Weather.Opts.new()) when is_integer(temp) do
+  def colorize_temp(temp, %Weather.Opts{} = opts \\ Weather.Opts.new!()) when is_integer(temp) do
     temp
     |> to_fahrenheit(opts)
     |> round()
@@ -52,7 +52,7 @@ defmodule Weather.Colors do
   Prints the current color configuration.
   """
   @spec list_current(Weather.Opts.t()) :: :ok
-  def list_current(%Weather.Opts{} = opts \\ Weather.Opts.new()) do
+  def list_current(%Weather.Opts{} = opts \\ Weather.Opts.new!()) do
     IO.puts("Current Color Configuration (temps in fahrenheit)\n")
 
     Enum.each(
