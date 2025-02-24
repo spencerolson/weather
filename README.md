@@ -7,57 +7,10 @@ Status](https://github.com/spencerolson/weather/actions/workflows/elixir.yml/bad
 
 An Elixir library for fetching data from the [OpenWeatherMap One Call API 3.0](https://openweathermap.org/api/one-call-3) service.
 
-Use it as a dependency in your project:
-
-```elixir
-Mix.install(
-  [{:weather, "~> 0.4.0"}]
-)
-
-opts = Weather.Opts.new!(test: "rain")
-Weather.API.fetch_weather(opts)
-# =>
-# {:ok,
-#  %Req.Response{
-#    status: 200,
-#    headers: %{},
-#    body: %{
-#      "current" => %{...},
-#      "daily" => %{...},
-#      "hourly" => %{...},
-#      "minutely" => %{...},
-#      ...
-#    }
-#  }
-# }
-
-Weather.get!(opts) |> IO.puts
-
-                   << 🌧️  7:28AM - 8:27AM >>
-
-[                                                    ....    ]
-[                                              ............  ]
-[                                    ........................]
-[                                   .........................]
-[                                 ...........................]
-[                                ............................]
-                +              +              +
-
-🌧️  8AM - 9AM, 10AM - 12PM
-
-🌞 6:01AM | 🌚 7:52PM
-
-66°  ⬇   65°  ⬆   67°  ⬆   73°  ⬇   71°
-7AM      10AM     1PM      4PM      7PM
-
-66° | moderate rain | 92% humidity
-
-# => :ok
-```
-
-or standalone as a command line interface:
+Use as a command line interface:
 
 ```bash
+$ mix escript.install hex weather
 $ weather --units metric --no-twelve
 
 🌞 06:08 | 🌚 19:42
@@ -68,7 +21,29 @@ $ weather --units metric --no-twelve
 25° | clear sky | 48% humidity
 ```
 
+or as a dependency:
+
+```elixir
+Mix.install(
+  [{:weather, "~> 0.4.0"}]
+)
+
+Weather.Opts.new!(test: "clear")
+|> Weather.get!()
+|> IO.puts
+
+🌞 5:17AM | 🌚 8:25PM
+
+76°  ⬇   74°  ⬇   64°  ⬇   60°  ⬇   58°
+3PM      6PM      9PM      12AM     3AM
+
+77° | scattered clouds | 37% humidity
+
+# => :ok
+```
+
 ## Features
+
 - Access to raw API responses
 - Access to formatted rain reports
 - Customizable ANSI-colorized output
@@ -164,13 +139,16 @@ All available modules can be found on [hexdocs](https://hexdocs.pm/weather).
 ### Using `Weather` as a Command Line Interface
 
 1. Install the escript
+
    ```bash
-   $ mix escript.install hex weather
+   mix escript.install hex weather
    ```
+
 2. Add the escript to your `$PATH` (more info [here](https://hexdocs.pm/mix/main/Mix.Tasks.Escript.Install.html))
 3. Use it from anywhere!
 
    If you've created an OpenWeatherMap API Key:
+
    ```bash
    $ weather --api-key your-openweather-api-key --latitude 41.411835 --longitude -75.665245
 
@@ -184,6 +162,7 @@ All available modules can be found on [hexdocs](https://hexdocs.pm/weather).
    ```
 
    If you haven't created an OpenWeatherMap API Key yet:
+
    ```bash
    $ weather --test clear
 
@@ -197,6 +176,7 @@ All available modules can be found on [hexdocs](https://hexdocs.pm/weather).
    ```
 
    If you've set the environment variables for your API key, latitude, and longitude:
+
    ```bash
    $ weather
 
@@ -209,6 +189,7 @@ All available modules can be found on [hexdocs](https://hexdocs.pm/weather).
    ```
 
    For a list of all available options, see:
+
    ```bash
    $ weather --help
 
@@ -232,6 +213,7 @@ When any rain is expected within the next hour, a rain chart will be output by [
 ```
 
 For each column, the number of dots corresponds with the rain intensity for that minute:
+
 - 0 dots = "No Rain"
 - 1 dot  = "Very Light" (< 0.25 mm/hr)
 - 2 dots = "Light" (>= 0.25 and < 1 mm/hr)
@@ -243,6 +225,7 @@ For each column, the number of dots corresponds with the rain intensity for that
 The `+` characters are 15-minute markers. So the first `+` is 15 minutes from now, the second `+` is 30 minutes from now, and the third `+` is 45 minutes from now.
 
 ## Options
+
 Option names listed below are for the command line interface. All options can also be passed as a [Keyword list](https://hexdocs.pm/elixir/keywords-and-maps.html#keyword-lists) to [`Weather.Opts.new/1`]. Hyphens must be converted to underscores for the option names passed to [`Weather.Opts.new/1`]. For example, `Weather.Opts.new(hide_alerts: true)`
 
 *Boolean switches take no values. --someval sets the value to `true` and --no-someval sets the value to `false`.*
@@ -262,7 +245,7 @@ Option names listed below are for the command line interface. All options can al
 - `--units` (`-u`): The units in which to return the weather data. Options: "metric" (celsius), "celsius", "imperial" (fahrenheit), "fahrenheit", "standard" (kelvin), "kelvin". (string)
 - `--test` (`-s`): Fake weather data for testing purposes. Options: "clear", "rain", "storm". (string)
 - `--twelve` (`-w`): Enables 12-hour time format for the hourly report. Defaults to true. When false, 24-hour time format is used. (boolean)
-- `--zip` (`-z`): A zip code string to fetch weather data for. This can be used in place of latitude and longitude. For most accurate results format should be zip/post code and ISO 3166 country code divided by comma. See https://openweathermap.org/api/geocoding-api#direct_zip for more information. (string)
+- `--zip` (`-z`): A zip code string to fetch weather data for. This can be used in place of latitude and longitude. For most accurate results format should be zip/post code and ISO 3166 country code divided by comma. See <https://openweathermap.org/api/geocoding-api#direct_zip> for more information. (string)
 
 ## Customization
 
@@ -280,7 +263,7 @@ Weather.Opts.new!(color_codes: %{cool: pink, warm: gray})
 or as a command line interface:
 
 ```bash
-$ weather --color-codes "_,_,_,_,201,_,248,_,_,_"
+weather --test clear --color-codes "_,_,_,_,201,_,248,_,_,_"
 ```
 
 ### Adding a Custom Report
@@ -321,7 +304,7 @@ $ weather --color-codes "_,_,_,_,201,_,248,_,_,_"
 
 3. Wait for a full moon...🌑🌒🌓🌔🌕
 
-5. Enjoy your customized weather report
+4. Enjoy your customized weather report
 
    ```elixir
    Weather.get!() |> IO.puts()
@@ -338,12 +321,11 @@ $ weather --color-codes "_,_,_,_,201,_,248,_,_,_"
    :ok
    ```
 
-6. If you're feeling generous, issue a [pull request](https://github.com/spencerolson/weather/pulls) to have your custom report added to the repo so others can use it! :D Please place the report in `lib/weather/report/custom/`. See `lib/weather/report/custom/full_moon.ex` for an example.
+5. If you're feeling generous, issue a [pull request](https://github.com/spencerolson/weather/pulls) to have your custom report added to the repo so others can use it! :D Please place the report in `lib/weather/report/custom/`. See `lib/weather/report/custom/full_moon.ex` for an example.
 
 ## Examples
 
-All examples below assume the api key, latitude, and longitude environment variables have been set (see [(Optional) Set environment variables for your API Key, Latitude, and Longitude
-](#optional-set-environment-variables-for-your-api-key-latitude-and-longitude))
+All examples below assume the api key, latitude, and longitude environment variables have been set (see [(Optional) Set environment variables for your API Key, Latitude, and Longitude](#optional-set-environment-variables-for-your-api-key-latitude-and-longitude))
 
 ### Fetch weather using a ZIP code (no latitude or longitude needed)
 
@@ -364,9 +346,9 @@ Whilst there remains some uncertainty with exact details, areas of heavy and at 
 
 ```
 
-Fetching weather by ZIP code will result in _two_ API calls to OpenWeather; one to get the location data for that ZIP, and one to get the weather.
+Fetching weather by ZIP code will result in *two* API calls to OpenWeather; one to get the location data for that ZIP, and one to get the weather.
 
-### Fetch weather with results in Celsius and using 24-hour time.
+### Fetch weather with results in Celsius and using 24-hour time
 
 ```bash
 $ weather --units celsius --no-twelve
