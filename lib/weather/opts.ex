@@ -232,7 +232,8 @@ defmodule Weather.Opts do
 
   defp add(:colors, %{colors: colors}, opts), do: add_bool(:colors, colors, opts)
 
-  defp add(:color_codes, %{color_codes: codes_str}, opts = %Weather.Opts{}) when is_binary(codes_str) do
+  defp add(:color_codes, %{color_codes: codes_str}, opts = %Weather.Opts{})
+       when is_binary(codes_str) do
     custom_codes = String.split(codes_str, ",", trim: true)
 
     color_codes =
@@ -373,5 +374,7 @@ defimpl Inspect, for: Weather.Opts do
   end
 
   defp redact_appid(%Weather.Opts{appid: nil} = weather_opts), do: weather_opts
-  defp redact_appid(weather_opts = %Weather.Opts{}), do: %Weather.Opts{weather_opts | appid: "<<REDACTED>>"}
+
+  defp redact_appid(weather_opts = %Weather.Opts{}),
+    do: %Weather.Opts{weather_opts | appid: "<<REDACTED>>"}
 end
