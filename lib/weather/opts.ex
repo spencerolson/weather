@@ -49,7 +49,7 @@ defmodule Weather.Opts do
       label will be set to the name of the location associated with the zip code.
   """
 
-  @type t() :: %__MODULE__{
+  @type t() :: %Weather.Opts{
           appid: String.t(),
           colors: boolean(),
           color_codes: Weather.Colors.codes(),
@@ -122,13 +122,13 @@ defmodule Weather.Opts do
   @doc """
   Create a new `Weather.Opts` struct, applying defaults where necessary.
   """
-  @spec new(parsed_args()) :: {:ok, __MODULE__.t()} | {:error, String.t()}
+  @spec new(parsed_args()) :: {:ok, Weather.Opts.t()} | {:error, String.t()}
   def new(parsed_args \\ []) when is_list(parsed_args) do
     args = Enum.into(parsed_args, %{})
 
     Enum.reduce_while(
       @keys,
-      {:ok, %__MODULE__{appid: nil, latitude: nil, longitude: nil}},
+      {:ok, %Weather.Opts{appid: nil, latitude: nil, longitude: nil}},
       fn {key, _}, {:ok, opts} ->
         case add(key, args, opts) do
           {:ok, new_opts} -> {:cont, {:ok, new_opts}}
@@ -143,7 +143,7 @@ defmodule Weather.Opts do
 
   Raises an `ArgumentError` if invalid input is given.
   """
-  @spec new!(parsed_args()) :: __MODULE__.t()
+  @spec new!(parsed_args()) :: Weather.Opts.t()
   def new!(parsed_args \\ []) do
     case new(parsed_args) do
       {:ok, opts} -> opts
@@ -151,10 +151,10 @@ defmodule Weather.Opts do
     end
   end
 
-  defp add(:test, %{test: test}, opts) do
+  defp add(:test, %{test: test}, opts = %Weather.Opts{}) do
     case test do
       val when val in ["clear", "rain", "storm"] ->
-        {:ok, %__MODULE__{opts | test: val}}
+        {:ok, %Weather.Opts{opts | test: val}}
 
       val ->
         {:error,
@@ -162,24 +162,24 @@ defmodule Weather.Opts do
     end
   end
 
-  defp add(:appid, _, %{test: test} = opts) when test != nil,
-    do: {:ok, %__MODULE__{opts | appid: @fake_api_key}}
+  defp add(:appid, _, opts = %Weather.Opts{test: test}) when test != nil,
+    do: {:ok, %Weather.Opts{opts | appid: @fake_api_key}}
 
-  defp add(:appid, args, opts) do
+  defp add(:appid, args, opts = %Weather.Opts{}) do
     case Map.get(args, :api_key, System.get_env("OPENWEATHER_API_KEY")) do
       nil ->
         {:error,
          "Missing API key. Please set the OPENWEATHER_API_KEY environment variable or provide a value via the --api-key flag."}
 
       api_key ->
-        {:ok, %__MODULE__{opts | appid: api_key}}
+        {:ok, %Weather.Opts{opts | appid: api_key}}
     end
   end
 
-  defp add(:latitude, _, %{test: test} = opts) when test != nil do
+  defp add(:latitude, _, opts = %Weather.Opts{test: test}) when test != nil do
     {
       :ok,
-      %__MODULE__{opts | latitude: @fake_latitude, longitude: @fake_longitude, label: nil}
+      %Weather.Opts{opts | latitude: @fake_latitude, longitude: @fake_longitude, label: nil}
     }
   end
 
@@ -192,8 +192,8 @@ defmodule Weather.Opts do
 
   defp add(:longitude, %{longitude: _}, opts), do: {:ok, opts}
 
-  defp add(:label, %{label: label}, opts) when is_binary(label) do
-    {:ok, %__MODULE__{opts | label: label}}
+  defp add(:label, %{label: label}, opts = %Weather.Opts{}) when is_binary(label) do
+    {:ok, %Weather.Opts{opts | label: label}}
   end
 
   defp add(:hide_alerts, %{hide_alerts: hide_alerts}, opts) do
@@ -208,10 +208,10 @@ defmodule Weather.Opts do
     add_bool(:alert_titles_only, alert_titles_only, opts)
   end
 
-  defp add(:hours, %{hours: hours}, opts) do
+  defp add(:hours, %{hours: hours}, opts = %Weather.Opts{}) do
     case hours do
       val when val in 0..48 ->
-        {:ok, %__MODULE__{opts | hours: val}}
+        {:ok, %Weather.Opts{opts | hours: val}}
 
       val ->
         {:error,
@@ -219,10 +219,10 @@ defmodule Weather.Opts do
     end
   end
 
-  defp add(:every_n_hours, %{every: every}, opts) do
+  defp add(:every_n_hours, %{every: every}, opts = %Weather.Opts{}) do
     case every do
       val when val in 0..opts.hours//1 ->
-        {:ok, %__MODULE__{opts | every_n_hours: val}}
+        {:ok, %Weather.Opts{opts | every_n_hours: val}}
 
       val ->
         {:error,
@@ -232,7 +232,7 @@ defmodule Weather.Opts do
 
   defp add(:colors, %{colors: colors}, opts), do: add_bool(:colors, colors, opts)
 
-  defp add(:color_codes, %{color_codes: codes_str}, opts) when is_binary(codes_str) do
+  defp add(:color_codes, %{color_codes: codes_str}, opts = %Weather.Opts{}) when is_binary(codes_str) do
     custom_codes = String.split(codes_str, ",", trim: true)
 
     color_codes =
@@ -245,12 +245,12 @@ defmodule Weather.Opts do
         end
       end)
 
-    {:ok, %__MODULE__{opts | color_codes: color_codes}}
+    {:ok, %Weather.Opts{opts | color_codes: color_codes}}
   end
 
-  defp add(:color_codes, %{color_codes: codes}, opts) when is_map(codes) do
+  defp add(:color_codes, %{color_codes: codes}, opts = %Weather.Opts{}) when is_map(codes) do
     color_codes = Map.merge(@default_color_codes, codes)
-    {:ok, %__MODULE__{opts | color_codes: color_codes}}
+    {:ok, %Weather.Opts{opts | color_codes: color_codes}}
   end
 
   defp add(:color_codes, %{color_codes: codes}, _) do
@@ -263,10 +263,10 @@ defmodule Weather.Opts do
   defp add(:units, %{units: "fahrenheit"}, opts), do: add(:units, %{units: "imperial"}, opts)
   defp add(:units, %{units: "kelvin"}, opts), do: add(:units, %{units: "standard"}, opts)
 
-  defp add(:units, %{units: units}, opts) do
+  defp add(:units, %{units: units}, opts = %Weather.Opts{}) do
     case units do
       units when units in ["imperial", "metric", "standard"] ->
-        {:ok, %__MODULE__{opts | units: units}}
+        {:ok, %Weather.Opts{opts | units: units}}
 
       units ->
         {:error,
@@ -293,12 +293,12 @@ defmodule Weather.Opts do
     |> String.replace("_", "-")
   end
 
-  defp parse_lat_long(args, opts) do
+  defp parse_lat_long(args, opts = %Weather.Opts{}) do
     with {:ok, latitude} <- parse_coord(:latitude, args, System.get_env("WEATHER_LATITUDE")),
          {:ok, longitude} <- parse_coord(:longitude, args, System.get_env("WEATHER_LONGITUDE")) do
       {
         :ok,
-        %__MODULE__{opts | latitude: latitude, longitude: longitude, label: nil}
+        %Weather.Opts{opts | latitude: latitude, longitude: longitude, label: nil}
       }
     else
       {:error, msg} -> {:error, msg}
@@ -335,14 +335,14 @@ defmodule Weather.Opts do
     end
   end
 
-  defp lookup_by_zip(zip, opts) do
+  defp lookup_by_zip(zip, opts = %Weather.Opts{}) do
     case Weather.API.fetch_location(%{zip: zip}, opts.appid) do
       {:ok, %Req.Response{status: 200} = resp} ->
         %{body: %{"lat" => latitude, "lon" => longitude, "name" => label_from_zip}} = resp
 
         {
           :ok,
-          %__MODULE__{opts | latitude: latitude, longitude: longitude, label: label_from_zip}
+          %Weather.Opts{opts | latitude: latitude, longitude: longitude, label: label_from_zip}
         }
 
       {:ok, resp} ->
@@ -373,5 +373,5 @@ defimpl Inspect, for: Weather.Opts do
   end
 
   defp redact_appid(%Weather.Opts{appid: nil} = weather_opts), do: weather_opts
-  defp redact_appid(weather_opts), do: %Weather.Opts{weather_opts | appid: "<<REDACTED>>"}
+  defp redact_appid(weather_opts = %Weather.Opts{}), do: %Weather.Opts{weather_opts | appid: "<<REDACTED>>"}
 end
