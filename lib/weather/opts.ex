@@ -151,7 +151,7 @@ defmodule Weather.Opts do
     end
   end
 
-  defp add(:test, %{test: test}, opts = %Weather.Opts{}) do
+  defp add(:test, %{test: test}, %Weather.Opts{} = opts) do
     case test do
       val when val in ["clear", "rain", "storm"] ->
         {:ok, %Weather.Opts{opts | test: val}}
@@ -162,10 +162,10 @@ defmodule Weather.Opts do
     end
   end
 
-  defp add(:appid, _, opts = %Weather.Opts{test: test}) when test != nil,
+  defp add(:appid, _, %Weather.Opts{test: test} = opts) when test != nil,
     do: {:ok, %Weather.Opts{opts | appid: @fake_api_key}}
 
-  defp add(:appid, args, opts = %Weather.Opts{}) do
+  defp add(:appid, args, %Weather.Opts{} = opts) do
     case Map.get(args, :api_key, System.get_env("OPENWEATHER_API_KEY")) do
       nil ->
         {:error,
@@ -176,7 +176,7 @@ defmodule Weather.Opts do
     end
   end
 
-  defp add(:latitude, _, opts = %Weather.Opts{test: test}) when test != nil do
+  defp add(:latitude, _, %Weather.Opts{test: test} = opts) when test != nil do
     {
       :ok,
       %Weather.Opts{opts | latitude: @fake_latitude, longitude: @fake_longitude, label: nil}
@@ -192,7 +192,7 @@ defmodule Weather.Opts do
 
   defp add(:longitude, %{longitude: _}, opts), do: {:ok, opts}
 
-  defp add(:label, %{label: label}, opts = %Weather.Opts{}) when is_binary(label) do
+  defp add(:label, %{label: label}, %Weather.Opts{} = opts) when is_binary(label) do
     {:ok, %Weather.Opts{opts | label: label}}
   end
 
@@ -208,7 +208,7 @@ defmodule Weather.Opts do
     add_bool(:alert_titles_only, alert_titles_only, opts)
   end
 
-  defp add(:hours, %{hours: hours}, opts = %Weather.Opts{}) do
+  defp add(:hours, %{hours: hours}, %Weather.Opts{} = opts) do
     case hours do
       val when val in 0..48 ->
         {:ok, %Weather.Opts{opts | hours: val}}
@@ -219,7 +219,7 @@ defmodule Weather.Opts do
     end
   end
 
-  defp add(:every_n_hours, %{every: every}, opts = %Weather.Opts{}) do
+  defp add(:every_n_hours, %{every: every}, %Weather.Opts{} = opts) do
     case every do
       val when val in 0..opts.hours//1 ->
         {:ok, %Weather.Opts{opts | every_n_hours: val}}
@@ -232,7 +232,7 @@ defmodule Weather.Opts do
 
   defp add(:colors, %{colors: colors}, opts), do: add_bool(:colors, colors, opts)
 
-  defp add(:color_codes, %{color_codes: codes_str}, opts = %Weather.Opts{})
+  defp add(:color_codes, %{color_codes: codes_str}, %Weather.Opts{} = opts)
        when is_binary(codes_str) do
     custom_codes = String.split(codes_str, ",", trim: true)
 
@@ -249,7 +249,7 @@ defmodule Weather.Opts do
     {:ok, %Weather.Opts{opts | color_codes: color_codes}}
   end
 
-  defp add(:color_codes, %{color_codes: codes}, opts = %Weather.Opts{}) when is_map(codes) do
+  defp add(:color_codes, %{color_codes: codes}, %Weather.Opts{} = opts) when is_map(codes) do
     color_codes = Map.merge(@default_color_codes, codes)
     {:ok, %Weather.Opts{opts | color_codes: color_codes}}
   end
@@ -264,7 +264,7 @@ defmodule Weather.Opts do
   defp add(:units, %{units: "fahrenheit"}, opts), do: add(:units, %{units: "imperial"}, opts)
   defp add(:units, %{units: "kelvin"}, opts), do: add(:units, %{units: "standard"}, opts)
 
-  defp add(:units, %{units: units}, opts = %Weather.Opts{}) do
+  defp add(:units, %{units: units}, %Weather.Opts{} = opts) do
     case units do
       units when units in ["imperial", "metric", "standard"] ->
         {:ok, %Weather.Opts{opts | units: units}}
@@ -294,7 +294,7 @@ defmodule Weather.Opts do
     |> String.replace("_", "-")
   end
 
-  defp parse_lat_long(args, opts = %Weather.Opts{}) do
+  defp parse_lat_long(args, %Weather.Opts{} = opts) do
     with {:ok, latitude} <- parse_coord(:latitude, args, System.get_env("WEATHER_LATITUDE")),
          {:ok, longitude} <- parse_coord(:longitude, args, System.get_env("WEATHER_LONGITUDE")) do
       {
@@ -336,7 +336,7 @@ defmodule Weather.Opts do
     end
   end
 
-  defp lookup_by_zip(zip, opts = %Weather.Opts{}) do
+  defp lookup_by_zip(zip, %Weather.Opts{} = opts) do
     case Weather.API.fetch_location(%{zip: zip}, opts.appid) do
       {:ok, %Req.Response{status: 200} = resp} ->
         %{body: %{"lat" => latitude, "lon" => longitude, "name" => label_from_zip}} = resp
@@ -375,6 +375,6 @@ defimpl Inspect, for: Weather.Opts do
 
   defp redact_appid(%Weather.Opts{appid: nil} = weather_opts), do: weather_opts
 
-  defp redact_appid(weather_opts = %Weather.Opts{}),
+  defp redact_appid(%Weather.Opts{} = weather_opts),
     do: %Weather.Opts{weather_opts | appid: "<<REDACTED>>"}
 end
