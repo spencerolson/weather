@@ -1,7 +1,7 @@
 # ![Logo](https://raw.githubusercontent.com/spencerolson/weather/main/priv/static/images/logo.png "Weather") Weather
 
 [![Build
-Status](https://github.com/spencerolson/weather/actions/workflows/elixir.yml/badge.svg)](https://github.com/spencerolson/weather/actions/workflows/elixir.yml) [![License](https://img.shields.io/hexpm/l/weather.svg)](https://github.com/spencerolson/weather/blob/main/LICENSE.md) [![Hex.pm](https://img.shields.io/hexpm/v/weather.svg)](https://hex.pm/packages/weather) [![Documentation](https://img.shields.io/badge/documentation-purple)](https://hexdocs.pm/weather)
+Status](https://github.com/spencerolson/weather/actions/workflows/elixir.yml/badge.svg?branch=main)](https://github.com/spencerolson/weather/actions/workflows/elixir.yml?query=branch%3Amain) [![License](https://img.shields.io/hexpm/l/weather.svg)](https://github.com/spencerolson/weather/blob/main/LICENSE.md) [![Hex.pm](https://img.shields.io/hexpm/v/weather.svg)](https://hex.pm/packages/weather) [![Documentation](https://img.shields.io/badge/documentation-purple)](https://hexdocs.pm/weather)
 
 [![Run in Livebook](https://livebook.dev/badge/v1/black.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fspencerolson%2Fweather%2Fblob%2Fmain%2FLIVEBOOK.livemd)
 
